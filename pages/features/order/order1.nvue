@@ -1,0 +1,560 @@
+<template>
+	<div class="page">
+		<div  style="flex:1">
+			<!-- 标题栏 -->
+			<!-- <div class="page-header">
+				<div :style="{ height: statusBarHeight }"></div>
+				<div class="page-header-wrapper  " v-if="!ishidden">
+					<div class="" @click="navBack">
+						<image src="../../static/img/back.png" mode="" class="btns"></image>
+					</div>
+					<div class="page-header-center">
+						<text class="logo">优惠券管理</text>
+					</div>
+					<div class="">
+						<text class="btns"></text>
+					</div>
+				</div>
+			</div> -->
+			<!-- 标题栏 -->
+			<!-- uni 官方顶部选项卡组件 -->
+			<uni-tab-bar :drag="false" :tab-bars="tabBars" :tab-index="tabCurrentIndex" @tabChange="tabChange"></uni-tab-bar>
+
+
+			<!-- slider就是uni swiper -->
+			<slider class="slider" :index="tabCurrentIndex" :infinite="false" @change="tabChange" :keep-index="true">
+
+
+				<list class="list-content" v-for="(tabItem, tabIndex) in tabBars" :key="tabIndex" :show-scrollbar="false">
+					<refresh class="loading" @refresh="onRefresh" :display="tabItem.refreshing ? 'show' : 'hide'">
+						<loading-indicator class="loading-icon"></loading-indicator>
+						<text class="loading-text">{{tabItem.refreshing?'正在加载..': '下拉刷新数据'}}</text>
+					</refresh>
+
+					<cell v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" v-if="!isNaN(parseInt(item.order_price) )">
+						<div class="orderItems flex">
+							<div class="storeName" :class="[tabCurrentIndex==0?'active':'']">
+								<div class="val flex">
+									<text class="unit">￥</text>
+									<text class="prize">{{ parseInt(item.order_price) }}</text>
+								</div>
+								<text class="des">无门槛</text>
+							</div>
+							<div class="content">
+								<div> <text class="title">{{item.order_name}}</text></div>
+								<text class="time">领券日期:{{item.create_time}}</text>
+							</div>
+							<div class="statusBox red" v-if="tabCurrentIndex==0" @click="_toUse(item)">
+								<text class="touse">{{item.order_status | orderStatus_filter}}</text>
+
+							</div>
+							<div class="statusBox " v-if="tabCurrentIndex==1">
+								<image src="../../static/img/coupon1.png" mode="" class="status"></image>
+
+							</div>
+							<div class="statusBox " v-if="tabCurrentIndex==2">
+								<image src="../../static/img/coupon2.png" mode="" class="status"></image>
+							</div>
+							<div class="tIcon"></div>
+							<div class="bIcon"></div>
+						</div>
+					</cell>
+					<cell v-if=" tabItem.newsList.length==0" class="noPicBox">
+						<image src="../../static/img/user/noCoupon.png" mode="" class="noPic"></image>
+						<text style="margin-top: 30px;color:#999">您还没有优惠券</text>
+					</cell>
+					<loading class="loading" @loading="loadMore(tabItem)" :display="tabItem.loadMoreStatus==1 || (platform!='android' && tabItem.loadMoreStatus==2)?'show':'hide'">
+						<loading-indicator v-if="tabItem.loadMoreStatus==1" class="loading-icon"></loading-indicator>
+						<text class="loading-text">{{tabItem.loadMoreStatus==0?'上拉显示更多':tabItem.loadMoreStatus==1?'正在加载..':'没有更多数据了'}}</text>
+					</loading>
+				</list>
+			</slider>
+		</div>
+	</div>
+</template>
+
+<script>
+	import uniTabBar from '@/components/tab-nvue/tabbar.nvue'
+	import http from '@/utils/http/index.js'
+	export default {
+
+		components: {
+			uniTabBar,
+		},
+		data() {
+			return {
+				statusBarHeight: '0wx', //状态栏占位高度
+				tabBars: [],
+				tabCurrentIndex: 0,
+				current: 0,
+				ishidden: false,
+				token: '',
+				pageLoad: false,
+				platform: ''
+			}
+		},
+		filters: {
+			time(val) {
+				return val.replace('T', ' ')
+			}
+		},
+
+		created() {
+			let that = this
+			//获取状态栏高度给顶部占位节点
+			uni.getSystemInfo({
+				success: res => {
+					this.statusBarHeight = res.statusBarHeight + 'wx';
+					that.platform = res.platform
+				}
+			})
+			uni.getStorage({
+				key: SET.tokenName,
+				success: function(res) {
+					// console.log(res.data);
+					let value = res.data;
+					if (value) {
+						that.token = value
+						that.loadOrderList('refresh');
+					} else {
+
+					}
+				}
+			});
+			//获取数据，方法通过mixin混入
+			this.loadTabbars(); 
+		},
+		methods: {
+			navBack() {
+				uni.navigateBack()
+			},
+			tabChange(e) {
+				this.tabCurrentIndex = e.index;
+				let tabItem = this.tabBars[this.tabCurrentIndex];
+				// console.log('tab' + e.index)
+				switch (this.tabCurrentIndex) {
+					case 0:
+						tabItem.order_status = 0
+						break;
+					case 1:
+						tabItem.order_status = 1
+						break;
+					case 2:
+						tabItem.order_status = 8
+						break;
+					default:
+						break;
+				}
+
+
+				//第一次切换tab，动画结束后需要加载数据
+
+				if (this.tabCurrentIndex !== 0 && tabItem.loaded !== true) {
+					this.loadOrderList('add');
+					tabItem.loaded = true;
+				}
+			},
+
+			loadTabbars() {
+				let tabList = [
+					{
+						name: '全部订单',
+						id: 0,
+					},
+					{
+						name: '待付款',
+						id: 1,
+					}, {
+						name: '待发货',
+						id: 2
+					}, {
+						name: '待收货',
+						id: 3
+					}, {
+						name: '退货',
+						id: 4
+					}
+				];
+				tabList.forEach(item => {
+					item.newsList = [];
+					item.loadMoreStatus = 0; //加载更多 0加载前，1加载中，2没有更多了
+					item.refreshing = 0;
+					item.pageIndex = 0;
+					item.goods_title = "";
+					item.order_status = item.id; //0-----已领用 ,1-----已使用, 8-----已关闭, 9-----已维权
+					item.pageSize = 20;
+					item.loaded = false
+				})
+
+				this.tabBars = tabList;
+				// this.loadOrderList('add');
+			},
+			//列表
+			async loadOrderList(type) {
+				let tabItem = this.tabBars[this.tabCurrentIndex];
+				if (!this.token) return;
+
+				if (type === 'add') {
+					if (tabItem.loadMoreStatus === 2) {
+						tabItem.loadMoreStatus = 1
+						setTimeout(() => {
+							tabItem.loadMoreStatus = 2;
+						}, 100)
+						return;
+					}
+					// console.log(1)
+					tabItem.pageIndex += 1
+					tabItem.loadMoreStatus = 1;
+				} else if (type === 'refresh') {
+					tabItem.pageIndex = 1
+					// tabItem.newsList = [];
+					tabItem.refreshing = true;
+				}
+
+				let that = this
+				// console.log(1)
+				let formParams = {
+					"order_status": tabItem.order_status, 
+					"pageIndex": tabItem.pageIndex,
+					"pageSize": 10
+				}
+				console.log(formParams)
+				uni.request({
+					url: http.baseUrl + '/api/Order/GetList',
+					method: 'POST',
+					data: formParams,
+					header: {
+						'Content-Type': 'application/json',
+						'Authorization': that.token
+					},
+					success: (res) => {
+						let ress = res.data
+						// console.log(JSON.stringify(ress))
+						if (ress.Success) {
+							if (type == 'add') {
+								// 加载
+								if (tabItem.newsList.length == ress.Data.total) {
+									// 没有数据了
+									tabItem.loadMoreStatus = 2;
+
+								} else {
+									let arr = tabItem.newsList.concat(ress.Data.rows)
+									that.tabBars[that.tabCurrentIndex].newsList = arr
+
+									tabItem.loadMoreStatus = 0;
+								}
+
+							} else {
+								// 刷新
+								that.tabBars[that.tabCurrentIndex].newsList = ress.Data.rows
+							}
+
+							tabItem.loaded = true
+						} else {
+							uni.showToast({
+								title: '请求失败',
+								icon: 'none'
+							})
+						}
+					},
+					complete() {
+						setTimeout(function() {
+							that.tabBars[that.tabCurrentIndex].refreshing = false;
+							if (!that.pageLoad) {
+								that.pageLoad = true
+							}
+						}, 500);
+
+					}
+				});
+
+
+			},
+			//下拉刷新
+			onRefresh(e) {
+				this.loadOrderList('refresh');
+			},
+			//加载更多
+			loadMore(tabItem) {
+				this.loadOrderList('add');
+			},
+			// 去使用
+			_toUse(item) {
+				// console.log(JSON.stringify(item))
+				let code = item.goods_id
+				uni.redirectTo({
+					url: '/pages/coupon/couponDetail/couponDetail?type=2&code=' + code
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+	.page {
+		background-color: #f5f5f5;
+	}
+
+	/* 顶部标题栏 */
+	.page-header {
+		background-color: #FF7047;
+	}
+
+	.page-header-wrapper {
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		padding: 0px 20px;
+		height: 100px;
+		/* 	transition-property: display;
+		transition-duration: 0.3s;
+		transition-timing-function: ease; */
+	}
+
+	.headerHidden {
+		/* display: none; */
+	}
+
+	.hidden {
+		height: 0px;
+	}
+
+
+	.page-header-left {
+		opacity: 0.9;
+	}
+
+
+	.page-header-center {
+		flex: 1;
+		padding: 0px 30px 0 20px;
+		text-align: center;
+		color: #fff;
+		/* background-color: red; */
+		align-items: center;
+	}
+
+	.logo {
+		color: #fff;
+		font-size: 32px;
+		/* margin: 0 auto; */
+		text-align: center;
+	}
+
+	.btns {
+		width: 40rpx;
+		height: 40rpx;
+		line-height: 40rpx;
+		text-align: center;
+	}
+
+	.page-header-right {
+		width: 50px;
+		align-items: center;
+	}
+
+	.contribute-text {
+		font-size: 20px;
+		color: #fff;
+	}
+
+	.flex {
+		flex-direction: row;
+	}
+
+
+
+	/* 内容 */
+	.slider {
+		flex: 1;
+		/* background-color: blue; */
+	}
+
+	.list-content {
+		flex: 1;
+		/* background-color: green; */
+		padding: 0 20px;
+		position: relative;
+
+	}
+
+	.noPicBox {
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+		/* background-color: red; */
+		width: 750px;
+		position: absolute;
+		height: 1000px;
+		/* position: fixed; */
+		/* z-index: 100; */
+	}
+
+	.noPic {
+		width: 193px;
+		height: 141px;
+	}
+
+	/* 订单条目 */
+	.orderItems {
+		width: 710px;
+		background-color: #fff;
+		border-radius: 10px;
+		overflow: hidden;
+		padding: 20px;
+		margin-top: 20px;
+	}
+
+	.storeName {
+		width: 140px;
+		height: 130px;
+		border-radius: 20px;
+		background-color: #c5c3c3;
+		color: #fff;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.active {
+		background-color: #e32014;
+	}
+
+	.val {
+		color: #fff;
+		font-size: 40px;
+		line-height: 44px;
+		text-align: center;
+		justify-content: center;
+		align-items: flex-end;
+	}
+
+	.unit {
+		color: #fff;
+		padding-bottom: 10px;
+	}
+
+	.des {
+		color: #fff;
+		line-height: 44px;
+		font-size: 28px;
+		text-align: center;
+	}
+
+	.prize {
+		color: #fff;
+		font-weight: 600;
+		font-size: 50px;
+	}
+
+	.content {
+		/* flex-direction: */
+		flex: 1;
+		padding: 0 20px;
+		/* background-color: pink; */
+	}
+
+	.title {
+		font-size: 28px;
+		line-height: 40px;
+		lines: 2;
+		text-overflow: ellipsis
+	}
+
+	.time {
+		margin-top: 16px;
+		font-size: 24px;
+	}
+
+	.statusBox {
+		width: 130px;
+		height: 130px;
+		font-size: 24px;
+		justify-content: center;
+		align-items: flex-end;
+		border-left-width: 1px;
+		border-style: dashed;
+		position: relative;
+		border-color: #c5c3c3;
+		/* overflow: auto; */
+	}
+
+	.tIcon {
+		width: 20px;
+		height: 20px;
+		border-radius: 10px;
+		background-color: #f5f5f5;
+		position: absolute;
+		top: -10px;
+		right: 140px;
+		z-index: 10;
+	}
+
+	.bIcon {
+		width: 20px;
+		height: 20px;
+		border-radius: 10px;
+		background-color: #f5f5f5;
+		position: absolute;
+		bottom: -10px;
+		right: 140px;
+		z-index: 10;
+	}
+
+	.red {
+		border-color: #e93f33;
+	}
+
+	.status {
+		width: 124px;
+		height: 124px;
+		position: absolute;
+		right: -20px;
+		top: -20px;
+	}
+
+	.touse {
+		height: 54px;
+		line-height: 54;
+		padding: 0 20px;
+		border-radius: 27px;
+		background-image: linear-gradient(to right, #f87851, #ff0944);
+		color: #fff;
+		font-size: 24px;
+	}
+
+	.touse2 {
+		height: 54px;
+		line-height: 54;
+		padding: 0 20px;
+		border-radius: 27px;
+		background-color: #fff;
+		color: #666;
+		font-size: 24px;
+	}
+
+
+
+
+
+	/* 下拉刷新 加载更多 */
+	.loading {
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 750px;
+		height: 80px;
+	}
+
+	.loading-text {
+		font-size: 28px;
+		color: #888;
+	}
+
+	.loading-icon {
+		height: 40px;
+		width: 40px;
+		color: #999999;
+		margin-right: 10px;
+	}
+</style>

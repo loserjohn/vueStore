@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "输入验证码",
+  "usingComponents": {
+    "input-grouds": "/components/InputGrouds/InputGrouds"
+  }
+}

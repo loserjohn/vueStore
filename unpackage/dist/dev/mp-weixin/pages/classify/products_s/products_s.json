@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "xh-filter-tab": "/components/xhFilterTab/xhFilterTab",
+    "tui-tips": "/components/extend/tips/tips",
+    "tui-sticky": "/components/sticky/sticky",
+    "tui-tabs": "/components/tui-tabs/tui-tabs"
+  }
+}

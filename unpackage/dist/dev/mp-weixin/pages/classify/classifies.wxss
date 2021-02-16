@@ -1,0 +1,123 @@
+.page .header.data-v-21247b85 {
+  width: 100%;
+  line-height: 88rpx;
+  font-size: 32rpx;
+  color: #fff;
+  background: #fff;
+}
+.page .header .searchBar.data-v-21247b85 {
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 30rpx;
+  background: #F5F5F5;
+  padding: 0 40rpx;
+  margin: 0 20rpx;
+}
+.page .header .btns.data-v-21247b85 {
+  width: 88rpx;
+  height: 88rpx;
+  color: #333;
+}
+.page .header .btns .iconfont.data-v-21247b85 {
+  font-size: 40rpx;
+}
+.page-body.data-v-21247b85 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  background: #fff;
+  overflow: hidden;
+}
+.nav.data-v-21247b85 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+}
+.nav-left.data-v-21247b85 {
+  width: 25%;
+  background: #fff;
+  top: 88rpx;
+}
+.nav-left-item.data-v-21247b85 {
+  height: 100rpx;
+  border-right: solid 1px #f1f1f1;
+  border-bottom: solid 1px #f1f1f1;
+  font-size: 30rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.nav-left-item.data-v-21247b85:last-child {
+  border-bottom: none;
+}
+.nav-right.data-v-21247b85 {
+  width: 75%;
+  top: 88rpx;
+  padding: 20rpx;
+  background-color: #f4f4f4;
+}
+.boxs.data-v-21247b85 {
+  display: block;
+  overflow: hidden;
+  border-bottom: 20rpx solid #f3f3f3;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  background: #fff;
+  /* min-height: 100vh; */
+  /*若您的子分类过少想使得每个子分类占满屏请放开上边注视 */
+}
+.item-box.data-v-21247b85 {
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+}
+.box.data-v-21247b85:last-child {
+  border: none;
+  min-height: 100vh;
+}
+.nav-right-item.data-v-21247b85 {
+  width: 33%;
+  height: 220rpx;
+  float: left;
+  text-align: center;
+  padding: 11rpx;
+  font-size: 28rpx;
+  background: #fff;
+}
+.nav-right-item-text.data-v-21247b85 {
+  font-size: 20rpx;
+  margin-top: 4rpx;
+  color: #666;
+}
+.nav-right-item image.data-v-21247b85 {
+  width: 150rpx;
+  height: 150rpx;
+}
+.active.data-v-21247b85 {
+  border-radius: 20rpx;
+  border-right: 0;
+}
+.active .current.data-v-21247b85 {
+  color: #fff;
+  background: #50AB9F;
+  height: 56rpx;
+  line-height: 56rpx;
+  border-radius: 28rpx;
+  padding: 0 20rpx;
+}
+.data-v-21247b85::-webkit-scrollbar {
+  /*取消小程序的默认导航条样式*/
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+

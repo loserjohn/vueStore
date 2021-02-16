@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "密码登录",
+  "usingComponents": {
+    "input-grouds": "/components/InputGrouds/InputGrouds"
+  }
+}

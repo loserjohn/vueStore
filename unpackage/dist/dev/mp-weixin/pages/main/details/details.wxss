@@ -1,0 +1,383 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.pages.data-v-830d5552 {
+  padding-bottom: 100rpx;
+}
+.pages .swiper.data-v-830d5552 {
+  height: 774rpx;
+  position: relative;
+}
+.pages .swiper .bar.data-v-830d5552 {
+  position: absolute;
+  width: 100%;
+  height: 120rpx;
+  background: #DD3A30;
+  color: #fff;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border: none;
+}
+.pages .swiper .bar .acountTit.data-v-830d5552 {
+  width: 100%;
+}
+.pages .swiper .bar .acountConten.data-v-830d5552 {
+  width: 100%;
+}
+.pages .swiper .bar .acountConten .price.data-v-830d5552 {
+  font-size: 36rpx;
+  position: relative;
+  text-indent: 20rpx;
+  margin-right: 20rpx;
+}
+.pages .swiper .bar .acountConten .price.data-v-830d5552::after {
+  content: '￥';
+  position: absolute;
+  left: -26rpx;
+  font-size: 20rpx;
+  bottom: 0;
+  color: #fff;
+}
+.pages .swiper .bar .acountConten .delete.data-v-830d5552 {
+  margin-top: 4rpx;
+  font-size: 24rpx;
+  text-decoration: line-through;
+}
+.pages .swiper .bar .aside.data-v-830d5552 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 120rpx;
+  padding: 0 40rpx 0 60rpx;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQIAAAB4CAYAAAAZgfxDAAAAAXNSR0IArs4c6QAACZpJREFUeAHt3U+MG9UdwPHfsxMSmoYQ2CyhUEpEUKKskkNRkcqhSEWlElIPPXDgwgGJCxIttNDSIkTVqmqR+gcI4lKph1566KEnJKgQQhUSiEOEdu3tbv4oUqtW69kEUpZsvH/sx++5XWvstfeP1555783XUtYz4xnP+33G+ek3zzPPRjx52KT6RbGNWbHyJU+aRDMQKIxAyZtIbeMFkoA3R4OGFEzA+BCvTabvlmajImKv86E9tAGBogn4URE0Gy+TBIr20SNenwRyTwR2vvIdTQIP+YRCWxAomkCupwbWntsjSb0q1t5VNHjiRcAngV25NqZWf0arAZJArgeBnSMgkltFYC+fu11Wrs3oQdjHgUAAgXwF8usjWKn/VkMnCeR7/Nk7Ai2BXCoCOz95vzTkXY4BAgj4IZB5RWCtLUtTTvsRPq1AAAEnkHkikPnKE3oF4Un4EUDAH4FMTw3sp7Njcm3prCaCg/4Q0BIEEMi2Iqgv/4okwIcOAf8EMqsItIPwHmmaD/XioWyTj3/mtAgB7wQy+U+pHYRGk8BpkoB3x58GIdASyCQRyHz1UU0CX8ccAQT8FBj5qYFeQXiDrNZ1wBF72E8CWoUAAqOvCFaXXiQJ8EFDwG+BkVYE9tLkcb2CcFK/KdjtNwOtQ6DYAqOtCBrmVZJAsT9gRB+GwMgSga1NfVdPCb4VBgOtRKDYAiM5NbD24l6pLfxDae8sNi/RIxCGwGgqguSzH2v4d4ZBQCsRQGDoFYH9ZPorsrTqqoHr4UUAgTAEhl8RLDfcgCMkgTCOP61EoCUw1IrAzlUfEGm8jS0CCIQlMLSKQO8n0IFQm6+GFT6tRQABJzC0RCC16pM6IvEJWBFAIDyBoZwa2IXz47K46AYcORAeAS1GAIHhVASLiy+RBPgwIRCuwI4rAnupeq80mh/oVYQ7fq9wGWk5AmEL7KgiaA04stp8jSQQ9oeA1iOwo0SgIxI/ph2EX4MRAQTCFhi4nLcfXzggy1fPavjjYRPQegQQGLwiWF78ufKRBPgMIRCBwEAVgb1cnZDVxkf6TUG+v6YcwQEgBAR8EBjsP/JKw11BONi2PkRNGxBAoENg26cGNpl8WN/hmx3vwgwCCAQtsK1TA2v/8wWpXdZbjO0dQUdN4xFAoENge+X9/KWf6NYkgQ5CZhAIX2DLFYG9MnNE6ivTWg3sDT9sIkAAgbTA1iuCpeXf64YkgbQe0whEIrClisDWKt8W23wzkpgJAwEEugQ2/dZA7yfQHydpvtK1HbMIIBCRwKaJQJLKU3rh0LGIYiYUBBDoEtjw1MDOT98qzYb7AdP9XdsxiwACEQlsXBE0GzrgCEkgouNNKAj0FOhbEehPlt2nW7zHWAM93ViIQFQCPSsC7SDU5fY0SSCqY00wCPQV6JkIJJl6XDsIv9p3K15AAIGoBNadGtgrkwelbs5pRXBzVJESDAII9BVYXxEsyS9IAn29eAGBKAU6KgLtIDylSeCMnhaUo4yWoBBAoKdAV0XgOghJAj2lWIhAxALtRGDnKo9oEvhGxLESGgII9BFonRpYO7dPkkSvIJTb+qzHYgQQiFjgf7ch1+af1xhJAhEfaEJDYCMBY5PqUWk2q9pJeN1GK/IaAgjEK1DSJPAySSDeA0xkCGxFwHUWNreyIusggEC8AiUx8rSIWYo3RCJDAIHNBErmlpMXpCS/2WxFXkcAgXgF0l8fzujXh7fHGyqRIYBAP4HWBUXGHL4qxjzTbyWWI4BA3AKd9xrMTb2r3yDcH3fIRIcAAt0C7UuMWy8Y+Z52Hja6V2IeAQTiFuhIBNpxOCnWvB53yESHAALdAh2nBu7F/w9MclanxrpXZh4BBOIU6KgIXIjmxlOf6N+fxhkuUSGAQC+BdRWBW6k1eGky9aF+nXhPr41YhgACcQmsqwhceMYYd9nxkzph4wqXaBBAoJdAz0TgVjS3nHpfa4M/9dqIZQggEJdA30TQCtOUn9OqYCGukIkGAQS6BTZMBGZ8Yk6rgp91b8Q8AgjEJdCzszAdYutn0WuVSU0Ix9PLmUYAgXgENqwIXJjacbiiVxt+P56QiQQBBLoFNk0EbgO94vBvmhH+2r0x8wggEIfAlhJBK9Q9u3+oKaEeR9hEgQACaYEtJwJz4/GLeorwUnpjphFAIA6BTTsL02Fa+6/rpXZlRjsO70gvZxoBBMIW2HJF4MI05svX9M8Pwg6Z1iOAQLfAtiqCtY1tbfJtvQ/hgbV5nhFAIGyBbVUE7VB3ld0AJqvteSYQQCBogYESgbl5YlqjPh105DQeAQTaAgOdGrit7ccXDsjyVR3ARMbb78YEAggEKTBQReAiNTfd9V/9PYTngoyaRiOAQIfAwBWBexe9D8FIrfKBTt3b8a7MIIBAUAIDVwQuSr0PwcquEgOYBHXIaSwC6wV2lAjc25mxCTek2R/XvzVLEEAgFIEdnRqsBWkXzo/L4uJZTQgH1pbxjAAC4QjsuCJwoZr9RxP9PYQXwwmbliKAQFpgKBWBe0PtONwltamPdHIivQOmEUDAf4GhVAQuTO04XBV3xSEPBBAITmBoicBFrh2H7+ilx38JToEGI1BwgaEmgpbl7rL7efXFgrsSPgJBCQw9EZibJv6pVcGvg1KgsQgUXGBonYVpR2sv7pXagrsx6Uh6OdMIIOCnwNArAhemMUd0bMPy036GTKsQQKBbYCQVwdpObG3qLf1e8cG1eZ4RQMBPgZFUBO1QS7vdACYr7XkmEEDAS4GRJgJz6Pisnii84mXkNAoBBNoCIz01cHux8zP7pbmi9yHYw+29MoEAAl4JjLQicJFqVeB+TflHXkVNYxBAoENg5BWB21trAJOk8p5O3Nexd2YQQMALgZFXBC7K1gAmpbIbwKTpRdQ0AgEEOgQySQRuj+bQiTP69IeOvTODAAJeCGRyarAWqf10dkyuLbkBTA6uLeMZAQTyF8isInChmhuOXRJTeiH/sGkBAgikBTKtCNyOteOwLEnljE6cSjeEaQQQyE8g04rAhakdhw0x2nHIAwEEvBHIPBG4yM34ib/rpcd/9kaBhiBQcIFcEkHLvLznWX2+WnB/wkfAC4HcEoEZO/ZvKZlfeqFAIxAouEDmnYVpb2vP7ZGkXtGOw6Pp5UwjgEC2ArlVBC5MY+5e0h9SfSrbkNkbAgh0C+SaCFxjzKGTb+hf/ccDAQTyEsg9EbQCL5W0KjDLeSGwXwSKLuBFIjDjE+c1Efyu6AeD+BHISyDXzsJ00NbO7ZMkmdX7EG5LL2caAQRGL/A5YCLk0V3PRvoAAAAASUVORK5CYII=) left top/cover no-repeat;
+  color: #ED754B;
+}
+.pages .timeBox.data-v-830d5552 {
+  line-height: 70rpx;
+  height: 70rpx;
+  text-align: center;
+  color: #fff;
+  background: #d12020;
+  font-size: 26rpx;
+}
+.pages .timeBox .statusBox.data-v-830d5552 {
+  width: 300rpx;
+  height: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.pages .boxs.data-v-830d5552 {
+  background: #fff;
+  margin-bottom: 16rpx;
+}
+.pages .box1.data-v-830d5552 {
+  padding: 36rpx 20rpx;
+}
+.pages .box1 .titleBox.data-v-830d5552 {
+  margin-top: 12rpx;
+  margin-bottom: 16rpx;
+}
+.pages .box1 .titleBox .cm_prize.data-v-830d5552 {
+  margin-top: -10rpx;
+  font-size: 40rpx;
+  color: #e02e24;
+  font-weight: 600;
+}
+.pages .box1 .cm_title.data-v-830d5552 {
+  line-height: 1.2;
+  font-size: 30rpx;
+}
+.pages .box1 .cm_title .tags.data-v-830d5552 {
+  background: -webkit-linear-gradient(left, #EE7E33, #EA3333);
+  background: linear-gradient(to right, #EE7E33, #EA3333);
+  color: #fff;
+  padding: 0 8rpx;
+  border-radius: 4rpx;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  height: 28rpx;
+  margin-right: 10rpx;
+}
+.pages .box1 .msgBar.data-v-830d5552 {
+  margin-top: 24rpx;
+  margin-bottom: 4rpx;
+  width: 100%;
+  height: 80rpx;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+}
+.pages .box1 .msgBar .testTags.data-v-830d5552 {
+  font-size: 24rpx;
+  color: #666;
+}
+.pages .box1 .msgBar .blank.data-v-830d5552 {
+  width: 4rpx;
+  height: 26rpx;
+  background: #666;
+  margin: 0 24rpx;
+}
+.pages .box1 .logoBox.data-v-830d5552 {
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 6rpx;
+  background: #F2E5DA;
+  color: #642704;
+  padding: 0 20rpx;
+  margin-top: 20rpx;
+}
+.pages .box1 .logoBox .logo.data-v-830d5552 {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.pages .box1 .logoBox .name.data-v-830d5552 {
+  color: #642704;
+}
+.pages .box1 .logoBox .blank.data-v-830d5552 {
+  width: 4rpx;
+  height: 24rpx;
+  background: #642704;
+  margin: 0  20rpx;
+}
+.pages .box2.data-v-830d5552 {
+  padding: 0 20rpx;
+}
+.pages .box2 .titleBar.data-v-830d5552 {
+  line-height: 66rpx;
+  height: 66rpx;
+}
+.pages .box2 .cells.data-v-830d5552 {
+  height: 72rpx;
+  line-height: 72rpx;
+}
+.pages .box2 .prizeBox .prizeItems.data-v-830d5552 {
+  background: #f8f8f8;
+  border-radius: 10rpx;
+  margin-top: 16rpx;
+  height: 122rpx;
+  overflow: hidden;
+}
+.pages .box2 .prizeBox .prizeItems .avatar.data-v-830d5552 {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  margin-left: 16rpx;
+}
+.pages .box2 .prizeBox .prizeItems .name.data-v-830d5552 {
+  line-height: 1.5;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 600;
+}
+.pages .box2 .prizeBox .prizeItems .mark.data-v-830d5552 {
+  height: 122rpx;
+  width: 122rpx;
+  text-align: center;
+  line-height: 122rpx;
+  background: #dedede;
+  color: #999;
+  font-size: 30rpx;
+  margin-left: 32rpx;
+}
+.pages .box2 .prizeBox .active .mark.data-v-830d5552 {
+  background: var(--cl_primary);
+  color: #333;
+}
+.pages .box4.data-v-830d5552 {
+  padding: 0 20rpx;
+}
+.pages .box4 .cells.data-v-830d5552 {
+  height: 72rpx;
+  line-height: 72rpx;
+}
+.pages .box3.data-v-830d5552 {
+  margin-bottom: 0;
+  padding: 30rpx 20rpx;
+}
+.pages .box3 .picBox.data-v-830d5552 {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.pages .box3 .picBox .avatar.data-v-830d5552 {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  overflow: hidden;
+}
+.pages .box3 .picBox .avatar ._img.data-v-830d5552 {
+  width: 90rpx;
+  height: 90rpx;
+}
+.pages .box3 .picBox .jd.data-v-830d5552 {
+  width: 152rpx;
+  line-height: 58rpx;
+  height: 58rpx;
+  border: none;
+  background: var(--cl_primary);
+  color: #fff;
+  text-align: center;
+  padding: 0;
+  font-size: 26rpx;
+  border-radius: 29rpx;
+}
+.pages .box3 .scoreBox.data-v-830d5552 {
+  padding: 24rpx 0 8rpx 0;
+  border-top: 1rpx solid #e5e5e5;
+}
+.pages .box3 .scoreBox .score.data-v-830d5552 {
+  margin-left: 10rpx;
+  color: #d12020;
+}
+.pages .commonTit.data-v-830d5552 {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.pages .commonTit .blank.data-v-830d5552 {
+  width: 40rpx;
+  height: 4rpx;
+  background: #333;
+  margin: 0 12rpx;
+}
+.pages .footer.data-v-830d5552 {
+  width: 100%;
+  height: 100rpx;
+  background: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 0 24rpx;
+}
+.pages .footer .mes.data-v-830d5552 {
+  width: 100rpx;
+}
+.pages .footer .cm_des.data-v-830d5552 {
+  font-size: 20rpx;
+}
+.mask-screen.data-v-830d5552 {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 10;
+}
+.mask-screen .region-box.data-v-830d5552 {
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  background: #fff;
+  padding: 8rpx 50rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx 20rpx 0 0;
+}
+.mask-screen .region-box .cm_title.data-v-830d5552 {
+  margin-top: 24rpx;
+}
+.mask-screen .region-box .cm_des.data-v-830d5552 {
+  line-height: 2;
+  padding: 26rpx 0;
+}
+.mask-screen .region-box .btns.data-v-830d5552 {
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #ddb152;
+  color: #fff;
+  border-radius: 40rpx;
+}
+.btnBox.data-v-830d5552 {
+  width: 100%;
+  height: 80rpx;
+  border-radius: 40rpx;
+  line-height: 80rpx;
+  overflow: hidden;
+  background: #d1a320;
+  color: #fff;
+  box-shadow: none;
+  margin-top: 10rpx;
+}
+.btnBox .btns.data-v-830d5552 {
+  width: 50%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #ddb152;
+  color: #fff;
+  border-radius: 0 !important;
+}
+.backBtn.data-v-830d5552 {
+  position: fixed;
+  right: 40rpx;
+  bottom: 138rpx;
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+}
+.asideBar.data-v-830d5552 {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  background: var(--cl_primary);
+  position: fixed;
+  right: 40rpx;
+  bottom: 238rpx;
+}
+.asideBar2.data-v-830d5552 {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  background: #fff;
+  border: 4rpx solid var(--cl_primary);
+  color: var(--cl_primary);
+  position: fixed;
+  right: 40rpx;
+  bottom: 338rpx;
+}
+.btns.sure.data-v-830d5552 {
+  background: #50AB9F;
+}
+.btns.hot.data-v-830d5552 {
+  background-color: #E93F37;
+}
+.btns[disabled="true"].data-v-830d5552 {
+  background-color: #d6d293;
+}
+.sure[disabled="true"].data-v-830d5552 {
+  background-color: #8aacad;
+}
+/*底部抽屉样式 start*/
+

@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "tui-skeleton": "/components/tui-skeleton/tui-skeleton",
+    "sun-tab": "/components/sun-tab/sun-tab",
+    "product": "/pages/main/store/product/product"
+  }
+}

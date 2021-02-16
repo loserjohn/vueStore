@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "银行卡",
+  "usingComponents": {
+    "tui-swipe-action": "/components/swipe-action/swipe-action",
+    "tui-tips": "/components/extend/tips/tips"
+  }
+}

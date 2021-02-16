@@ -1,0 +1,290 @@
+/* 自定同意常用样式 */
+/* 基于ColorUi开发 */
+body {
+	--cl_title: #333;
+	--cl_text: #999;
+	--cl_desc: #666;
+	--cl_border: #dedede;
+	--cl_theme: linear-gradient(45deg, #067273, #008586);
+	--cl_primary: #50AB9F;
+	--cl_hover: #008586;
+	--cl_danger: #D12020;
+	background: #f5f5f5;
+}
+
+.pages {
+	width: 100vw;
+	min-height: 100vh;
+	background: #f8f8f8;
+	/* background: #eee; */
+}
+
+/* #FF7047 */
+view,
+text,
+scroll-view,
+swiper,
+button,
+input,
+textarea,
+label,
+navigator,
+image {
+	box-sizing: border-box;
+	font-size: 28upx;
+	line-height: 1;
+	border: none;
+}
+
+.flex {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.red {
+	background: red;
+}
+
+.green {
+	background: green;
+}
+
+.pink {
+	background: pink;
+}
+
+.blue {
+	background: blue;
+}
+
+
+/* 盒子布局 */
+.flex_y {
+	flex-direction: column;
+	align-items: center;
+}
+
+.flex_wrap {
+	flex-wrap: wrap;
+}
+
+.flex_center {
+	justify-content: center;
+	align-items: center;
+}
+.flex_start {
+	justify-content: flex-start;
+}
+.flex_between {
+	justify-content: space-between;
+}
+
+.flex_around {
+	justify-content: space-around;
+}
+
+.f2 {
+	flex: 2;
+}
+
+.f1 {
+	flex: 1
+}
+
+
+/* 字号 */
+.cm_t_20 {
+	font-size: 20upx;
+}
+
+.cm_t_24 {
+	font-size: 24upx;
+}
+
+.cm_t_32 {
+	font-size: 32upx;
+}
+
+.cm_tex_c {
+	text-align: center;
+}
+
+.cm_tex_l {
+	text-align: left;
+}
+
+.cm_tex_r {
+	text-align: right;
+}
+
+.cover {
+	width: 100%;
+	height: 100%;
+}
+
+.cm_ellipsis {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.cm_ellipsis2 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+
+.cm_bdb {
+	position: relative;
+}
+
+.cm_bdb::before {
+	content: '';
+	width: 100%;
+	height: 1upx;
+	background: #f3f3f3;
+	transform: scaleY(.5);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.cm_bdt {
+	position: relative;
+}
+
+.cm_bdt::before {
+	content: '';
+	width: 100%;
+	height: 1upx;
+	background: #f3f3f3;
+	transform: scaleY(.5);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* common样式 */
+
+.cm_box {
+	box-sizing: border-box;
+	border-radius: 20upx;
+	background: #fff;
+	overflow: hidden;
+	padding: 20upx;
+}
+
+.cm_title {
+	/* font-weight: bolder; */
+	font-size:28upx;
+	line-height: 42upx; 
+	color: #333;
+	font-weight: 600;
+}
+
+.cm_text {
+	font-size: 24upx;
+	color: #666;
+}
+
+.cm_des {
+	font-size: 26upx;
+	color: #999;
+}
+
+.cm_btn {
+	width: 100%;
+	height: 78upx;
+	text-align: center;
+	line-height: 78upx;
+	margin: 0 auto;
+	border-radius: 45upx;
+	/* background-image: var(--cl_theme); */
+	background: var(--cl_primary);
+	color: #333;
+	/* box-shadow: 0 4upx 10upx #fb9a9a; */
+	font-size: 30upx;
+}
+
+.cm_btn_block {
+	width: 100%;
+	height: 90upx;
+	text-align: center;
+	line-height: 90upx;
+	margin: 0 auto;
+	border-radius: 45upx;
+	background-image: var(--cl_theme);
+	color: #fff;
+	box-shadow: 0 8upx 10upx #edb5c3;
+}
+
+.cm_noItems {
+	width: 100%;
+	height: 145upx;
+	line-height:145upx ;
+	text-align: center;
+}
+
+.cm_prize {
+	color: #E02E24;
+	font-size: 32upx;
+}
+.cm_prize_delete{
+	color: #999;
+	/* font-size: 28upx; */
+	text-decoration: line-through;
+}
+
+.cm_tags {
+	padding: 0 34upx;
+	/* line-height: 50upx; */
+	/* height: 54upx; */
+	border-radius: 40upx;
+	/* border: 1upx solid #999; */
+	display: block;
+	font-size: 20upx; 
+	transform: scale(0.9);
+}
+
+.cm_tags.primary{
+	border: 1upx solid var(--cl_primary);
+	background:var(--cl_primary) ;
+	color: #fff;
+}
+.cm_tags.red {
+	padding: 0 34upx;
+	border: 1upx solid #E02E24;
+	background: none;
+	color: #E02E24;
+
+}
+.cm_blocks{
+	width: 100%;
+}
+
+/* .cm_statusBox {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: var(--cl_primary);
+	color: #333;
+	line-height: 48upx;
+	height: 48upx;
+	border-radius: 8upx 0 8upx 0;
+	font-size: 24upx;
+	padding: 0 20upx;
+} */
+/* .cm_border_bottom{
+	position: relative;
+	border-bottom: 1upx solid #f2f2f2;
+} */
+/* .cm_border_bottom::after{
+	position: absolute;
+	left: 0;
+	bottom: ;
+} */
+/* .cm_noItems{
+	width: 100%;
+	line-height: 80upx;
+} */

@@ -1,0 +1,19 @@
+.pages .box.data-v-7e669815 {
+  padding: 20rpx;
+}
+.pages .box .textBox.data-v-7e669815 {
+  width: 100%;
+  min-height: 400rpx;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  margin-bottom: 60rpx;
+  position: relative;
+}
+.pages .box .textBox .nums.data-v-7e669815 {
+  position: absolute;
+  right: 40rpx;
+  bottom: 40rpx;
+  line-height: 2;
+}
+

@@ -1,0 +1,7 @@
+{
+  "titleNView": false,
+  "usingComponents": {
+    "tui-skeleton": "/components/tui-skeleton/tui-skeleton",
+    "count-calc": "/components/uni-countdown"
+  }
+}

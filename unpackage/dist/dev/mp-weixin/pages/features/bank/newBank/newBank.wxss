@@ -1,0 +1,32 @@
+.pages.data-v-00363dc0 {
+  width: 100%;
+  min-height: 100vh;
+}
+.pages .title.data-v-00363dc0 {
+  padding: 24rpx 20rpx;
+}
+.pages .bankBox.data-v-00363dc0 {
+  background: #fff;
+  padding: 0 20rpx;
+  margin-bottom: 16rpx;
+}
+.pages .bankBox .inputBox.data-v-00363dc0 {
+  line-height: 88rpx;
+  height: 88rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+.pages .bankBox .inputBox.data-v-00363dc0:last-child {
+  border-bottom: none;
+}
+.pages .bankBox .inputBox .label.data-v-00363dc0 {
+  width: 172rpx;
+}
+.pages .bankBox .inputBox .getYZM.data-v-00363dc0 {
+  height: 56rpx;
+  padding: 0 20rpx;
+  border-radius: 28rpx;
+  background: var(--cl_primary);
+  color: #fff;
+  font-size: 24rpx;
+}
+
