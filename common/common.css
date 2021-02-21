@@ -30,12 +30,13 @@ body {
 .savebottom {
 	/* padding-bottom: env(safe-area-inset-bottom)!important; */
 	/* padding-bottom: 50px !important; */
-	padding-bottom: constant(safe-area-inset-bottom);
-	padding-bottom: env(safe-area-inset-bottom); 
-	box-sizing: content-box;
-	-webkit-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-overflow-scroll: touch
+	width: 100%;
+	padding-bottom: constant(safe-area-inset-bottom)!important;
+	padding-bottom: env(safe-area-inset-bottom)!important; 
+	/* box-sizing: content-box!important; */
+	/* -webkit-transform: translateZ(0)!important;
+	transform: translateZ(0)!important;
+	-webkit-overflow-scroll: touch!important */
 }
 
 /* uni-tabbar .uni-tabbar {
@@ -55,7 +56,7 @@ navigator,
 image {
 	box-sizing: border-box;
 	font-size: 28rpx;
-	line-height: 1;
+	line-height: 1.2;
 	border: none;
 }
 
@@ -148,13 +149,13 @@ image {
 }
 
 .cm_ellipsis {
-	/* text-overflow: ellipsis;
+	text-overflow: ellipsis;
 	white-space: nowrap;
-	overflow: hidden; */
-	display: -webkit-box;
+	overflow: hidden;
+/* 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
-	overflow: hidden;
+	overflow: hidden; */
 }
 
 .cm_ellipsis2 {

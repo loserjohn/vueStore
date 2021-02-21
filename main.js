@@ -177,7 +177,11 @@ Vue.component('tuiModal', tuiModal)
 import tuiTag from '@/components/tag/tag'
 Vue.component('tuiTag', tuiTag)
 
+import tuiNoData from '@/components/tui-no-data/tui-no-data'
+Vue.component('tuiNoData', tuiNoData)
 
+import tuiTips from '@/components/tui-tips/tui-tips'
+Vue.component('tuiTips', tuiTips)
 
 uni.getSystemInfo({
 	success: function(e) {

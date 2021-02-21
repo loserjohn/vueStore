@@ -2,11 +2,11 @@
 	import Utils from '@/utils/utils.js';
 	import http from '@/utils/http/index.js';
 	const jweixin = require('jweixin-module');
-	import pageAnimation from './components/page-animation'
+	// import pageAnimation from './components/page-animation'
 	// import mixin from '@/common/mixin'
 	import SET from '@/SET.js'
 	export default {
-		mixins: [pageAnimation],
+		// mixins: [pageAnimation], 
 		data() {
 			return {
 				ifWx: false
@@ -252,6 +252,7 @@
 	
 	view,text{
 		box-sizing: border-box;
+		word-break: break-all;
 	}
 	uni-button {
 		border: none;
@@ -434,7 +435,16 @@
 		background: #fff;
 		margin-bottom: 0;
 		border-bottom: 1rpx solid #eee;
-
+		padding:0 20rpx 20rpx 20rpx;
+		.itemBoxTop{
+			.shopIcon{
+				width: 56rpx;
+				height: 56rpx;
+				border-radius: 50%;
+				margin-right: 14rpx;
+				border: 1rpx solid #eee;
+			}
+		}
 		.picBox {
 			width: 100%;
 			background: #f9f9f9;
@@ -461,6 +471,9 @@
 				max-height: 80rpx;
 				line-height: 1.2;
 				margin-top: 6rpx;
+			}
+			.serviceText{
+				color: #f5a139;
 			}
 		}
 

@@ -27,37 +27,37 @@
 
 									<view class="msgBox f1">
 										<navigator :url="'/pages/main/details/details?code=' + item.goods_code">
-											<view class=" cm_ellipsis2 title ">
+											<view class=" cm_ellipsis2 cm_title ">
 												{{ item.goods_title }}
-											</view>
-											<!-- {{item.cart_code}} -->
-											<view class="cm_ellipsis cm_des  " v-if="item.goods_spec">{{ item.goods_spec.skus_difference | differenceText }}</view>
+											</view>							
 										</navigator>
-										<view class="flex flex_center" style="margin-top: 20rpx;">
-											<view class="cm_prize" style="margin-right: 20rpx;">
+										<view class="cm_ellipsis2 cm_des  " v-if="item.goods_spec" @click="switchSku(item.goods_code)">
+											{{ item.goods_spec.skus_difference | differenceText }}
+											<tui-icon name="arrowdown" :size="16" color="#999"></tui-icon>
+										</view>
+										<view class="  cm_ellipsis2 cm_des" style="color: #f5a139; " v-if="couponList[item.cart_code]&& couponList[item.cart_code].goods_service_txt ">
+											{{ couponList[item.cart_code].goods_service_txt}}
+										</view> 
+										<view class="flex flex_center" style="margin-top: 10rpx;">
+											<view class="cm_des" style="margin-right: 20rpx;">
 												￥{{ item.goods_spec.skus_price}}
 											</view>
-
+											<tui-tag type="danger" padding=" 8rpx 16rpx " size="24rpx" shape="circle" v-if="couponList[item.cart_code]&& couponList[item.cart_code].child_coupon_txt ">{{couponList[item.cart_code].child_coupon_txt}}</tui-tag>
 											<view class="f1"></view>
 											<tui-icon name="shut" color="#999" :size="12"></tui-icon>
 											<text class="cm_des">{{item.goods_num}}</text>
 										</view>
-										<!-- <view class="flex  flex_center" style="margin-top: 10rpx;">
 										
-										<view class="cm_prize" style="margin-right: 20rpx;" >
-											￥{{ item.origin_price}}
+										<view class="cm_des " style="margin-top: 10rpx;" v-if="couponList[item.cart_code]&& couponList[item.cart_code].child_coupon_name ">
+											{{couponList[item.cart_code].child_coupon_name}}
 										</view>
-										<tui-tag type="danger" padding=" 10rpx 20rpx " shape="circle" v-if="  couponList[item.cart_code]&& couponList[item.cart_code].coupon_code ">{{`优惠价 ￥${ couponList[item.cart_code].price}` }}</tui-tag>
-										<view class="f1"></view>
-									</view> -->
 									</view>
 									<!-- </view> -->
 								</view>
 							</view>
 						</block>
-						<view class="flex flex_center proBottom ">
-
-							<text v-show="couponSumMsg.sum_sale_price">{{`${ couponSumMsg.coupon_name }`}}</text>
+						<view class="flex flex_center proBottom " v-show="couponSumMsg.coupon_name">
+							<text >{{`${ couponSumMsg.coupon_name }`}}</text>
 							<view class="f1"></view>
 							<!-- <text class="price">共计：{{`￥${payprice}`}}</text> -->
 						</view>
@@ -65,31 +65,45 @@
 				</block>
 
 				<view class="footer   animated fadeIn " v-if="lists.length > 0">
-					<view class="footerContent flex flex_center">
-						<view class=" flex flex_center">
-							<text style="margin-left: 20rpx;" v-if="sellectAll" @tap="selectAll(false)">全不选</text>
-							<text style="margin-left: 20rpx;" v-else @tap="selectAll(true)">全选</text>
-						</view>
-						<view class="f1"></view>
-						<view class=" flex flex_center">
-							<!-- <text style="margin-right: 20rpx;">合计:</text> -->
-							<view class="sumPriceBox">
-								<view class="price">{{ payprice }}</view>
-								<text class="gjyh" v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text>
+					<view class="savebottom">
+						<view class="footerContent flex flex_center ">
+							<view class=" flex flex_center">
+								<text style="margin-left: 20rpx;" v-if="sellectAll" @tap="selectAll(false)">全不选</text>
+								<text style="margin-left: 20rpx;" v-else @tap="selectAll(true)">全选</text>
 							</view>
-
-							<button class="cancel" v-show="sellectLast" plain @tap="_clear">删除</button>
-							<button class="submit" @tap="submit">结算</button>
+							<view class="f1"></view>
+							<view class=" flex flex_center">
+								<!-- <text style="margin-right: 20rpx;">合计:</text> -->
+								<view class="sumPriceBox">
+									<view class="price">{{ payprice }}</view>
+									<text class="gjyh" v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text>
+								</view>
+						
+								<button class="cancel" v-show="sellectLast" plain @tap="_clear">删除</button>
+								<button class="submit" @tap="submit">{{ couponSumMsg.sum_sale_price>0?'领券结算':'结算'}} </button>
+							</view>
 						</view>
 					</view>
+					
 				</view>
 				<view class="flex flex_center animated fadeIn" style="width: 100%;height: 80vh;" v-else>
-					<tui-tips :fixed="false" imgUrl="/static/img/toast/none.png">
+					<!-- <tui-tips :fixed="false" imgUrl="/static/img/toast/none.png">
 						还没有商品哟
 						<navigator open-type="switchTab" url="../main/main">
 							<tui-button type="primary" shape="circle" width="180rpx" height="60rpx" style="transform: scale(0.9);margin-top: 20rpx;">去逛逛</tui-button>
 						</navigator>
-					</tui-tips>
+					</tui-tips> -->
+					<tui-no-data imgUrl="/static/img/toast/img_nodata.png" backgroundColor="#50ab9f"     >
+						<view class="flex flex_y flex_center">
+							<text class="tui-color__black">您还没有购买任何商品~</text>
+							<!--如果需要自定义按钮，可在插槽中自定义，不使用默认按钮-->
+							<navigator open-type="switchTab" url="../main/main">
+								<tui-button type="primary" shape="circle" width="180rpx" height="60rpx" style="transform: scale(0.9);margin-top: 20rpx;">去逛逛</tui-button>
+							</navigator>
+						</view>
+						
+					</tui-no-data>
+					
 				</view>
 			</view>
 			<view v-else class="modal flex flex_y flex_center">
@@ -97,6 +111,10 @@
 				<tui-button type="warning" width="180rpx" height="60rpx" :size="24" shape="circle" @tap="_login">立即登录</tui-button>
 			</view>
 		</view>
+		<xhStoreParamsSKU    ref="params" :bottom="100" :ifActive="goods.is_flashsale==1?true:false" :preImg="goods.goods_main_img"
+		 :title="goods.goods_title" :parameter="specifications" :difference="skuList" :defaultprice="goods.goods_price"
+		 :defaultstock="goods.default_stock" @creatOrder="creatOrder"   :propertyList="propertyList"></xhStoreParamsSKU>
+		
 	</view>
 
 </template>
@@ -123,6 +141,7 @@
 	import {
 		mapGetters
 	} from 'vuex';
+	import xhStoreParamsSKU from '@/components/xhStoreParamsSKU/xhStoreParamsSKU';
 	export default {
 		data() {
 			return {
@@ -138,16 +157,23 @@
 
 				hasRow: false,
 				couponList: {}, //存放优惠券
-				couponSumMsg: {} //每次优惠计算的数据
+				couponSumMsg: {} ,//每次优惠计算的数据
+				
+				// skulist??
+				goods: '',  //商品信息
+				skuList: [],
+				specifications: [],
+				propertyList:[],
 			};
 		},
 		components: {
 			tuiNumberbox,
-			tuiTips
+			tuiTips,
+			xhStoreParamsSKU
 		},
 		filters: {
 			differenceText(arr) {
-				return arr.length ? arr.join(',') : ''
+				return arr&& arr.length ? arr.join(',') : ''
 			}
 		},
 		onLoad() {
@@ -213,8 +239,12 @@
 			payprice() {
 				let p = 0;
 				this.selectProducts.forEach(item => {
-					p += Number(item.origin_price);
+					p += Number(item.origin_price) ;				
 				});
+				// for(let item in this.couponList){
+				// 	console.log(this.couponList[item])
+				// 	p+=Number(this.couponList[item].goods_service_price)
+				// }
 				if (this.couponSumMsg && this.couponSumMsg.sum_sale_price) {
 					return (p - this.couponSumMsg.sum_sale_price).toFixed(2);
 				} else {
@@ -250,6 +280,45 @@
 			}
 		},
 		methods: {
+			creatOrder(){
+				alert('暂时不支持切换')
+			},
+			async switchSku(code){
+				let that = this;
+				try {
+					let form = {
+						goods_code: code
+					}
+					let res = await this.$api.GetGoodsInfo(form);
+					// console.log(res.data.goods_service_list)
+					if (res.result == 1) {
+						// that.skuList =[];
+						// that.specifications = [];
+						// that.propertyList = [];
+						that.goods = res.data.goods;
+						that.skuList = res.data.skuList;
+						that.specifications = res.data.goods_parameter;
+						that.propertyList = res.data.goods_service_list;
+				
+						this.$refs.params.show();
+				
+					} else {
+						that.$ui.toast(res.msg);
+						setTimeout(() => {
+							uni.reLaunch({
+								url: '/pages/main/main'
+							});
+						}, 1000)
+					}
+				} catch (err) {
+					console.log('请求结果false : ' + err);
+					setTimeout(() => {
+						uni.reLaunch({
+							url: '/pages/main/main'
+						});
+					}, 1000)
+				}
+			},
 			// 获取购物车 优惠券数据
 			async _getCoupons(s) {
 
@@ -376,8 +445,7 @@
 					title: '去结算'
 				});
 				this.$store.commit('creatOrder', [...this.selectProducts]);
-				this.$store.commit('creatCoupon', { ...this.couponSumMsg
-				});
+				this.$store.commit('creatCoupon', { ...this.couponSumMsg});
 				uni.navigateTo({
 					url: `/pages/features/createOrder/createOrder?type=1`
 				});
@@ -474,29 +542,29 @@
 				}
 
 				.msgBox {
-					.title {
-						line-height: 1.4;
-						margin-bottom: 10rpx;
-						font-size: 30rpx;
-					}
+					// .title {
+					// 	line-height: 1.4;
+					// 	margin-bottom: 10rpx;
+					// 	font-size: 30rpx;
+					// }
 
 					// padding: 16rpx;
-					.tags {
-						background: red;
-						color: #fff;
-						padding: 0 8rpx;
-						border-radius: 4rpx;
-						font-size: 20rpx;
-						line-height: 30rpx;
-						height: 30rpx;
-						margin-right: 10rpx;
-						margin-top: -8rpx;
-					}
+					// .tags {
+					// 	background: red;
+					// 	color: #fff;
+					// 	padding: 0 8rpx;
+					// 	border-radius: 4rpx;
+					// 	font-size: 20rpx;
+					// 	line-height: 30rpx;
+					// 	height: 30rpx;
+					// 	margin-right: 10rpx;
+					// 	margin-top: -8rpx;
+					// }
 
-					.cm_text {
-						line-height: 64rpx;
-						justify-content: flex-start;
-					}
+					// .cm_text {
+					// 	line-height: 64rpx;
+					// 	justify-content: flex-start;
+					// }
 
 					.has {
 						margin-top: 14rpx;
@@ -508,13 +576,13 @@
 						background: #f7f7f7;
 					}
 				}
-
-				&:last-child {
-					border-bottom: none;
-				}
-
+				
+				
 			}
-
+			// .contenBox:last-child {
+			// 	border-bottom: none!important;
+			// 	padding-bottom: 0;
+			// }
 			.proBottom {
 				width: 100%;
 				text-align: right;
@@ -531,15 +599,15 @@
 		.footer {
 			position: fixed;
 			width: 100%;
-			height: 100rpx;
+			min-height: 100rpx;
 			left: 0;
-
+			box-sizing: border-box;
 			// #ifdef H5
-			bottom: 150rpx;
+			bottom: 100rpx;
 			// #endif
 
 
-			z-index: 200;
+			z-index: 20;
 			padding: 20rpx;
 
 			.footerContent {
@@ -553,7 +621,7 @@
 					margin-right: 20rpx;
 
 					.price {
-						font-size: 50rpx;
+						font-size: 44rpx;
 						position: relative;
 						text-indent: 40rpx;
 						font-weight: 600;

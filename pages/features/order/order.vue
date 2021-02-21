@@ -55,14 +55,41 @@
 		</swiper>
 		<tui-modal :show="modal" @click="handleClick" @cancel="hide" :content="content" :maskClosable="false" color="#333"
 		 :size="32"></tui-modal>
-
+		<tuiBottomPopup :zIndex="1002" :maskZIndex="1001" :show="popupShow" @close="popup">
+			<view class="savebottom">
+				<tui-list-view unlined="all" class="tui-list-view tui-skeleton-fillet">
+					<tui-list-cell :arrow="false" class="  flex flex_center ">
+						<view class="tui-list-cell-name f1">商品金额</view>
+						<view class="tui-right">￥{{ currentItem.sum_goods_price }}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false" class="  flex flex_center " v-if="currentItem.ems_price">
+						<view class="tui-list-cell-name f1">运费</view>
+						<view class="tui-right">￥{{ currentItem.ems_price?currentItem.ems_price:0 }}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false" class="  flex flex_center ">
+						<view class="tui-list-cell-name f1">售后服务</view>
+						<view class="tui-right">￥{{ currentItem.sum_service_price?currentItem.sum_service_price:0}}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false" class="  flex flex_center " v-if="currentItem.ems_price">
+						<view class="tui-list-cell-name f1">优惠金额</view>
+						<view class="tui-right">-￥{{ currentItem.sum_coupon_price?currentItem.sum_coupon_price:0 }}</view>
+					</tui-list-cell>
+					<tui-list-cell class=" tui-skeleton-fillet flex flex_center " :last="true">
+						<view class="f1"></view>
+						<view class="cm_des">共 {{ currentItem.goods_num }} 件商品 , </view>
+						<text>实付：</text>
+						<text class=" cm_t_32 cm_prize">￥{{ currentItem.pay_price }}</text>
+					</tui-list-cell>
+				</tui-list-view>
+			</view>
+		</tuiBottomPopup>
 	</view>
 </template>
 
 <script>
 	import sunTab from '@/components/sun-tab/sun-tab.vue';
 	import OrderList from './orderList/orderList.vue';
-
+	import tuiBottomPopup from '@/components/tui-bottom-popup/tui-bottom-popup';
 
 	export default {
 		data() {
@@ -98,24 +125,24 @@
 				currentCode: '',
 				content: '确认发起退货？',
 				action: '',
-				ems_code: ''
+				ems_code: '',
+				currentItem:'',
+				popupShow:false
 			};
 		},
 		components: {
 			sunTab,
-			OrderList
+			OrderList,
+			tuiBottomPopup
 		},
 		onLoad(options) {
 			let that = this
 
 			this.current = parseInt(options.current)
 
-			// this.$nextTick(function() {
-			// 	alert(`list${this.current}`)
-			// 	console.log(that.$refs[`list${this.current}`])
-			// 	that.$refs[`list${this.current}`]._getList('refresh')
-			// })
-			// this._refresh()
+			uni.$on('showDetail', (item) => {
+				that._showDetail(item)
+			})
 			uni.$on('refresh_order', () => {
 				that._refresh()
 			})
@@ -134,6 +161,13 @@
 			}, 600)
 		},
 		methods: {
+			_showDetail(item){
+				this.currentItem =item
+				this.popup()
+			},	
+			popup() {
+				this.popupShow = !this.popupShow
+			},
 			_back() {
 				// alert(1)
 				uni.switchTab({

@@ -241,13 +241,21 @@ module.exports = {
 			}
 		},
 		// 普通跳转
-		_href(url) {
-			// alert(url)
-			uni.navigateTo({
-				url: url,
-				animationType: 'pop-in',
-				animationDuration: 200
-			})
+		_href(url,type) {
+			if(type=="redirect"){
+				uni.redirectTo({
+					url: url,
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			}else{
+				uni.navigateTo({
+					url: url,
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			}
+		
 		},
 		// 先登录
 		_login() {

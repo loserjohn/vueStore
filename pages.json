@@ -814,6 +814,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/role/replacePhone/replacePhone",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改手机号",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/role/updatedPass/updatedPass",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改登录密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#999",

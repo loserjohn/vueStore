@@ -11,15 +11,14 @@
 					<view class="title">微信昵称</view>
 					<input placeholder="请输入新昵称" name="input" class="cm_tex_r f1" type="text" v-model="formParams.consumer_nick_name" ></input>
 				</view>	
-				<view class="cu-form-group flex flex_center" @tap="updatedPhone">
+				<view class="cu-form-group flex flex_center" >
 					<view class="title">手机号</view>
-					<!-- <input placeholder="请输入手机号" name="input" class="cm_tex_r f1" type="text" v-model="" ></input> -->
 					<view class="cm_tex_r f1">{{usrMsg.consumer_mobile}}</view>
-					<tui-icon name="arrowright" :size="16"></tui-icon>
+					<!-- <tui-icon name="arrowright" :size="16"></tui-icon> -->
 				</view>	
 				<!-- <view class="cu-form-group flex flex_center">
-					<view class="title f1">支付密码</view>
-						<tui-icon name="arrowright" size="16"></tui-icon>
+					<view class="title f1">登录密码修改</view>
+						<tui-icon name="arrowright" :size="16"></tui-icon>
 				</view>	 -->
 			</view>
 					
@@ -62,7 +61,7 @@
 			// 更改手机号
 			updatedPhone(){
 				uni.navigateTo({
-					url:'/pages/role/bund/bund'
+					url:'/pages/role/replacePhone/replacePhone'
 				})			
 			},
 			// 头像

@@ -80,8 +80,8 @@
 			InputGrouds: InputGrouds
 		},
 		onLoad(){
-			this.inputsArray[0].defaultValue = '15959131219'
-			this.inputsArray[1].defaultValue = '888888'
+			// this.inputsArray[0].defaultValue = '15959131219'
+			// this.inputsArray[1].defaultValue = '888888'
 			
 		},
 		methods: {

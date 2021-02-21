@@ -20,7 +20,7 @@ export default {
 		},
 		backgroundColor: {
 			type: String,
-			default: 'rgba(0, 0, 0, 0.7)'
+			default: 'rgba(235,9,9,1)'
 		},
 		color: {
 			type: String,

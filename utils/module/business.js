@@ -487,7 +487,15 @@ const Set = {
 			// handle:true
 		}, ifLoad)
 	},
-	
+	// 获取卡包、优惠券列表
+	GetReceiveCouponlist: (data, ifLoad = false) => {
+		return http.request({
+			url: '/api/Shop/CouponReceive/GetReceiveCouponlist', 
+			method: 'post',
+			data,
+			// handle:true
+		}, ifLoad)
+	},
 	
 	
 	

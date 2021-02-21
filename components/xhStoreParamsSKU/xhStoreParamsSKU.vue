@@ -4,26 +4,27 @@
 	<view class="mask-screen " @touchmove.stop.prevent="_none" @click="hideModal" :class="showModalStatus?'showScreen':'hideScreen'">
 
 		<view class="region-box animated  " :class="showModalStatus?'slideInUp':'slideOutDown'" 
-		 @tap.stop="_none">
+		 @tap.stop="_none" >
 			<view class="flex flex_center " style="padding-bottom: 20rpx;">
-				<image :src="nowPreImg" mode="" class="pre"></image>
+				<image :src="nowPreImg" mode="widthFix" class="pre"></image>
 				<view class="f1">
 					<view class="cm_title">{{ title }}</view>
-					<view class="flex flex_center" style="justify-content: flex-start;height: 40rpx">
+					<view class="flex flex_center flex_wrap" style="justify-content: flex-start;height: 40rpx">
 						<block v-for="(its, inds) in selectArr" :key="inds+'s'">
 							<text class=" stags">{{ its }}</text>
 						</block>
-
 					</view>
-					<view class="flex flex_center" style="justify-content: flex-start;height: 40rpx;margin-bottom: 10rpx;">
+					<view class="flex flex_center flex_wrap" style="justify-content: flex-start;height: 40rpx;margin-bottom: 10rpx;">
 						<block v-for="(its, inds) in selectPropertice" :key="inds+'p'">
-							<text class=" stags" style="color: #E56D00;">{{ its.label }}</text>
+							<text class=" stags" style="color: #E56D00;">{{ its.service_name }}</text>
 						</block>
 					</view>
 
 					<view class="flex flex_center" style="justify-content: flex-start;">
 						<!-- <view class="cm_price f1" style="color: #E93F37;" v-if="selectshop.is_activity==1">折扣价￥{{ sum }}</view>	 -->
-						<view class="cm_price f1" style="color: #E93F37;font-size: 32rpx;">￥{{sum }}</view>
+						<view class="cm_price " style="color: #E93F37;font-size: 32rpx;">￥{{sum }}</view>
+						<tui-tag type="danger" padding="10rpx 20rpx" shape="circle" v-show="mostCoupon" size="24rpx">券后价{{`${mostCoupon}`}}</tui-tag>
+						<view class="f1"></view>
 						<text class="cm_des cm_t_20" v-show="selectshop">库存:{{nowStock}}</text>
 					</view>
 				</view>
@@ -50,11 +51,14 @@
 				<view class="lines"></view>
 				<view v-if="perParams.length">
 					<block v-for="(it, idx) in perParams" :key="idx">
-						<view class="cm_title cm_t_24" style="margin-top:20rpx ;">{{it.title}}<text> {{it.multiple?'（多选）':'（单选）'}}</text></view>
+						<view class="cm_title cm_t_24" style="margin-top:20rpx ;">
+						<text style="color: red;" v-show="it.required">*</text>{{it.service_type_name}}<text> {{it.multiple?'（多选）':''}}</text></view>
 						<view class=" flex flex_center" style="justify-content: flex-start;flex-wrap: wrap;">
-							<block v-for="(item, ind) in it.children" :key="ind">
-								<button size="mini" :plain="item.checked? true:false  " :type="item.checked ? 'warn': 'default'" class="argus "
-								 @tap.stop.prevent="serve(idx,ind,item.value)">{{ item.label  }}(￥{{item.per_price}})
+							<block v-for="(item, ind) in it.list" :key="ind">
+								<button size="mini" :plain="item.is_checked? true:false  "  :type="item.is_checked ? 'warn': 'default'" class="argus "
+								 @tap.stop.prevent="serve(idx,ind,item.service_code)">
+								
+								 {{ item.service_name  }}(￥{{item.service_price}})
 								</button>
 							</block>
 						</view>
@@ -71,13 +75,14 @@
 			</scroll-view>
 			<view class="footer savebottom">
 				<view class="btnBox flex flex_center">
-					<button class="btns" @tap.stop.prevent="_addCard">加入购物车</button>
-					<view class="btns hot flex flex_y flex_center" v-if="ifActive" @tap.stop.prevent="_creatOrder">
+					<button class="btns" v-show="action=='card'" @tap.stop.prevent="_addCard">加入购物车</button>
+					<view class="btns hot flex flex_y flex_center" v-if="action=='buy'&&  ifActive" @tap.stop.prevent="_creatOrder">
 						<view class="">马上抢</view>
 					</view>
-					<button class="btns" @tap.stop.prevent="_creatOrder" v-else :style="{ background: '#50AB9F' }">立即购买</button>
+					<button class="btns" @tap.stop.prevent="_creatOrder" v-if="action=='buy'&&  !ifActive" :style="{ background: '#50AB9F' }">立即购买</button>
 				</view>
 			</view>
+			<view :style="{'height':bottom?`${bottom}rpx`:'0rpx'}"></view>
 		</view>
 	</view>
 </template>
@@ -89,7 +94,7 @@
 			return {
 				lock: false,
 				paramsList: [], //
-
+				
 				num: 1,
 				issafariBrowser: false,
 				nowprice: 0,
@@ -102,8 +107,8 @@
 				selectshop: {}, //存放最后选中的商品
 				selectNum: 1, //选中数量
 				specifications: [],
-				perParams: [], //表单参数
-				properties: [
+				perParams: [], //存放所有售后服务项
+				// properties: [
 					// {
 					// 	title:'保修',
 					// 	key:'bx',
@@ -146,27 +151,29 @@
 					// 		}
 					// 	]
 					// }
-				]
+				// ]
 			};
 		},
 		components: {
 			Numberbox
 		},
 		computed: {
+			// 总额计算
 			sum() {
 				let ps = 0
-				this.selectPropertice.map(item => {
-					ps += item.per_price
-				})
+				// this.selectPropertice.map(item => {
+				// 	ps += item.service_price
+				// })
 				// console.log(ps)
 				return (this.selectNum * this.nowprice + ps).toFixed(2);
 			},
+			// 选中的售后服务
 			selectPropertice() {
 				let res = []
 				this.perParams.map(it => {
-					if (it.children.length) {
-						it.children.map(item => {
-							if (item.checked) {
+					if (it.list.length) {
+						it.list.map(item => {
+							if (item.is_checked) {
 								res.push(item)
 							}
 						})
@@ -174,12 +181,60 @@
 				})
 				return res
 			},
+			// 最优商品券的判断
+			mostCoupon(){
+				let spList = {}
+				if(!this.couponList.length){
+					return 0
+				}
+				let  hasSP = this.couponList.some(item=>{
+					if(item.use_area==1){
+						spList[item.order_amount] = item
+					}
+					return item.use_area==1?true:false
+				})
+				if(hasSP){
+					// 有商品券
+					let arr= {}
+					let sum = this.selectNum * this.nowprice
+					this.couponList.map(it=>{
+						if(it.use_area==1 && sum>=Number(it.order_amount) ){
+							arr[it.price] = it
+						}						
+					}) 
+					console.log(77,arr)
+					if(Object.keys(arr).length){
+						let k = Math.max(...Object.keys(arr))
+						// console.log(777,k)
+						return sum?sum - arr[k].price:0
+					}else{
+						return ''
+					}		
+				}else{
+					return '' //没有优惠价
+				}
+			}
 		},
 
 		props: {
+			couponList:{
+				//参数选项
+				Type: Array,
+				default: function() {
+					return [];
+				}
+			},
+			bottom:{
+				Type: Number,
+				default: 0
+			},
 			platform: {
 				Type: String,
 				default: "android"
+			},
+			action: {
+				Type: String,
+				default: "buy"
 			},
 			// 是或活动价
 			ifActive: {
@@ -210,21 +265,7 @@
 				Type: Number,
 				default: 100
 			},
-			service1: {
-				//参数选项
-				Type: Array,
-				default: function() {
-					return [];
-				}
-			},
-			service2: {
-				//参数选项
-				Type: Array,
-				default: function() {
-					return [];
-				}
-			},
-			service3: {
+			propertyList: {
 				//参数选项
 				Type: Array,
 				default: function() {
@@ -294,34 +335,38 @@
 			this.nowStock = this.defaultstock
 			this.nowPreImg = this.preImg
 
-			this.properties.forEach(it => {
-				// this.$set(this.perParams,item.key ,'')
-				if (it.children) {
-					it.children.forEach(item => {
-						if (it.default == item.value) {
-							item.checked = true
-						} else {
-							item.checked = false
-						}
-					})
-				}
-				this.perParams.push(it)
-			})
-			console.log(this.perParams)
 		},
 		watch: {
-			properties(val) {
-				val.forEach(item => {
-					// this.perParams[item.key] = ''
-					this.$set(this.perParams, item.key, '')
+			propertyList(n, o) {
+				if(!n.length)return;
+				this.perParams=[]
+				n.forEach(it => {
+					// let ret = {}
+					let arr = []
+					if (it.list.length) {
+						
+						it.list.forEach(item => {
+							
+							item.is_checked = true
+							if(item.checked){
+								item.is_checked = false
+								arr.push(item)
+							}else{
+								
+							}
+						})
+					}
+					it.list = [...arr]
+					this.perParams.push(it)
 				})
 				console.log(this.perParams)
 			},
 
 			parameter(n, o) {
+		
 				if (!n.length) return;
 				this.specifications = []
-				this.parameter.map(item => {
+				n.map(item => {
 					if (item.checked) {
 						this.selectArr.push('');
 						this.subIndex.push(-1);
@@ -335,6 +380,7 @@
 				// 	this.selectshop = this.difference[0]
 				// }
 			},
+			
 			preImg(n, o) {
 				// console.log(n)
 				this.nowPreImg = n;
@@ -358,19 +404,19 @@
 					multiple,
 					required
 				} = this.perParams[index1];
-				let check = this.perParams[index1].children[index2].checked
+				let check = this.perParams[index1].list[index2].is_checked
 				if (multiple) {
 					// 多选		
-					this.perParams[index1].children[index2].checked = !check
-					this.$set(this.perParams[index1].children, index2, this.perParams[index1].children[index2]);
+					this.perParams[index1].list[index2].is_checked = !check
+					this.$set(this.perParams[index1].list, index2, this.perParams[index1].list[index2]);
 				} else {
-					this.perParams[index1].children.map(item => {
-						item.checked = false
+					this.perParams[index1].list.map(item => {
+						item.is_checked = false
 					})
 					// // 单选
 					if (!check) {
 						// 选中
-						this.perParams[index1].children[index2].checked = true
+						this.perParams[index1].list[index2].is_checked = true
 					}
 					this.perParams[index1] = { ...this.perParams[index1]
 					}
@@ -480,61 +526,67 @@
 				uni.showToast({
 					title: '创建订单'
 				});
-				if (this.singlePro) {
-					this.selectshop.selectNum = this.selectNum
-					this.selectshop.goods_service_code = this.formParams
-					this.$emit('creatOrder', this.selectshop);
-					this.hide();
-
-				} else {
-
-					if (this.selectArr.length && this.selectArr.every(item => item != '')) {
-
-						this.selectshop.selectNum = this.selectNum
-						this.selectshop.skus_img = this.nowPreImg
-						this.selectshop.goods_service_code = this.formParams
-						console.log('购买回调数据', this.selectshop);
-						this.$emit('creatOrder', this.selectshop);
-						this.hide();
-					} else {
+				if (this.selectArr.length && this.selectArr.every(item => item != '')) {
+					
+					// 判断服务想是否选中
+					let bool = true
+					this.perParams.forEach(it=>{
+						if(it.required){
+							let res = it.list.some(item=>{
+								return item.is_checked?true:false
+							})
+							if(!res)bool=false
+						}
+					})
+					if(!bool){
 						uni.showToast({
 							icon: 'none',
-							title: '请选择商品规格'
+							title: '请选择星号服务项'
 						});
+						return 
 					}
+					// let arr = []
+					// this.selectPropertice.map(item=>{
+					// 	arr.push(item.service_code) 
+					// })
+					
+					this.selectshop.selectNum = this.selectNum
+					this.selectshop.skus_img = this.nowPreImg
+					// this.selectshop.goods_service_code = this.formParams
+					this.selectshop.goods_service = this.selectPropertice
+					// console.log('购买回调数据', this.selectshop);
+					// return
+					this.$emit('creatOrder', this.selectshop);
+					this.hide();
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择商品规格'
+					});
 				}
 
 			},
 			// 购物车
 			_addCard() {
-				// uni.showToast({
-				// 	title: '添加购物车'
-				// });
-				// console.log(this.selectArr)
-				// alert(this.singlePro)
-				if (this.singlePro) {
+				if (this.selectArr.every(item => item != '')) {
+					// console.log('添加购物车回调数据',  this.selectshop);
 					this.selectshop.selectNum = this.selectNum
-					this.selectshop.goods_service_code = this.formParams
+					// let a = []
+					// if(this.formParams.serve1){a.push(this.formParams.serve1.service_code)}
+					// if(this.formParams.serve2){a.push(this.formParams.serve2.service_code)}
+					// if(this.formParams.serve3){a.push(this.formParams.serve3.service_code)}
+					let arr = []
+					this.selectPropertice.map(item=>{
+						arr.push(item.service_code) 
+					})
+					this.selectshop.goods_service = arr.join(',')
 					this.$emit('addCard', this.selectshop);
 					this.hide();
 				} else {
-					if (this.selectArr.every(item => item != '')) {
-						// console.log('添加购物车回调数据',  this.selectshop);
-						this.selectshop.selectNum = this.selectNum
-						// let a = []
-						// if(this.formParams.serve1){a.push(this.formParams.serve1.service_code)}
-						// if(this.formParams.serve2){a.push(this.formParams.serve2.service_code)}
-						// if(this.formParams.serve3){a.push(this.formParams.serve3.service_code)}
-
-						this.selectshop.goods_service_code = this.formParams
-						this.$emit('addCard', this.selectshop);
-						this.hide();
-					} else {
-						uni.showToast({
-							icon: 'none',
-							title: '请选择商品规格'
-						});
-					}
+					uni.showToast({
+						icon: 'none',
+						title: '请选择商品规格'
+					});
 				}
 
 			},
@@ -613,7 +665,7 @@
 
 			.argueBox {
 				width: 100%;
-				max-height: 60vh;
+				max-height: 40vh;
 				overflow-y: auto;
 
 				.cells {
@@ -693,12 +745,12 @@
 					margin-top: 10rpx;
 
 					.btns {
-						width: 50%;
+						flex:1;
 						height: 80rpx;
 						line-height: 80rpx;
 						background: #DDB152;
 						color: #fff;
-						border-radius: 0 !important;
+						border-radius: 40rpx !important;
 					}
 				}
 

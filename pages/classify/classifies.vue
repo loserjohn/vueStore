@@ -21,11 +21,16 @@
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:' + height + 'px'" scroll-with-animation>
+				
 				<view v-for="(item, index) in classifyData" :key="index" class="boxs">
-					<view class="cm_title" style="font-size: 36rpx;line-height: 2;">{{ item.label }}</view>
-					<view class="item-box flex flex_center">
+					<view class="flex flex_center"  @click="_href('/pages/classify/products/products?type=' + index)">
+						<view class="cm_title" style="font-size: 36rpx;line-height: 2;">{{ item.label }}</view>
+						<view class="f1"></view>
+						<tui-icon name="arrowright" :size="20" color="#333"  > </tui-icon>
+					</view>
+					
+					<view class="item-box flex flex_center" v-if="item.is_child==1">
 						<view :id="i == 0 ? 'first' : ''" class="nav-right-item" v-for="(it, i) in item.children" :key="i" @click="cart(item.value, item.label)">
-							<!-- <image :src="item.class_logo" /> -->
 							<image
 								:src="it.img"
 								mode="aspectFit"
@@ -33,8 +38,20 @@
 							<view class="nav-right-item-text">{{ it.label }}</view>
 						</view>
 					</view>
+					<view class="item-box flex flex_center" v-else>
+						<navigator :url="'/pages/main/details/details?code=' + it.goods_code"  :id="i == 0 ? 'first' : ''" class="nav-right-item2 pro" v-for="(it, i) in item.children" :key="i"   >
+						<!-- <view  > -->
+							<image
+								:src="it.goods_main_img"
+								mode="aspectFit"
+							/>
+							<view class="nav-right-item-text2  cm_ellipsis2">{{ it.goods_title }}</view>
+							<view class="price"  >￥{{ it.goods_price }}</view>
+						<!-- </view> -->
+						</navigator>
+					</view>
 				</view>
-			</scroll-view>
+			</scroll-view> 
 		</view>
 	</view>
 	
@@ -278,6 +295,30 @@ export default {
 	height: 150rpx;
 }
 
+.nav-right-item2 {
+	width: 50%;
+	height: 340rpx;
+	float: left;
+	text-align: center;
+	padding: 11rpx;
+	font-size: 28rpx;
+	background: #fff;
+}
+.nav-right-item-text2 {
+	font-size: 20rpx;
+	margin-top: 4rpx;
+	color: #666;
+}
+.nav-right-item2 image {
+	width: 220rpx;
+	height: 220rpx;
+	border-radius: 10rpx;
+}
+.price{
+	text-align: right;
+	font-size: 32rpx;
+	color: #dd3a30;
+}
 .active {
 	// color: var(--cl_primary);
 	

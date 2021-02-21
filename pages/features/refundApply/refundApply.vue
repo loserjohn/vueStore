@@ -7,20 +7,11 @@
 				<image v-if="item.skus_img  " :src="item.skus_img  " mode="aspectFill" class="avatar "></image>
 				<view class="f1 " >
 					<view class=" cm_title   name cm_ellipsis2 tui-skeleton-fillet">{{item.goods_title }}</view>
-					<view class="cm_des flex flex_center" style="justify-content: flex-start;">
-						<!-- <tui-tag shape="circle" size="mini" type="gray" class=" stags">{{ item.skus_name  }}</tui-tag> -->
-						<text>{{ item.skus_name  }}</text>
+					<view class="cm_ellipsis2 cm_des "  >
+						{{ item.skus_name }}
 					</view>
-					<view style="margin-top: 4rpx;" v-if="type!=3">
-						<view class="cm_des flex flex_center" v-if="item.order_project_service1">
-							<view class="f1" style="color: #E56D00;">{{ item.order_project_service1 }}</view>
-						</view>
-						<view class="cm_des flex flex_center" v-if="item.order_project_service2">
-							<view class="f1" style="color: #E56D00;">{{ item.order_project_service2 }}</view>
-						</view>
-						<view class="cm_des flex flex_center" v-if="item.order_project_service3">
-							<view class="f1" style="color: #E56D00;">{{ item.order_project_service3 }}</view>
-						</view>
+					<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="item.goods_service">
+						 {{item.goods_service}}
 					</view>
 					<!-- <view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;"  v-if="type==3">
 						<text class=" cm_t_32">退款金额：{{ item.apply_price }}</text>

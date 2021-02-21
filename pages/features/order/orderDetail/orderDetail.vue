@@ -32,27 +32,14 @@
 				<block v-for="(it, ind) in item.order_child_list" :key="ind">
 					<view class="picBox">
 						<view class=" flex  flex_center " style="align-items: flex-start;" @click="_hrefPro(it.goods_code)">
-							<!-- <view class="picBox flex  flex_center" >						 -->
 							<image :src="it.skus_img" mode="aspectFill" class="avatar" lazy-load="true"></image>
-							<view class="f1">
-								<view class=" cm_title   name cm_ellipsis2 tui-skeleton-fillet">{{ it.goods_title }}</view>
-								<view class="cm_des flex flex_center" style="justify-content: flex-start;">
-									<!-- <tui-tag shape="circle" size="mini" type="gray" class=" stags">{{ it.skus_name }}</tui-tag> -->
-									<text>{{ it.skus_name }}</text>
+							<view class="f1" >
+								<view class=" cm_title   cm_ellipsis2 tui-skeleton-fillet">{{ it.goods_title }}</view>
+								<view class="cm_ellipsis2 cm_des " style="justify-content: flex-start;">
+									{{ it.skus_name }}
 								</view>
-								<view style="margin-top: 4rpx;">
-									<view class="cm_des flex flex_center" v-if="it.order_project_service1">
-										<view class="f1 cm_t_20" style="color: #E56D00;">{{it.order_project_service1}}</view>
-
-									</view>
-									<view class="cm_des flex flex_center" v-if="it.order_project_service2">
-										<view class="f1 cm_t_20" style="color: #E56D00;">{{it.order_project_service2}}</view>
-
-									</view>
-									<view class="cm_des flex flex_center" v-if="it.order_project_service3">
-										<view class="f1 cm_t_20" style="color: #E56D00;">{{it.order_project_service3}}</view>
-
-									</view>
+								<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="it.goods_service">
+									 {{it.goods_service}}
 								</view>
 								<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
 									<text class="cm_prize cm_t_32">￥{{ it.alone_price }}</text>
@@ -94,13 +81,18 @@
 						<view class="tui-right">￥{{ item.ems_price?item.ems_price:0 }}</view>
 					</tui-list-cell>
 					<tui-list-cell :arrow="false">
-						<view class="tui-list-cell-name f1">服务费用</view>
-						<view class="tui-right">￥{{ item.service_total_price?item.service_total_price:0}}</view>
+						<view class="tui-list-cell-name f1">优惠金额</view>
+						<view class="tui-right">-￥{{ item.sum_coupon_price?item.sum_coupon_price:0 }}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false">
+						<view class="tui-list-cell-name f1">售后服务</view>
+						<view class="tui-right">￥{{ item.sum_service_price?item.sum_service_price:0}}</view>
 					</tui-list-cell>
 					<tui-list-cell class=" tui-skeleton-fillet flex flex_center cm_bdb">
 						<view class="f1"></view>
-						<view class="cm_des">共 {{ item.goods_num }} 件商品</view>
-						<text class=" cm_t_32" style="margin-left: 24rpx;">合计：￥{{ item.pay_price }}</text>
+						<view class="cm_des">共 {{ item.goods_num }} 件商品 , </view>
+						<text>实付：</text>
+						<text class=" cm_t_32 cm_prize"  >￥{{ item.pay_price }}</text>
 					</tui-list-cell>
 				</tui-list-view>
 			</view>

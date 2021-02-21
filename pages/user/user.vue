@@ -3,16 +3,15 @@
 		<!-- 头部 -->
 		<view class="pageTop">
 			<view class="header flex flex_center">
-				<cu-custom :isBack="false">
+				<cu-custom :isBack="true">
 					<block slot="backText">
 						<view class="btns flex flex_center"></view>
 					</block>
 					<block slot="content">
-						<view class="cm_title f1">我的</view>
+						<view class="cm_title">我的</view>
 					</block>
-					<block slot="right">
-						<!-- <view class="btns flex flex_center" @tap="_href('set')"><text class="iconfont icon-shezhi "></text></view> -->
-					</block>
+					<!-- <block slot="right"> <view class="btns flex flex_center" @tap="_href('set')"><text class="iconfont icon-shezhi "></text></view> 
+					</block> -->
 				</cu-custom>
 			</view>
 			<view class="flex top flex_center" @tap="_auth_href('/pages/user/person/person')" v-if="hasLogin">

@@ -77,7 +77,7 @@
 					"mobile": "", //手机号
 					"password": "", //密码
 					"registe_type": "1", //注册类型 0-账号密码 1-手机号/微信注册 
-					"user_type": "2", //用户类型
+					"user_type": "3", //用户类型
 					"invitation": "", //推荐码
 					"vilidate": "", //手机验证码
 					"openId": "", //openid
@@ -94,20 +94,16 @@
 					data.mobile = re.data.mobile
 					data.vilidate = re.data.vilidate
 					data.openId = opId
-					data.vilidate = re.data.vilidate
-					data.openId = opId
+					
 					// debugger
 					try{
 						that.loading = true
 						let res = await this.$api.userRegiste(data,true)
 						that.loading = false
 						if(res.result==1){
-							console.log(res)
-							that.$ui.toast('绑定成功')
-							
-							that.wxlogin( openid)
-							
-							
+							// console.log(res)
+							that.$ui.toast('绑定成功')						
+							that.wxlogin( opId)					
 						}else{
 							that.$ui.toast(res.msg)
 							that.loading = false
@@ -128,15 +124,15 @@
 					let res = await this.$api.WxTokenLogin({openId:openid},false)
 					// this.$ui.hideloading()
 					that.loading = false
-					console.log(res)
+					// console.log(res)
 					if(res.result==1){
 						that.$ui.toast('登陆成功')
-						if(res.data.hp)uni.setStorageSync(SET.tokenName,res.data.hp);
-	
+						if(res.data)uni.setStorageSync(SET.tokenName,res.data);
 						that.$store.commit('login')
+						that.$store.dispatch('refreshUser')
 						setTimeout(()=>{
-							uni.navigateBack({})
-						},1000)						
+							uni.navigateBack()
+						},1000)					
 					}else{
 						that.$ui.toast(res.msg)
 						that.loading = false

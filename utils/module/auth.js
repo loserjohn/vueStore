@@ -86,7 +86,7 @@ const Auth = {
 	// 忘记密码
 	findPassword: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Crm/RzMyManage/SetLoginPwd',
+			url: '/api/Shop/ShopMyManage/SetLoginPwd',
 			method: 'POST',
 			data,
 			// handle:true
@@ -95,7 +95,7 @@ const Auth = {
 	// 获取用户信息
 	getConsumer: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Crm/RzMyManage/GetInfo',
+			url: '/api/Shop/ShopMyManage/GetInfo',
 			method: 'GET',
 			data,
 			// handle:true
@@ -114,7 +114,7 @@ const Auth = {
 	// 设置支付密码
 	SettingPayPassword: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Consumer/SettingPayPassword',
+			url: '/api/Shop/ShopMyManage/SetPayPwd',
 			method: 'POST',
 			data,
 			// handle:true
@@ -139,6 +139,27 @@ const Auth = {
 			// handle:true
 		}, ifLoad)
 	},
+	// 更换手机号
+	ReplaceMobile: (data, ifLoad = false) => {
+		return http.request({
+			url: '/api/Shop/ShopMyManage/ReplaceMobile',
+			method: 'POST',
+			data,
+			// handle:true
+		}, ifLoad)
+	},
+	// 修改登录密码
+	SetLoginPwd: (data, ifLoad = false) => {
+		return http.request({
+			url: '/api/Shop/ShopMyManage/SetLoginPwd',
+			method: 'POST',
+			data,
+			// handle:true
+		}, ifLoad)
+	},
+	
+	
+
 	
 	
 // 	=============商家部分\\\

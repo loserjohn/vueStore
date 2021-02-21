@@ -21,9 +21,15 @@
 				<tui-button type="primary" shape="circle" :loading="loading" @tap="_sureUpdated">保存修改</tui-button>
 			</view> -->
 		<tui-list-view unlined="all" class="tui-list-view">
-			<tui-list-cell @click="_href(1)" :arrow="true" :last="false">
+			<tui-list-cell @click="_href('/pages/user/person/person')" :arrow="true" :last="false">
 				个人信息设置
 			</tui-list-cell>
+			<tui-list-cell :arrow="true" :last="false" @click="_href('/pages/role/replacePhone/replacePhone','redirect')">
+				修改手机号
+			</tui-list-cell>	
+			<tui-list-cell :arrow="true" :last="true" @click="_href('/pages/role/updatedPass/updatedPass','redirect')">
+				修改登录密码
+			</tui-list-cell>	
 			<!-- <tui-list-cell @click="_href(2)" :arrow="true" :last="false">
 				支付密码
 			</tui-list-cell> -->
@@ -70,22 +76,22 @@
 			this.version = this.Version
 		},
 		methods: {
-			_href(val) {
-				let url = ''
-				switch (val) {
-					case 1:
-						url = '/pages/user/person/person'
-						break;
-					case 2:
-						url = '/pages/user/setPayPass/setPayPass'
-						break;
-					default:
-						break;
-				}
-				uni.navigateTo({
-					url: url
-				})
-			},
+			// _href(val) {
+			// 	let url = ''
+			// 	switch (val) {
+			// 		case 1:
+			// 			url = '/pages/user/person/person'
+			// 			break;
+			// 		case 2:
+			// 			url = '/pages/user/setPayPass/setPayPass'
+			// 			break;
+			// 		default:
+			// 			break;
+			// 	}
+			// 	uni.navigateTo({
+			// 		url: url
+			// 	})
+			// },
 			_loginOut() {
 				// let that = this;
 				// uni.showModal({

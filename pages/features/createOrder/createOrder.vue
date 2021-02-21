@@ -3,7 +3,25 @@
 		<!-- <view> -->
 		<!-- <tui-skeleton v-if="skeletonShow" backgroundColor="#f9f9f9" skeletonBgColor="#efefef" borderRadius="0rpx"></tui-skeleton> -->
 		<view class="">
-			<view class="addressBox flex flex_center tui-skeleton-rect">
+			<view class="proItemsBox addressBox ">
+				<view class="flex flex_center buyer tui-skeleton-fillet" v-if="currentAddress" @click="_switchAddress">
+					<image src="../../../static/img/ic_dz.png" mode="widthFix" class="icon"></image>
+					<view class="f1 addreass tui-skeleton-rect">
+						<view class="cm_title ">{{currentAddress.detailed_address}}</view>
+						<view class="flex flex_center">
+							<text class="cm_text ">{{currentAddress.receiving_user}}</text>
+							<text class="cm_text ">{{currentAddress.receiving_mobile}}</text>
+							<view class="f1"></view>
+						</view>
+					</view>
+					<tui-icon name="arrowright" :size="16"></tui-icon>
+				</view>
+				<view class="flex flex_center buyer tui-skeleton-fillet" v-else>
+					<navigator url="/pages/features/newAdress/newAdress?type=switch"  class="f1 noItems">尚未添加地址,立即添加</navigator>
+					<tui-icon name="arrowright" :size="16"></tui-icon>
+				</view>
+			</view>
+			<!-- <view class="addressBox flex flex_center tui-skeleton-rect">
 				<view class="f1 " v-if="currentAddress" @tap="_switchAddress">
 					<view class=" top flex flex_center">
 						<view class="cm_title f1 tui-skeleton-fillet">{{ currentAddress.receiving_user }}</view>
@@ -13,54 +31,36 @@
 				</view>
 				<navigator url="/pages/features/newAdress/newAdress?type=switch" v-else class="f1 noItems">尚未添加地址,立即添加</navigator>
 				<tui-icon name="arrowright" :size="16"></tui-icon>
-			</view>
+			</view> -->
 			<view style="margin-top: 16rpx;border-radius: 12rpx;overflow: hidden;">
 
 				<block v-for="(it, idx) in payOrders" :key="idx">
 					<view class="proItemsBoxgray  tui-skeleton-fillet">
 						<view class="flex flex_center itemBoxTop">
-							<image :src="it.shop_logo" mode="" class="shopIcon"></image>
+							<image :src="it.shop_logo" mode="aspectFill" class="shopIcon"></image>
 							<view class="cm_title f1">{{it.shop_name}}</view>
-							<!-- <tui-icon name="arrowright" :size="16"></tui-icon> -->
 						</view>
 						<block v-for="(item, index) in it.list" :key="index">
-							<view style="padding: 0 20rpx 20rpx  20rpx ;">
-								<view class="picBox flex  flex_center tui-skeleton-fillet">
-									<image v-if="item.goods_main_img" :src="item.goods_main_img" mode="aspectFill" class="avatar "></image>
-									<view class="f1 ">
-										<view class=" cm_title   name cm_ellipsis2 tui-skeleton-fillet">{{ item.goods_title }}</view>
-										<view class="cm_des flex flex_center" style="justify-content: flex-start;">
-											<!-- <tui-tag shape="circle" size="mini" type="gray" class=" stags cm_t_20">{{ item.goods_spec.difference }}</tui-tag> -->
-											<text class=" stags cm_t_20" v-if="item.goods_spec">{{ item.goods_spec.skus_difference | differenceText }}</text>
+							<view class="picBox flex  flex_center tui-skeleton-fillet">
+								<image v-if="item.goods_main_img" :src="item.goods_main_img" mode="aspectFill" class="avatar "></image>
+								<view class="f1 ">
+									<view class=" cm_title  cm_ellipsis2 tui-skeleton-fillet">{{ item.goods_title }}</view>
+									<view class="cm_des cm_ellipsis2 "  >
+										{{ item.goods_spec.skus_difference | differenceText }}
+									</view>
+									<view class="cm_des cm_ellipsis2 serviceText"   v-if="create_order_type==1&& couponList[item.cart_code]&& couponList[item.cart_code].goods_service_txt ">
+										{{ couponList[item.cart_code].goods_service_txt}}
+									</view>
+									<view class="cm_des cm_ellipsis2"   v-if="create_order_type==0 && activeCoupon.goods_service_txt ">
+										{{ activeCoupon.goods_service_txt}}
+									</view>
+									<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
+										<text class="cm_des cm_t_32" style="margin-right: 20rpx;" v-if="item.goods_spec">￥{{ item.goods_spec.skus_price}}</text>
+										<view class="f1"></view>
+										<view class="cm_des flex-y flex_center">
+											<tui-icon name="shut" :size="14" color="#999"></tui-icon>
+											<text>{{ item.goods_num }}</text>
 										</view>
-										<!-- <view style="margin-top: 4rpx;">
-											<view class="cm_des flex flex_center" v-if="item.goods_service1">
-												<view class="f1 cm_t_20" style="color: #E56D00;">{{item.goods_service1.service_name}} ￥{{item.goods_service1.service_price}}</view>
-											</view>
-											<view class="cm_des flex flex_center" v-if="item.goods_service2">
-												<view class="f1 cm_t_20" style="color: #E56D00;">{{item.goods_service2.service_name}} ￥{{item.goods_service2.service_price}}</view>
-											</view>
-											<view class="cm_des flex flex_center" v-if="item.goods_service3">
-												<view class="f1 cm_t_20" style="color: #E56D00;">{{item.goods_service3.service_name}} ￥{{item.goods_service3.service_price}}</view>
-											</view>
-										</view> -->
-
-										<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
-											<text class="cm_des cm_t_32" style="margin-right: 20rpx;" v-if="item.goods_spec">￥{{ item.goods_spec.skus_price}}</text>
-
-											<view class="f1"></view>
-											<view class="cm_des flex-y flex_center">
-												<tui-icon name="shut" :size="14" color="#999"></tui-icon>
-												<text>{{ item.goods_num }}</text>
-											</view>
-										</view>
-										<!-- <view class="flex  flex_center" style="margin-top: 10rpx;">
-											<view class="cm_prize" style="margin-right: 20rpx;">
-												￥{{ item.origin_price}}
-											</view>
-											<tui-tag type="danger" padding=" 8rpx 16rpx " shape="circle" v-if="  couponList[item.cart_code]&& couponList[item.cart_code].coupon_code ">{{`优惠价 ￥${ couponList[item.cart_code].price}` }}</tui-tag>
-											<view class="f1"></view>
-										</view> -->
 									</view>
 								</view>
 							</view>
@@ -70,30 +70,38 @@
 			</view>
 			<view>
 				<tui-list-view unlined="all" class="tui-list-view tui-skeleton-fillet lists">
+
+					<tui-list-cell :arrow="false">
+						<view class="tui-list-cell-name ">配送费用</view>
+						<view class="cm_des f1 " style="padding-left: 10rpx;"> 普通配送</view>
+						<view class="tui-right">{{ currentAddress?'￥'+allEms:'请先选择收货地址' }}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false">
+						<view class="tui-list-cell-name f1">配送时间</view>
+						<view class="tui-right"> 付款后48小时内发货 </view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false">
+						<view class="tui-list-cell-name f1">售后服务</view>
+						<view class="tui-right">￥{{ servePay}}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false" v-if="activeCoupon && activeCoupon.coupon_code ">
+						<view class="tui-list-cell-name ">优惠金额</view>
+						<view class="cm_des f1 " style="padding-left: 10rpx;"> {{`${ activeCoupon.coupon_name }`}}</view>
+						<view class="tui-right" style="color: red;">-{{`￥${ activeCoupon.sale_price }`}}</view>
+						<!-- <text v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text> -->
+					</tui-list-cell>
+
+					<tui-list-cell :arrow="false" v-if="!activeCoupon && currentCoupon.sum_sale_price ">
+						<view class="tui-list-cell-name ">优惠金额</view>
+						<view class="cm_des f1 " style="padding-left: 10rpx;"> {{`${ currentCoupon.coupon_name }`}}</view>
+						<view class="tui-right" style="color: red;">-{{`￥${ currentCoupon.sum_sale_price }`}}</view>
+						<!-- <text v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text> -->
+					</tui-list-cell>
 					<tui-list-cell :arrow="false">
 						<view class="tui-list-cell-name f1">商品金额</view>
 						<view class="tui-right">￥{{ allPrize }}</view>
 					</tui-list-cell>
 					<tui-list-cell :arrow="false">
-						<view class="tui-list-cell-name f1">运费</view>
-						<view class="tui-right">{{ currentAddress?'￥'+allEms:'请先选择收货地址' }}</view>
-					</tui-list-cell>
-					<tui-list-cell :arrow="false">
-						<view class="tui-list-cell-name f1">服务费用</view>
-						<view class="tui-right">￥{{ servePay}}</view>
-					</tui-list-cell>
-					<tui-list-cell :arrow="false" v-if="activeCoupon && activeCoupon.coupon_code ">
-						<view class="tui-list-cell-name f1">优惠</view>
-						<view class="tui-right" style="color: red;">{{`${ activeCoupon.coupon_name }`}}</view>
-						<!-- <text v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text> -->
-					</tui-list-cell>
-					<tui-list-cell :arrow="false" v-if="!activeCoupon && currentCoupon.sum_sale_price ">
-						<view class="tui-list-cell-name f1">优惠</view>
-						<view class="tui-right" style="color: red;">-{{`￥${ currentCoupon.sum_sale_price }`}}</view>
-						<!-- <text v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text> -->
-					</tui-list-cell>
-
-					<tui-list-cell :arrow="false" :last="true">
 						<view class="tui-list-cell-name f1">支付金额</view>
 						<view class="tui-right cm_prize">￥{{ allAccount }}</view>
 					</tui-list-cell>
@@ -112,12 +120,13 @@
 			
 				<view class="footer savebottom  ">
 					<view class="flex flex_center " style="padding: 0 30rpx;height: 100rpx;">
-			
+						<view class="f1"></view>
 						<view class=" flex flex_center">
+							<text class="cm_des">共{{allNum}}件，</text>
 							<view class=""><text>合计:</text></view>
 							<text class="cm_prize">￥{{ allAccount }}</text>
 						</view>
-						<view class="f1"></view>
+						
 						<button class="submit" @tap="submit">提交订单</button>
 					</view>
 				</view>
@@ -172,14 +181,12 @@ export default {
 	},
 	onLoad(options) {
 		let that = this; 
-		// this.create_order_type = options.type;
+		
 		this.create_order_type = options.type;
 		this.payOrders =  this._filterOrder(this.currentOrder)
-		
-		
-		
-		console.log(this.payOrders)
-		console.log(this.currentCoupon)
+		// console.log(1,this.currentOrder)
+		// console.log(2,this.payOrders)
+		// console.log(3,this.currentCoupon)
 		uni.$on('refresh_sureAuction', item => {
 			that.currentAddress = item;		
 			that.calcEms()
@@ -210,7 +217,14 @@ export default {
 		// 所有服务费
 		servePay(){
 			let s = 0
-			this.payOrders.forEach(item=>{})
+			if( this.create_order_type==1&&  this.currentCoupon){
+				for(let item in this.couponList){
+					s+=Number(this.couponList[item].goods_service_price)
+				}
+			}else if(this.create_order_type==0 && this.activeCoupon){
+				s =  this.activeCoupon.goods_service_price				
+			}
+			
 			return s
 		},
 		proPriceArr(){
@@ -243,6 +257,9 @@ export default {
 				arr.push(n)
 			})
 			return arr
+		},
+		allNum(){
+			return this.numArr.reduce((it,it2)=>{return it+it2})
 		}
 	},
 	methods: {
@@ -252,8 +269,7 @@ export default {
 			if( this.create_order_type==1&&  this.currentCoupon){
 				sum = sum - this.currentCoupon.sum_sale_price	
 			}else if(this.create_order_type==0 && this.activeCoupon){
-				sum = sum - this.activeCoupon.sale_price	
-				
+				sum = sum - this.activeCoupon.sale_price 			
 			}
 			this.allAccount = sum.toFixed(2);
 		},
@@ -295,7 +311,7 @@ export default {
 			// this.currentCoupon.cart_sale_list.forEach(item => {
 			// 	that.couponList[item.cart_code] = item
 			// })
-			// console.log(2,this.payOrders)
+			
 			this.payOrders.forEach((it,index)=>{
 				let resIt = {
 							"shop_id": it.shop_id,
@@ -311,14 +327,15 @@ export default {
 						"cart_code": item.cart_code,
 						"goods_num": item.goods_num,
 						"child_coupon_code":that.create_order_type==1? that.couponList[item.cart_code].child_coupon_code:that.activeCoupon.coupon_code,
-						"goods_service": ""
+						"goods_service": item.goods_service
 					}
 				})
 				params.push(resIt)
 			})
+			console.log(params)
+			// return
 			
 			
-			// console.log(params)
 			this._sure({  create_order_data:params})
 			
 		},
@@ -379,7 +396,10 @@ export default {
 							"goods_code": currentOrder.goods_code, //商品编码
 							"goods_num": currentOrder.goods_num, //商品数量
 							"skus_code": currentOrder.skus_code? currentOrder.skus_code: that.currentOrder.goods_spec.skus_code, //sku_id
+							"goods_service":currentOrder.goods_service_code
 						}
+						// debugger
+						// 单品自动领券（通用券）计算优惠
 						that.getOrderCoupon(form)
 					};
 				} else {
@@ -460,30 +480,9 @@ export default {
 		// 确认支付
 		async _sure(params) {
 			let that = this;
-			// this.$ui.toast('暂未开放');
-			// return;
-			try {
-				// let d = { pjc:[],prc:[],pjn:[],cart:[]}
-				// this.payOrders.forEach(it=>{
-					
-				// 	it.list.forEach(item=>{
-				// 		d.pjc.push(item.goods_code)
-				// 		d.prc.push(item.goods_spec.skus_code)
-				// 		d.pjn.push(item.goods_num)
-				// 		d.cart.push(item.cart_code)
-				// 	})					
-				// })
-				// if(this.create_order_type==1){
-				// 	this.orderParams.cart_code=d.cart.join(',')
-				// }				
-				// this.orderParams.goods_code=d.pjc.join(',')
-				// this.orderParams.skus_code=d.prc.join(',')
-				// this.orderParams.goods_num = d.pjn.join(',')			
-				// this.orderParams.user_address_code = this.currentAddress.address_code;
 
-				// console.log(this.orderParams)
-				// return
-				// this.orderParams.goods_code = Object.values(s).join(',');
+			try {
+
 				this.$ui.showloading('订单生成中');
 				let res = await this.$api.CreateOrder(params, false);
 				this.$ui.hideloading();
@@ -497,8 +496,7 @@ export default {
 						if(that.orderParams.create_order_type==1){
 							uni.$emit('refresh_cart')
 						}		
-						// alert(res.data[0].order_code)
-						// return 
+
 						that._readyToPay(res.data[0].order_code);
 					},500)
 					
@@ -545,10 +543,28 @@ export default {
 .pages {
 	padding: 20rpx;
 	padding-bottom:120rpx;
+	
 	.addressBox {
-		background: #fff;
-		border-radius: 12rpx;
-		padding: 20rpx;
+		// margin-top: 160rpx;
+		z-index: 1;
+		position: relative;
+		text-align: left;
+	
+		.icon {
+			width: 50rpx;
+			height: 50rpx;
+			margin-right: 26rpx;
+		}
+	
+		.cm_title {
+			margin-bottom: 10rpx;
+		}
+	
+		.cm_text {
+			text-align: left;
+			color: #999;
+			margin-right: 20rpx;
+		}
 		.top {
 			height: 54rpx;
 			line-height: 54rpx;
@@ -568,13 +584,6 @@ export default {
 		// padding-bottom:28rpx;
 		
 		background: #fff;
-		.shopIcon {
-			width: 56rpx;
-			height: 56rpx;
-			border-radius: 50%;
-			margin-right: 14rpx;
-			
-		}
 	}
 	.lists{
 		margin-top: 16rpx;

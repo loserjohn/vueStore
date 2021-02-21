@@ -12,7 +12,7 @@
 						</swiper-item>
 					</block>
 				</swiper>
-				<img src="../../../static/img/activebg.png" v-show="goods.is_flashsale==1" class="swiperBg"></img>
+				<!-- <img src="../../../static/img/activebg.png" v-show="goods.is_flashsale==1" class="swiperBg"></img> -->
 			</view>
 			<view class="bar flex flex_y flex_center" v-if="goods.is_flashsale==1">
 				<view class="acountTit">{{goods.title}}</view>
@@ -37,15 +37,15 @@
 					<view class="flex titleBox tui-skeleton-fillet" v-if="goods.is_flashsale!=1">
 						<text class="cm_prize" style="margin-right: 10rpx;">￥{{ goods.goods_price }}</text>
 						<text class="cm_prize_delete">￥{{ goods.goods_original_price }}</text>
-						<!-- <tui-tag type="danger" padding="10rpx 20rpx" shape="circle" size="24rpx">券后￥2341起</tui-tag> -->
+						<tui-tag type="danger" padding="10rpx 20rpx" shape="circle" v-show="mostCoupon" size="24rpx">券后价{{`${mostCoupon}`}}</tui-tag>
 						<view class=" f1"></view>
 						<!-- <text style="color:#999 ;" @click="showModalStatus=true">查看优惠券</text> -->
 						<!-- <tui-icon name="arrowright" :size="20" color="#999"> </tui-icon> -->
 					</view>
 					<view class="flex couponBox flex_center" :style="{'padding-top':goods.is_flashsale==1?'20rpx':''}">
-						<tui-tag type="danger" plain v-for="(item,index) in couponList" v-show="index<=1" :key="index" padding="10rpx 20rpx" shape="circle" size="24rpx">{{`满${item.order_amount}减${item.price}`}}</tui-tag>
+						<tui-tag type="danger" plain v-for="(item,index) in couponList" v-show="index<=1" :key="index" padding="8rpx 16rpx" shape="square" size="24rpx">{{`${item.order_amount_text}  `}}</tui-tag>
 						<view class=" f1"></view>
-						<span style="color:#999 ;" @click="showModalStatus=true">查看</span>
+						<span style="color:#999 ;" @click="showModalStatus=true">查看领取</span>
 						<tui-icon name="arrowright" :size="20" color="#999"> </tui-icon>
 					</view>
 					<view class="cm_title tui-skeleton-fillet" style="line-height: 40rpx;">
@@ -58,11 +58,10 @@
 						<image src="../../../static/img/logo.jpg" mode="widthFix" class="logo"></image>
 						<view class=" cm_title   name">睿众</view>
 						<view class="blank"></view>
-
 						<text class="f1">第一家智能厨卫上市公司</text>
 					</view>
 				</view>
-
+				<!-- {{mostCoupon}} -->
 				<view class="boxs box4">
 					<view class="flex flex_center cells">
 						<view class="f1 cm_des">发货地</view>
@@ -98,24 +97,7 @@
 						<tui-icon name="arrowright" color="#999" :size="16"></tui-icon>
 						<!-- <button class=" jd">进店逛逛</button> -->
 					</view>
-					<!-- <view class="scoreBox flex flex_center">
-						<view class="f1 flex flex_center tui-skeleton-fillet">
-							<text class="">宝贝描述</text>
-							<text class="score">{{ business.sevice_point }}</text>
-						</view>
-						<view class="f1 flex flex_center tui-skeleton-fillet">
-							<text class="">卖家服务</text>
-							<text class="score">{{ business.sevice_point }}</text>
-						</view>
-						<view class="f1 flex flex_center tui-skeleton-fillet">
-							<text class="">物流服务</text>
-							<text class="score">{{ business.sevice_point }}</text>
-						</view>
-					</view> -->
 				</view>
-				<!-- {{addPrize}} -->
-
-
 
 			</view>
 			<view class="commonTit flex flex_center">
@@ -144,12 +126,12 @@
 					</view>
 					<view class="f1"></view>
 					<view class=" btnBox flex flex_center" style="margin-left: 20rpx;">
-						<button class="btns" @tap="_next" :disabled="goods.goods_status != 1">加入购物车</button>
-						<view class="btns hot flex flex_y flex_center" v-if="goods.is_flashsale==1?true:false" @tap="_next">
+						<button class="btns" @click="_next('card')"  >加入购物车</button>
+						<view class="btns hot flex flex_y flex_center" v-if="goods.is_flashsale==1?true:false" @click="_next('buy')">
 							<view class="cm_t_20">马上抢</view>
 							<view class="" style="margin-top: 8rpx;">折后￥{{goods.goods_price}}</view>
 						</view>
-						<button class="btns sure" @tap="_next" v-else :disabled="goods.goods_status != 1">立即购买</button>
+						<button class="btns sure" @click="_next('buy')" v-else > {{mostCoupon?'领券购买':'立即购买'}}  </button>
 					</view>
 				</view>
 
@@ -159,33 +141,31 @@
 		 :size="32"></tui-modal>
 		<!-- <best-payment-password :title="tigs" :show="payFlag" :value="paymentPwd" digits="6" @cancel="cancelPass" @submit="checkPwd" :forget="false"></best-payment-password> -->
 
-		<!-- 		<xhStoreParams ref="params" 
-			:preImg="banners[0]" 
-			:title="goods.goods_title"
-			:prize="goods.project_raise_price" 
-			@creatOrder="creatOrder"
-			@addCard="addCard"
-		></xhStoreParams> -->
-		<xhStoreParamsSKU :platform="platform" ref="params" :ifActive="goods.is_flashsale==1?true:false" :preImg="goods.goods_main_img"
+		<xhStoreParamsSKU :action="skuAction" :couponList="couponList"   :platform="platform" ref="params" :ifActive="goods.is_flashsale==1?true:false" :preImg="goods.goods_main_img"
 		 :title="goods.goods_title" :parameter="specifications" :difference="skuList" :defaultprice="goods.goods_price"
-		 :defaultstock="goods.default_stock" @creatOrder="creatOrder" @addCard="addCard"></xhStoreParamsSKU>
+		 :defaultstock="goods.default_stock" @creatOrder="creatOrder" @addCard="addCard" :propertyList="propertyList"></xhStoreParamsSKU>
 
-		<view class="mask-screen" @tap="_toggleModal" @touchmove.stop.prevent="_none" v-show="showModalStatus">
-			<view class="couponsbox animated slideInUp" v-show="showModalStatus" @tap.stop="_none">
+		<view class="mask-screen animated " @tap="_toggleModal" @touchmove.stop.prevent="_none" :class="showModalStatus?'showScreen':'hideScreen'"  >
+			<view  class="couponsbox animated slideInUp savebottom" :class="showModalStatus?'slideInUp':'slideOutDown'"  @tap.stop="_none">
 				<view class="couponTitle">优惠券</view>
-				<view class="couponsItem flex flex_center" v-for="(item,index) in couponList" :key="index">
-					<view class="numBox flex flex_y  flex_center">
-						<view class="num prize">{{item.price}}</view>
-						<text class="texts">{{item.use_area}}</text>
+				<scroll-view scroll-y style="width: 100%;max-height: 40vh;">
+					<view class="couponsItem flex flex_center" :class="item.use_area==0?'cm':''" v-for="(item,index) in couponList"  :key="index"  @click="validCoupon(item.coupon_code)">
+						<view class="numBox flex flex_y  flex_center">
+							<view class="num prize">{{item.price}}</view>
+							<!-- <text class="texts">{{item.use_area}}</text> -->
+						</view>
+						<view class="f1 couponContent">
+							<view class="num ">{{item.order_amount_text}}</view>
+							<text class="texts">{{item.end_date}}</text>
+						</view>
+						<img src="../../../static/img/hasGet.png" alt="" class="getBg" v-show="hasGetCoupon[item.coupon_code]">
 					</view>
-					<view class="f1 couponContent">
-						<view class="num ">{{item.order_amount_text}}</view>
-						<text class="texts">{{item.end_date}}</text>
-					</view>
-				</view>
+					
+				</scroll-view>
+				
 				
 				<view class="tips">即刻下单，系统自动为您匹配最高优惠券</view>
-				<tui-button type="danger" shape="circle" @tap="_next">即刻下单</tui-button>
+				<tui-button type="danger" shape="circle" @tap="_next('buy')">即刻下单</tui-button>
 			</view>
 		</view>
 
@@ -198,7 +178,7 @@
 		</view>
 
 
-
+		<tui-tips ref="toast" ></tui-tips>
 
 		<!-- <view class="asideBar2 flex flex_center animated slideInUp" @tap="cart"><tui-icon name="cart" :size="20" color="#50AB9F"></tui-icon></view> -->
 	</view>
@@ -206,7 +186,7 @@
 
 <script>
 	import tuiSkeleton from '@/components/tui-skeleton/tui-skeleton';
-	import tuiCountdown from '@/components/countdown/countdown';
+	// import tuiCountdown from '@/components/countdown/countdown';
 	import tuiNumberbox from '@/components/numberbox/numberbox';
 	import CountCalc from '@/components/uni-countdown.vue'
 	const global_Set_jll = uni.getStorageSync('global_Set_jll');
@@ -221,52 +201,51 @@
 	export default {
 		data() {
 			return {
-				list: [],
-				index: 1,
-				business: {
-					shipments_address: ''
-				},
-				goods: '',
-				banners: [],
-				auction: '',
+		 
+				
+				business: { shipments_address: '' },  //商家信息
+				goods: '',  //商品信息
+				banners: [], 
+				// auction: '',
 				skeletonShow: true,
 				formParams: {
 					goods_code: ''
 				},
 				phoneNum: global_Set_jll.service_mobile,
-				showAll: false,
+				 
 				modal: false,
-				payFlag: false,
+				// payFlag: false,
 				time: null,
 				content: '请您先登录',
 				action: 'login',
-				animationData: '',
+				
 				details_img: '',
-				paymentPwd: '', //支付密码
+				// paymentPwd: '', //支付密码
 				skuList: [],
 				specifications: [],
+				propertyList:[],
 				showModalStatus: false,
-				service1: '',
-				service2: '',
-				service3: '',
-				endTime: '',
+			
+				// endTime: '',
 				platform: 'android',
-				activityInfo: '', //限时购信息
-				area: '',
-				couponList:[]  //可以使用的优惠券列表
+				// activityInfo: '', //限时购信息
+				// area: '',
+				couponList:[],  //可以使用的优惠券列表   0是通用券 1是商品券
+				skuAction:'buy',
+				hasGetCoupon:{} //存放已领取的商品券
 			};
 		},
 		watch: {
 			hasLogin(newValue, oldValue) {
-				// console.log(oldValue)
-				// console.log(newValue)
-				// this._loadData();
-				// this.loadData();
+				if(newValue){
+					this.myCards()
+				}
+				
 			}
 		},
 		components: {
 			tuiSkeleton,
-			tuiCountdown,
+			// tuiCountdown,
 			// bestPaymentPassword,
 			CountCalc,
 			tuiNumberbox,
@@ -279,19 +258,17 @@
 			let that = this
 			uni.getSystemInfo({
 				success(res) {
-					// console.log(111,res)
-					// if(res.platform == 'ios'){
-					// 	that.platform = 'ios'
-					// }
 					that.platform = res.platform
 				}
 			})
-
+			if(this.hasLogin){
+				this.myCards()
+			}		
 		},
 		onUnload() {
 			// alert(2)
-			clearInterval(this.time);
-			this.time = null;
+			// clearInterval(this.time);
+			// this.time = null;
 		},
 		computed: {
 			...mapState(['hasLogin', 'ifx']),
@@ -329,11 +306,96 @@
 					m: parseInt(minutesRound),
 					s: parseInt(secondsRound)
 				}
-				console.log(obj);
+				// console.log(obj);
 				return obj
+			},
+			// 最优商品券的判断
+			mostCoupon(){
+				let spList = {}
+				// console.log(555,this.couponList)
+				let  hasSP = this.couponList.some(item=>{
+					if(item.use_area==1){
+						spList[item.order_amount] = item
+					}
+					return item.use_area==1?true:false
+				})
+				// console.log(666,spList)
+				if(hasSP){
+					// 有商品券
+					let arr= {}
+					this.couponList.map(it=>{
+						if(it.use_area==1 && this.goods.goods_price>=it.order_amount){
+							arr[it.price] = it
+						}						
+					}) 
+					// console.log(77,arr)
+					if(Object.keys(arr).length){
+						let k = Math.max(...Object.keys(arr))
+						// console.log(777,k)
+						return  this.goods.goods_price - arr[k].price
+					}else{
+						return ''
+					}		
+				}else{
+					return '' //没有优惠价
+				}
 			}
 		},
 		methods: {
+			// 领取商品券
+			async validCoupon(code){
+		
+				if (!this.hasLogin) {
+					this.content = '请您先登录';
+					this.action = 'login'; ///features/authentication/authentication'
+					this.modal = true;
+					return;
+				} 
+				if(this.hasGetCoupon[code])return;
+				
+				let that = this
+				let  form = {
+					coupon_code:code
+				}
+				let res =  await this.$api.ReceiveCoupon(form)
+				// console.log(res)  
+				if(res.result==1){
+					that.formParams.coupon_code = code				
+					let options = {
+							msg: '恭喜领券成功',
+							duration: 2000,
+							backgroundColor:'#ea441e'
+					};
+					that.$refs.toast.showTips(options);
+					that.myCards()	
+				}else{
+					
+				}
+			},
+			// 获取我的卡包
+			async myCards(){
+				let form = {
+					"goods_code": this.formParams.goods_code,
+					"use_area": "",
+					"status": "0"
+				}
+				this.hasGetCoupon = {}
+				const res = await this.$api.GetReceiveCouponlist(form)
+				// console.log(res)
+				if(res.data.length){
+					this.hasGetCoupon={}
+					// let arr = this.couponList.map(it=>{
+					// 	return it.coupon_code
+					// })
+					res.data.map(item=>{
+						this.hasGetCoupon[item.coupon_code] = item
+						// if( arr.indexOf(item.coupon_code)>=0){
+						// 	this.hasGetCoupon[item.coupon_code] = item
+						// }
+						
+					})
+				}
+			},
 			cart() {
 				uni.switchTab({
 					url: '/pages/cart/cart'
@@ -377,13 +439,15 @@
 				this._buy(data);
 			},
 			// 显示参数框
-			_next() {
+			_next(act) {
+				
 				if (!this.hasLogin) {
 					this.content = '请您先登录';
 					this.action = 'login'; ///features/authentication/authentication'
 					this.modal = true;
 					return;
 				} else {
+					
 					const JLL_openId = uni.getStorageSync(SET.opIdName);
 					if (this.is_weixn() && !JLL_openId) {
 						Utils.wx_auth();
@@ -391,6 +455,8 @@
 					}
 
 				}
+				// alert(act)
+				this.skuAction = act
 				this.showModalStatus = false
 				this.$refs.params.show();
 			},
@@ -411,26 +477,20 @@
 				let that = this;
 				try {
 					let res = await this.$api.GetGoodsInfo(this.formParams);
-					// console.log(res)
+					// console.log(res.data.goods_service_list)
 					if (res.result == 1) {
 						that.business = res.data.shopInfo;
 						that.goods = res.data.goods;
 						// that.auction = res.data.auction;
-						let banners = res.data.goods.goods_banner_img.replace(/\'/g, '\"')
-						that.banners = JSON.parse(banners);
-						let details = res.data.goods.goods_img.replace(/\'/g, '\"')
-						that.details_img = JSON.parse(details);
-						
+						that.banners = res.data.goods.goods_banner_img 
+						// that.banners = JSON.parse(banners);
+						that.details_img  = res.data.goods.goods_img 
+						// that.details_img = JSON.parse(details);
 						that.couponList = res.data.couponList
-						// that.area = checkedCity
-						// console.log(that.banners,that.details_img)
-						// that.service1 = res.data.projectService1;
-						// that.service2 = res.data.projectService2;
-						// that.service3 = res.data.projectService3;
 
 						that.skuList = res.data.skuList;
 						that.specifications = res.data.goods_parameter;
-
+						that.propertyList = res.data.goods_service_list;
 
 						let form = {
 							"shop_id": res.data.shopInfo.shop_id, //店铺id
@@ -476,30 +536,7 @@
 					this.modal = true;
 					return;
 				} else {
-					// cart_code: "f3489a8bf70746c48fdfb375c019d19e"
-					// checked: true
-					// create_time: "2021-02-04T16:10:36"
-					// goods_code: "d9b994eb59444360950042e484ba4e77"
-					// goods_main_img: "http://model.fjdmll.com/upload/shop/goods/3e5b344db8c84c2fa7b2fcaa70a08bf6.png"
-					// goods_num: 1
-					// goods_original_price: null
-					// goods_price: null
-					// goods_spec: Object
-					// goods_status: "1"
-					// goods_stock: 0
-					// goods_title: "xxxx5"
-					// is_ems: null
-					// load: true
-					// shop_logo: "http://model.fjdmll.com/upload/shop/shop_logo/1d27928d25124cc28b3fc75fcf9a3998.jpg"
-					// shop_name: "代码力量商城"
-					// user_id: "b41d0e732be54cd085e85f9a187aae9a"
-					// let d = {
-					// 	skus_code: data.skus_code ? data.skus_code : '',
-					// 	skus_difference: data.skus_difference ? data.skus_difference.join(',') : '',
-					// 	skus_price: data.skus_price ? data.skus_price : '',
-					// 	skus_origin: data.skus_origin ? data.skus_origin : '',
-					// 	skus_stock: data.skus_stock ? data.skus_stock : ''
-					// };
+					
 					let cardData = {
 						shop_name: this.business.shop_name,
 						shop_id: this.business.shop_id,
@@ -511,17 +548,25 @@
 						goods_parameter_type: 1,
 						goods_spec: data,
 						skus_code: data.skus_code,
-						// goods_price: this.goods.goods_price,
 						origin_price: data.skus_price * data.selectNum,
-						// goods_raise_price: this.goods.goods_raise_price,
 						goods_num: data.selectNum,
-						// goods_service1: data.goods_service_code.serve1,
-						// goods_service2: data.goods_service_code.serve2,
-						// goods_service3: data.goods_service_code.serve3,
-						// goods_service1: '',
-						// goods_service2:  '',
-						// goods_service3: '',
+						// goods_service_price: 0,
+						// goods_service_txt: " ",
+						goods_service_code: " ",
 					};
+					if(data.goods_service.length){
+						let tarr = []
+						let name = []
+						let carr=[]
+						data.goods_service.forEach(item=>{
+							name.push(item.service_name)
+							tarr.push(item.service_price)
+							carr.push(item.service_code)
+						})
+						cardData.goods_service_code = carr.join(',')
+					}
+					
+					
 					this.$store.commit('creatOrder', [cardData]);
 					uni.navigateTo({
 						url: '/pages/features/createOrder/createOrder?type=0'
@@ -532,19 +577,12 @@
 
 			// 加入购物车
 			async _addCard(data) {
-				// console.log(111, data);
-				// if(!data.id){
-				// 	this.$ui.toast('请选择规格')
-				// 	return
-				// }
 				let that = this;
 				let agr = {
 					goods_code: this.formParams.goods_code,
 					sku_id: data.skus_code ? data.skus_code : '',
 					goods_num: data.selectNum,
-					// project_service1: data.goods_service_code.serve1.service_code,
-					// project_service2: data.goods_service_code.serve2.service_code,
-					// project_service3: data.goods_service_code.serve3.service_code
+					goods_service:data.goods_service
 				};
 				try {
 					let res = await this.$api.cardAdd(agr);
@@ -564,15 +602,15 @@
 				this.payFlag = false;
 			},
 			// 确认密码
-			checkPwd(e) {
-				if (!e) {
-					that.$ui.toast('取消购买');
-					return;
-				}
-				// alert(e)
-				// this._addPrize(e);
-				// this.payFlag = false;
-			},
+			// checkPwd(e) {
+			// 	if (!e) {
+			// 		that.$ui.toast('取消购买');
+			// 		return;
+			// 	}
+			// 	// alert(e)
+			// 	// this._addPrize(e);
+			// 	// this.payFlag = false;
+			// },
 			handleClick(e) {
 				let index = e.index;
 				if (index === 0) {
@@ -580,9 +618,10 @@
 				} else {
 					switch (this.action) {
 						case 'login':
-							uni.navigateTo({
-								url: '/pages/role/pLogin/pLogin'
-							});
+							// uni.navigateTo({
+							// 	url: '/pages/role/pLogin/pLogin'
+							// });
+							this._login()
 							break;
 						case 'authentication':
 							uni.navigateTo({
@@ -600,34 +639,7 @@
 				}
 				this.modal = false;
 			}
-			// 参与加价
-			// async _addPrize(e) {
-			// 	let that = this;
-			// 	let data = {
-			// 		project_code: this.formParams.project_code,
-			// 		project_price: this.goods.project_price,
-			// 		pay_password: e
-			// 	};
-			// 	// console.log(data)
-			// 	try {
-			// 		this.$ui.showloading();
-			// 		let res = await this.$api.doAuction(data);
-			// 		this.$ui.hideloading();
-			// 		if (res.result==1) {
-			// 			that.$ui.toast('加价成功');
-			// 			uni.$emit('refresh_main');
-			// 			setTimeout(function() {
-			// 				uni.redirectTo({
-			// 					url: '/pages/features/auction/auction?current=1'
-			// 				});
-			// 			}, 1000);
-			// 		} else {
-			// 			that.$ui.toast(res.msg);
-			// 		}
-			// 	} catch (err) {
-			// 		console.log('请求结果false : ' + err);
-			// 	}
-			// }
+			
 		}
 	};
 </script>
@@ -994,47 +1006,7 @@
 		}
 	}
 
-	.mask-screen {
-		width: 100%;
-		height: 100vh;
-		position: fixed;
-		top: 0;
-		left: 0;
-		background: rgba(0, 0, 0, 0.5);
-		// opacity: 0.5;
-		overflow: hidden;
-		z-index: 10;
-
-		.region-box {
-			width: 100%;
-			overflow: hidden;
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			z-index: 20;
-			background: #fff;
-			padding: 8rpx 50rpx;
-			box-sizing: border-box;
-			border-radius: 20rpx 20rpx 0 0;
-
-			.cm_title {
-				margin-top: 24rpx;
-			}
-
-			.cm_des {
-				line-height: 2;
-				padding: 26rpx 0;
-			}
-
-			.btns {
-				height: 80rpx;
-				line-height: 80rpx;
-				background: #ddb152;
-				color: #fff;
-				border-radius: 40rpx;
-			}
-		}
-	}
+	
 
 	.btnBox {
 		// width: 80%;
@@ -1129,11 +1101,11 @@
 		.couponsItem {
 			// box-shadow: 0 0 6rpx #eee ;
 			border-radius: 16rpx;
-			padding: 20rpx;
+			padding:10rpx 20rpx;
 			margin-bottom: 20rpx;
 			background-color: #fdf1f1;
-			border: 1rpx solid #f44336;
-
+			// border: 1rpx solid #f44336;
+			position: relative;
 			.numBox {
 				width: 200rpx;
 				height: 160rpx;
@@ -1170,15 +1142,51 @@
 					padding-bottom: 10rpx;
 				}
 			}
-
+			
+			.getBg{
+				width: 200rpx;
+				height: 200rpx;
+				position: absolute;
+				bottom: -40rpx;
+				right: -40rpx;
+				transform: rotate(-45deg);
+				opacity: .8;
+			}
+			&.cm{
+				    background-color: #fffadf;
+			}
 		}
 
 		.tips {
 			text-align: center;
-			padding-bottom: 20rpx;
+			padding : 20rpx 0;
 			color: #f44336;
+			
 		}
+		
 	}
-
+	.mask-screen {
+		width: 100%;
+		// height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right:0;
+		bottom:0;
+		background: rgba(0, 0, 0, 0.5);
+		transition: opacity 0.3s ease-in-out; 
+		overflow: hidden;
+		z-index: 10;
+	
+	}
+	.showScreen {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	
+	.hideScreen {
+		opacity: 0;
+		pointer-events: none;
+	}
 	/*底部抽屉样式 start*/
 </style>
