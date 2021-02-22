@@ -62,11 +62,9 @@
 </template>
 
 <script>
-	// import tuiSkeleton from '@/components/tui-skeleton/tui-skeleton';
-	import tuiIcon from "@/components/icon/icon"
+
 	import tuiTimeAxis from "@/components/time-axis/time-axis"
 	import tuiTimeaxisItem from "@/components/timeaxis-item/timeaxis-item"
-	import tuiTips from "@/components/extend/tips/tips"
 	export default {
 		data() {
 			return {

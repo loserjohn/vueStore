@@ -151,7 +151,7 @@
 		mapState,
 		mapMutations
 	} from 'vuex';
-	import tuiLoadmore from "@/components/loadmore/loadmore"
+	// import tuiLoadmore from "@/components/loadmore/loadmore"
 	import http from '@/utils/http/index.js';
 	const globalSet = uni.getStorageSync(SET.globalSetName)
 	import SET from '@/SET.js'
@@ -226,7 +226,6 @@
 			// },
 		},
 		components: {
-			tuiLoadmore,
 		},
 		// 下拉刷新
 		onPullDownRefresh() {

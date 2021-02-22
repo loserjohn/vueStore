@@ -221,6 +221,7 @@ module.exports = {
 				} else {
 					uni.navigateTo({
 						url: '/pages/role/pLogin/pLogin',
+						// url: '/pages/role/login/login',
 						animationType: 'pop-in',
 						animationDuration: 200
 					})
@@ -267,7 +268,8 @@ module.exports = {
 				})
 			} else {
 				uni.navigateTo({
-					url: '/pages/role/pLogin/pLogin'
+					url: '/pages/role/pLogin/pLogin',
+					// url: '/pages/role/login/login',
 				})
 			}
 			// #endif

@@ -188,7 +188,7 @@
 	import tuiSkeleton from '@/components/tui-skeleton/tui-skeleton';
 	// import tuiCountdown from '@/components/countdown/countdown';
 	import tuiNumberbox from '@/components/numberbox/numberbox';
-	import CountCalc from '@/components/uni-countdown.vue'
+	import CountCalc from '@/components/tui-countdown/tui-countdown.vue'
 	const global_Set_jll = uni.getStorageSync('global_Set_jll');
 	import xhStoreParamsSKU from '@/components/xhStoreParamsSKU/xhStoreParamsSKU';
 	import {
@@ -446,15 +446,16 @@
 					this.action = 'login'; ///features/authentication/authentication'
 					this.modal = true;
 					return;
-				} else {
+				} 
+				// else {
 					
-					const JLL_openId = uni.getStorageSync(SET.opIdName);
-					if (this.is_weixn() && !JLL_openId) {
-						Utils.wx_auth();
-						return;
-					}
+				// 	const JLL_openId = uni.getStorageSync(SET.opIdName);
+				// 	if (this.is_weixn() && !JLL_openId) {
+				// 		Utils.wx_auth();
+				// 		return;
+				// 	}
 
-				}
+				// }
 				// alert(act)
 				this.skuAction = act
 				this.showModalStatus = false

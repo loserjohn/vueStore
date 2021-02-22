@@ -156,25 +156,28 @@ function createdFilter(set) {
 
 
 App.mpType = 'app'
+const form = require("@/common/formValidation.js")
 
+Vue.prototype.$form = form
 
 // 全局组件
 import LoadMore from '@/components/uni-load-more/uni-load-more.vue'
 Vue.component('LoadMore', LoadMore)
-
-import tuiButton from '@/components/button/button.vue'
+// import LoadMore from '@/components/loadmore/loadmore.vue'
+// Vue.component('LoadMore', LoadMore)
+import tuiButton from '@/components/tui-button/tui-button.vue'
 Vue.component('tuiButton', tuiButton)
 
 import cuCustom from '@/components/cu-custom/cu-custom.vue'
 Vue.component('cu-custom', cuCustom)
 
-import Icon from "@/components/icon/icon"
-Vue.component('Icon', Icon)
+import tuiIcon from "@/components/tui-icon/tui-icon"
+Vue.component('Icon', tuiIcon)
 
-import tuiModal from "@/components/modal/modal"
+import tuiModal from "@/components/tui-modal/tui-modal"
 Vue.component('tuiModal', tuiModal)
 
-import tuiTag from '@/components/tag/tag'
+import tuiTag from '@/components/tui-tag/tui-tag'
 Vue.component('tuiTag', tuiTag)
 
 import tuiNoData from '@/components/tui-no-data/tui-no-data'
@@ -182,6 +185,9 @@ Vue.component('tuiNoData', tuiNoData)
 
 import tuiTips from '@/components/tui-tips/tui-tips'
 Vue.component('tuiTips', tuiTips)
+
+import tuiToast from '@/components/tui-toast/tui-toast'
+Vue.component('tuiToast', tuiToast)
 
 uni.getSystemInfo({
 	success: function(e) {

@@ -57,9 +57,9 @@
 
 <script>
 import xhFilterTab from '@/components/xhFilterTab/xhFilterTab';
-import tuiSticky from '@/components/sticky/sticky';
-import tuiTips from '@/components/extend/tips/tips';
-import tuiTabs from '@/components/tui-tabs/tui-tabs';
+import tuiSticky from '@/components/tui-sticky/tui-sticky';
+// import tuiTips from '@/components/extend/tips/tips';
+// import tuiTabs from '@/components/tui-tabs/tui-tabs';
 export default {
 	components: {
 		xhFilterTab,

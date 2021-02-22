@@ -2,13 +2,30 @@
 <!-- 账号登录 -->
 <template>
 	<view class="pages">
-		<view class="flex flex_y flex_center" >
-			<image src="../../../static/img/logo@1.5x.png" mode="scaleToFill" class="logo"></image>
-			<view class="title">睿众商城</view>
-		</view>
-		<view class="input-group">		
+		<!-- <view class="input-group">
+			<view class="cm_title">欢迎登陆睿众商城</view>
+			<view class="cm_des">通过手机号验证码登录</view>
 			<view class="formBox">
-				<InputGrouds :inputsArray="inputsArray" @focusHandle="_focusHandle" :markWord="false" ref="formInputs"></InputGrouds>
+				<input type="number" class="inputs" v-model="form.mobile" placeholder="请输入手机号码" />
+			</view>
+			<tui-button type="primary" shape="circle" :disabled="false" :loading="loading" @tap="_getVerifyCode('mobile',2)">{{seconds>0?seconds+'s后重新发送':'发送验证码'}}</tui-button>
+		
+			<view class="flex" style="margin-top: 32rpx;">
+				<view class="f1 ">
+					<navigator url="../pLogin/pLogin">密码登录</navigator>
+				</view>
+				<view class="f1 cm_tex_r">
+					<navigator url="../reg/reg">注册账户</navigator>
+				</view>
+			</view>
+		</view> -->
+		<view class="input-group">		
+			<view class="cm_title">欢迎登陆睿众商城</view>
+			<view class="cm_des">账户密码登录</view>
+			<view class="formBox">
+				<!-- <InputGrouds :inputsArray="inputsArray" @focusHandle="_focusHandle" :markWord="false" ref="formInputs"></InputGrouds> -->
+				<input type="number" class="inputs" v-model="form.username" placeholder="请输入手机号码" />
+				<input type="password" class="inputs" cleable v-model="form.password" placeholder="请输入密码" />
 				<view class="flex flex_center noteBox" >
 					<tui-icon name="circle-fill" :color="agree?'#50ab9f':'#666'" :size="16" @tap="_agree"></tui-icon>
 					<navigator class="note f1" url="/pages/main/note/note?type=1">《睿众商城隐私政策》</navigator>
@@ -17,7 +34,7 @@
 			</view>
 			
 			<!-- <button type="text" class="cm_btn" @tap="bindLogin" hover-class="cm_hover_m">登录</button> -->
-			<tui-button type="primary" shape="circle" :disabled="false" :loading="loading" @tap="bindLogin">登录</tui-button>
+			<tui-button type="primary"  style="margin-top: 80rpx;" shape="circle" :disabled="false" :loading="loading" @tap="bindLogin">登录</tui-button>
 			
 			<view class="flex" style="margin-top: 32rpx;">
 				<view class="f1">
@@ -34,50 +51,50 @@
 				<view style="margin:  0 16rpx;">快捷登录</view>
 				<view class="line"></view>
 			</view>
-			<view class="wxLogin" hover-class="cm_hover_m" @click="wxAuth">
-				<image src="/static/img/weact.png" mode="scaleToFill"  class="wxLoginIcon"></image>
-			</view>		
+			<view class="flex flex_center">
+				<view class="wxLogin" hover-class="cm_hover_m" @click="wxAuth">
+					<image src="/static/img/weact.png" mode="scaleToFill"  class="wxLoginIcon"></image>
+				</view>		
+				<view class="wxLogin" hover-class="cm_hover_m" @click="_yzmLogin">
+					<image src="/static/img/sy_tx.png" mode="scaleToFill"  class="wxLoginIcon"></image>
+				</view>		
+			</view>
+			
 		</view>
+		<tui-toast ref="toast"></tui-toast>
+		<tui-tips position="top" ref="tips"></tui-tips>
 	</view>
 </template>
 
 <script>
-	import InputGrouds from '@/components/InputGrouds/InputGrouds.vue'
+	// import InputGrouds from '@/components/InputGrouds/InputGrouds.vue'
 	import SET from '@/SET.js'
 	export default {
 		data() {
 			return {
-				inputsArray: [
-					// 用户手机号码
-					{
-						type: 'phone',
-						id: 'username',
-						defaultValue: '',
-						iconPic: '../../../static/img/inpus/zc_icon_sj.png',
-						placeholder:'请输入您的手机号',
-						
-					},
-					// 用户密码
-					{
-						type: 'password',
-						id: 'password',
-						markWord:true,
-						defaultValue: '',
-						iconPic:'../../../static/img/inpus/zc_icon_mm.png',
-						placeholder:'请输入您的密码'
-					}
-				],
-				set:{
-					// appid: 'wx09daee2f47e178aa',//测试环境
-					appid: 'wxbb1e69472b847c6e',//正式环境
-					redirect_uri: 'http://jf.fjdmll.com/index.html'
+				form: {
+					"username":'15959131219',//手机号
+					"password": '',//密码
+					"vilidate": "000000",//验证码
+					"openId": "",//openid
+					"wx_code_type": "0"//0-公众号 1-小程序(不传默认为0)
 				},
+				rule: [{
+					name: 'username',
+					rule: ['isMobile'],
+					msg: ['请输入正确的手机号']
+				},
+				{
+					name: 'password',
+					rule: ['required'],
+					msg: ['请输入有效密码']
+				}],
 				loading:false,
 				agree:true
 			};
 		},
 		components: {
-			InputGrouds: InputGrouds
+			// InputGrouds: InputGrouds
 		},
 		onLoad(){
 			// this.inputsArray[0].defaultValue = '15959131219'
@@ -85,6 +102,11 @@
 			
 		},
 		methods: {
+			_yzmLogin(){
+				uni.redirectTo({
+					url:'/pages/role/login/login'
+				})
+			},
 			wxAuth(){
 				uni.redirectTo({
 					url:'/pages/role/wxLogin/wxLogin'
@@ -98,45 +120,34 @@
 			},
 			// 登录
 			async bindLogin() {
-				if(!this.agree){
-					
-					this.$ui.toast('请您阅读并同意《睿众商城隐私协议》有关事项')
+				let that = this
+				if(!this.agree){				
+					let options = {
+						msg: '请您阅读并同意《睿众商城隐私协议》有关事项',
+						duration: 2000,
+						type: 'danger'
+					};
+					this.$refs.tips.showTips(options);				
 					return;
 				}
 				
-				
-				let res = this.$refs.formInputs.verify();
-				let that = this
-						
+				const res = this.$form.validation(this.form, this.rule)
+				// let res = this.$refs.formInputs.verify();					
 				if (res.status) {
-					// let data = res.data
-					// data.vilidate = '000000';	
-					let data =  {
-					  "username": res.data.username,//手机号
-					  "password": res.data.password,//密码
-					  "vilidate": "000000",//验证码
-					  "openId": "",//openid
-					  "wx_code_type": ""//0-公众号 1-小程序(不传默认为0)
-					}
-					
-					
-					// debugger
 					try{
-						// this.$ui.showloading()
 						that.loading = true
-						let res = await this.$api.userLogin(data,false)
-						// this.$ui.hideloading()
+						let res2 = await this.$api.userLogin(this.form,false)
 						that.loading = false
 						// console.log(res)
-						if(res.result==1){
-							that.$ui.toast('登陆成功')
-							if(res.data)uni.setStorageSync(SET.tokenName,res.data);
-							// console.log(data)
-							// uni.setStorageSync('user',data);
-							that.$store.commit('setAccountInfo',res.data)
-							// if(res.data){
-							// 	that.$store.commit('setAccountInfo',res.data)
-							// }	
+						if(res2.result==1){
+							let params = {
+								title: "登录成功",
+								imgUrl: "/static/img/toast/check-circle.png",
+								icon: true
+							}
+							that.$refs.toast.show(params);
+							if(res2.data)uni.setStorageSync(SET.tokenName,res2.data);
+
 							that.$store.commit('login')
 							that.$store.dispatch('refreshUser')
 							setTimeout(()=>{
@@ -144,14 +155,26 @@
 								})
 							},1000)						
 						}else{
-							that.$ui.toast(res.msg)
+							let options = {
+								msg: res2.msg,
+								duration: 2000,
+								type: 'danger'
+							};
+							that.$refs.tips.showTips(options);
 							that.loading = false
 						}
 					}catch(err){
 						console.log( '请求结果false : ' + err )
 						that.loading = false
 					}		
-				}		
+				}else{
+					let options = {
+						msg: res.msg,
+						duration: 2000,
+						type: 'danger'
+					};
+					this.$refs.tips.showTips(options);
+				}	
 			}
 		},
 	}
@@ -160,28 +183,31 @@
 <style lang="scss" scoped> 
 	.pages{
 		padding: 30rpx;
-		// height: calc(100vh - 176rpx);
-		// min-height: 700rpx;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
 		background: #fff;
-		.logo{
-			width:146rpx;
-			height:146rpx;
-			border-radius: 16rpx;
-			margin-top: 56rpx; 
-		}
-		.title{
-			font-size: 34rpx;
-			color: #333;
-			text-align: center;
-			font-weight: 600;
-			margin: 24rpx auto 54rpx auto;
-			
-		}
-		.formBox{
-			margin-bottom: 80rpx;
-			.noteBox{
-				height: 60rpx;
-				padding: 0 20rpx;
+		.input-group {
+			padding-top: 60rpx;
+			.formBox{
+				padding-top: 40rpx;
+			}
+			.cm_title {
+				line-height: 2;
+				font-size: 40rpx;
+			}
+		
+			.inputs {
+				border-bottom: 1rpx solid #f1f1f1;
+				margin-top: 20rpx;
+				margin-bottom: 20rpx;
+				line-height: 60rpx;
+				height: 88rpx;
+			}
+			.noteBox{ 
+				margin-top: 60rpx;
 			}
 		}
 		.footer{
@@ -196,7 +222,7 @@
 				background: #333333;
 			}
 			.wxLogin{
-				margin: 40rpx auto 50rpx auto;
+				margin: 50rpx;
 				width: 90rpx;
 				height: 90rpx;
 				border-radius: 50%;

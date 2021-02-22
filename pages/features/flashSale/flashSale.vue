@@ -62,7 +62,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import CountCalc from '@/components/uni-countdown.vue'
+import CountCalc from '@/components/tui-countdown/tui-countdown.vue'
 import tuiSkeleton from '@/components/tui-skeleton/tui-skeleton';
 export default {
 	data() {

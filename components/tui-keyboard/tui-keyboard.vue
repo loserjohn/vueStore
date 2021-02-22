@@ -100,7 +100,7 @@
 	}
 
 	.tui-keyboard-mask {
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -119,7 +119,7 @@
 
 	.tui-keyboard {
 		width: 100%;
-		position: fixed;
+		position: absolute;
 		left: 0;
 		right: 0;
 		bottom: 0;
