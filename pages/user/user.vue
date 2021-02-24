@@ -193,31 +193,28 @@
 
 			// 注册刷新事件
 			uni.$on('refresh_user', function() {
-				// console.log(1213541)
-				// that.loadData();
 				that.$store.dispatch('refreshUser')
 			});
 			this._getShopSet();
 			this._getList();
 		},
 		onShow() {
-			// this.loadData()
-
+			
+			if(this.hasLogin){
+				this.$store.dispatch('refreshUser')
+			}
 		},
 		computed: {
 
-			hasLogin() {
-				return this.$store.state.hasLogin ? this.$store.state.hasLogin : false;
-			},
-			accountInfo() {
-				return this.$store.state.accountInfo
-			},
+			// hasLogin() {
+			// 	return this.$store.state.hasLogin ? this.$store.state.hasLogin : false;
+			// },
+			// accountInfo() {
+			// 	return this.$store.state.accountInfo
+			// },
 		},
 		watch: {
 			hasLogin(newValue, oldValue) {
-				// console.log(oldValue)
-				// console.log(newValue)
-				this.loadData();
 				// this.loadData();
 			},
 			// accountInfo(o,n){
@@ -229,19 +226,19 @@
 		},
 		// 下拉刷新
 		onPullDownRefresh() {
-			if (!this.hasLogin) {
-				uni.stopPullDownRefresh();
-				return;
-			}
-			this.loadData(() => {
-				uni.stopPullDownRefresh();
-			});
+			// if (!this.hasLogin) {
+			// 	uni.stopPullDownRefresh();
+			// 	return;
+			// }
+			// this.loadData(() => {
+			// 	uni.stopPullDownRefresh();
+			// });
 		},
 		methods: {
 		
 			
 			// 热门推荐
-			async _loadData(type, callback) {
+			async _loadList(type, callback) {
 				let that = this;
 				try {
 					if (type == 'refresh') {

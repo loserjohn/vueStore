@@ -51,11 +51,11 @@
 									<view class="cm_des cm_ellipsis2 serviceText"   v-if="create_order_type==1&& couponList[item.cart_code]&& couponList[item.cart_code].goods_service_txt ">
 										{{ couponList[item.cart_code].goods_service_txt}}
 									</view>
-									<view class="cm_des cm_ellipsis2"   v-if="create_order_type==0 && activeCoupon.goods_service_txt ">
+									<view class="cm_des cm_ellipsis2" style="margin-top: 4rpx;color: #E56D00;"  v-if="create_order_type==0 && activeCoupon.goods_service_txt ">
 										{{ activeCoupon.goods_service_txt}}
 									</view>
 									<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
-										<text class="cm_des cm_t_32" style="margin-right: 20rpx;" v-if="item.goods_spec">￥{{ item.goods_spec.skus_price}}</text>
+										<text class="cm_des cm_t_32" style="margin-right: 20rpx;color: #e02e24;" v-if="item.goods_spec">￥{{ item.goods_spec.skus_price}}</text>
 										<view class="f1"></view>
 										<view class="cm_des flex-y flex_center">
 											<tui-icon name="shut" :size="14" color="#999"></tui-icon>
@@ -154,8 +154,7 @@ export default {
 			currentAddress: '',   //当前的有效地址
 
 			orderParams: {
-				"create_order_type": "",//下单方式 0-通常下单 1-购物车下单
-				"goods_code": "",//商品编码
+				"remark":''
 			},
 
 			allEms:0,  //运费
@@ -184,7 +183,7 @@ export default {
 		
 		this.create_order_type = options.type;
 		this.payOrders =  this._filterOrder(this.currentOrder)
-		// console.log(1,this.currentOrder)
+		// console.log(1,this.payOrders)
 		// console.log(2,this.payOrders)
 		// console.log(3,this.currentCoupon)
 		uni.$on('refresh_sureAuction', item => {
@@ -311,20 +310,20 @@ export default {
 			// this.currentCoupon.cart_sale_list.forEach(item => {
 			// 	that.couponList[item.cart_code] = item
 			// })
-			
+			// console.log(3,this.payOrders)
 			this.payOrders.forEach((it,index)=>{
 				let resIt = {
 							"shop_id": it.shop_id,
-							"create_order_type": that.orderParams.create_order_type,
+							"create_order_type": that.create_order_type,
 							"order_type": "0",
 							"user_address_code": that.currentAddress.address_code,
-							"coupon_code": that.currentCoupon.coupon_code,
+							"coupon_code":that.create_order_type==1? that.currentCoupon.coupon_code:that.activeCoupon.coupon_code,
 				}
 				resIt.list= it.list.map(item=>{
 					return {
 						"goods_code": item.goods_code,
 						"skus_code": item.goods_spec.skus_code,
-						"cart_code": item.cart_code,
+						"cart_code": item.cart_code?item.cart_code:'',
 						"goods_num": item.goods_num,
 						"child_coupon_code":that.create_order_type==1? that.couponList[item.cart_code].child_coupon_code:that.activeCoupon.coupon_code,
 						"goods_service": item.goods_service
@@ -332,7 +331,7 @@ export default {
 				})
 				params.push(resIt)
 			})
-			console.log(params)
+			// console.log(params)
 			// return
 			
 			
@@ -391,12 +390,13 @@ export default {
 					}else{
 						// 单品结单
 						let currentOrder = that.currentOrder[0]
+						// console.log(2,currentOrder)
 						let form = {
 							"shop_id": currentOrder.shop_id, //店铺id
 							"goods_code": currentOrder.goods_code, //商品编码
 							"goods_num": currentOrder.goods_num, //商品数量
 							"skus_code": currentOrder.skus_code? currentOrder.skus_code: that.currentOrder.goods_spec.skus_code, //sku_id
-							"goods_service":currentOrder.goods_service_code
+							"goods_service":currentOrder.goods_service
 						}
 						// debugger
 						// 单品自动领券（通用券）计算优惠
@@ -409,9 +409,7 @@ export default {
 				console.log('请求结果false : ' + err);
 			}
 		},
-		_switchWay(k) {
-			this.orderParams.pay_type = k;
-		},
+
 		handleClick(e) {
 			let index = e.index;
 			if (index === 0) {
@@ -486,14 +484,14 @@ export default {
 				this.$ui.showloading('订单生成中');
 				let res = await this.$api.CreateOrder(params, false);
 				this.$ui.hideloading();
-				console.log(res); 
+				// console.log(res); 
 				if (res.result==1) {
 					// that.payParams.order_num = res.data.order_code;
 					// that.payParams.order_num ='H7280202001140330267942143'
 					that.$ui.toast('订单创建成功');
 
 					setTimeout(()=>{
-						if(that.orderParams.create_order_type==1){
+						if(that.create_order_type==1){
 							uni.$emit('refresh_cart')
 						}		
 

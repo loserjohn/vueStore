@@ -165,7 +165,12 @@
 				// 	ps += item.service_price
 				// })
 				// console.log(ps)
-				return (this.selectNum * this.nowprice + ps).toFixed(2);
+				if(this.selectshop){
+					return this.nowprice;
+				}else{
+					return (this.selectNum * this.nowprice + ps).toFixed(2);
+				}
+				
 			},
 			// 选中的售后服务
 			selectPropertice() {
@@ -194,22 +199,29 @@
 					return item.use_area==1?true:false
 				})
 				if(hasSP){
-					// 有商品券
-					let arr= {}
-					let sum = this.selectNum * this.nowprice
-					this.couponList.map(it=>{
-						if(it.use_area==1 && sum>=Number(it.order_amount) ){
-							arr[it.price] = it
-						}						
-					}) 
-					console.log(77,arr)
-					if(Object.keys(arr).length){
-						let k = Math.max(...Object.keys(arr))
-						// console.log(777,k)
-						return sum?sum - arr[k].price:0
-					}else{
+					// alert(this.nowprice)
+					if( typeof(this.nowprice)=="string" && this.nowprice.indexOf('-')>=0){
 						return ''
-					}		
+					}else{
+						// 有商品券
+						let arr= {}
+						let sum = Number(this.selectNum)  * this.nowprice
+						this.couponList.map(it=>{
+							if(it.use_area==1 && sum>=Number(it.order_amount) ){
+								arr[it.price] = it
+							}						
+						}) 
+						console.log(77,arr)
+						if(Object.keys(arr).length){
+							let k = Math.max(...Object.keys(arr))
+							// console.log(777,k)
+							return sum?sum - arr[k].price:0
+						}else{
+							return ''
+						}		
+						
+					}
+					
 				}else{
 					return '' //没有优惠价
 				}

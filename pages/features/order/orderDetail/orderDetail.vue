@@ -39,7 +39,7 @@
 									{{ it.skus_name }}
 								</view>
 								<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="it.goods_service">
-									 {{it.goods_service}}
+									 {{it.goods_service_txt}}
 								</view>
 								<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
 									<text class="cm_prize cm_t_32">￥{{ it.alone_price }}</text>
@@ -52,6 +52,8 @@
 							<!-- </view> -->
 						</view>
 						<view class="flex flex_center contentBox cm_bdb">
+							
+							<text style="color: #666;"   v-if="   it.is_refund==0">小计(含优惠)：￥{{it.en_refund_price }}</text>
 							<text style="color: #E56D00;"   v-if=" item.order_status!=0 && it.is_refund!=0">已申请退款：{{it.is_refund | is_refund_filter}}</text>
 							<view class="f1"></view>
 							<button class="cm_tags primary" size="mini" @tap="_refund(it)" v-if=" item.order_status!=0 && it.is_refund==0">退货退款</button>
@@ -120,7 +122,7 @@
 					<tui-list-cell :hover="false" v-if="item.order_status!=0">
 						<view class="tui-line-cell flex flex_center tui-cell-last">
 							<view class="tui-title cm_text">支付方式</view>
-							<view class="tui-input f1 cm_tex_r">{{item.payType | pay_type_filter}}</view>
+							<view class="tui-input f1 cm_tex_r">{{item.pay_type | pay_type_filter}}</view>
 						</view>
 					</tui-list-cell>
 					<tui-list-cell :hover="false"  v-if="item.ems_code">
@@ -537,7 +539,7 @@
 		}
 
 		.tui-title {
-			width: 110rpx;
+			width: 130rpx;
 			margin-right: 20rpx;
 			text-align: left;
 		}

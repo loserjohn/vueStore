@@ -47,7 +47,7 @@
 					<LoadMore :status="loadStatus" style="width: 100%;"/>
 				</view>
 				<view class="flex flex_center" style="width: 100%;height: 90vh;" v-else>
-					<tui-tips :fixed="false" imgUrl="/static/img/toast/img_noorder_3x.png">暂无商品</tui-tips>
+					<tui-no-data :fixed="false" imgUrl="/static/img/toast/img_noorder_3x.png">暂无商品</tui-no-data>
 				</view>
 			</template>
 		</tui-sticky>
@@ -59,11 +59,11 @@
 import xhFilterTab from '@/components/xhFilterTab/xhFilterTab';
 import tuiSticky from '@/components/tui-sticky/tui-sticky';
 // import tuiTips from '@/components/extend/tips/tips';
-// import tuiTabs from '@/components/tui-tabs/tui-tabs';
+import tuiTabs from '@/components/tui-tabs/tui-tabs';
 export default {
 	components: {
 		xhFilterTab,
-		tuiTips,
+		// tuiTips,
 		tuiSticky,
 		tuiTabs
 	},

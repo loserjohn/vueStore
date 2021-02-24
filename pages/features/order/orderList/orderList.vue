@@ -19,7 +19,7 @@
 										{{ it.skus_name }}
 									</view>
 									<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="it.goods_service">
-										{{it.goods_service}}
+										{{it.goods_service_txt}}
 									</view>
 									<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
 										<text class="cm_prize cm_t_32">￥{{ it.alone_price }}</text>

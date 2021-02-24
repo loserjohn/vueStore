@@ -39,7 +39,7 @@
 											{{ couponList[item.cart_code].goods_service_txt}}
 										</view> 
 										<view class="flex flex_center" style="margin-top: 10rpx;">
-											<view class="cm_des" style="margin-right: 20rpx;">
+											<view class="cm_des " style="margin-right: 20rpx;color:#e02e24">
 												￥{{ item.goods_spec.skus_price}}
 											</view>
 											<tui-tag type="danger" padding=" 8rpx 16rpx " size="24rpx" shape="circle" v-if="couponList[item.cart_code]&& couponList[item.cart_code].child_coupon_txt ">{{couponList[item.cart_code].child_coupon_txt}}</tui-tag>

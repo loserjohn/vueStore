@@ -313,7 +313,7 @@ const Set = {
 	// 最后一个子订单是否退邮费
 	ifLastSubOrder:(data) => {
 	    return http.request({
-	        url: '/api/Shop/ShopOrderRefundGoods/GetChildIsSucceed',
+	        url: '/api/Shop/ShopRefundGoods/GetChildIsSucceed',
 	        method: 'POST', 
 	        data,
 			// handle:true
@@ -323,7 +323,7 @@ const Set = {
 	
 	ApplyRefund: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/ApplyRefund',
+			url: '/api/Shop/ShopRefundGoods/ApplyRefund',
 			method: 'POST',
 			data,
 			// handle:true
@@ -331,7 +331,7 @@ const Set = {
 	},
 	GetRefundOrderList: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/GetRefundOrderList', 
+			url: '/api/Shop/ShopRefundGoods/GetRefundOrderList', 
 			method: 'POST',
 			data,
 			// handle:true
@@ -341,7 +341,7 @@ const Set = {
 	// 获取退款详情
 	GetRefundOrderInfo: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/GetRefundInfo', 
+			url: '/api/Shop/ShopRefundGoods/GetRefundInfo', 
 			method: 'get',
 			data,
 			// handle:true
@@ -350,7 +350,7 @@ const Set = {
 	// 取消退款申请退货退款
 	CancelRefundGoods: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/CancelRefundGoods', 
+			url: '/api/Shop/ShopRefundGoods/CancelRefundGoods', 
 			method: 'GET',
 			data,
 			// handle:true
@@ -360,7 +360,7 @@ const Set = {
 	// 取消退款申请
 	CancelRefundMoney: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/CancelRefundMoney', 
+			url: '/api/Shop/ShopRefundGoods/CancelRefundMoney', 
 			method: 'GET',
 			data,
 			// handle:true
@@ -369,7 +369,7 @@ const Set = {
 	// 删除退款申请
 	DelectRefund: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Shop/ShopOrderRefundGoods/delete', 
+			url: '/api/Shop/ShopRefundGoods/delete', 
 			method: 'GET',
 			data,
 			// handle:true

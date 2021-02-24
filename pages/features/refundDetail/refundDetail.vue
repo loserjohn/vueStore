@@ -29,10 +29,12 @@
 						<image :src="item.skus_img" mode="aspectFill" class="avatar" lazy-load="true"></image>
 						<view class="f1" >
 							<view class=" cm_title   name cm_ellipsis2 tui-skeleton-fillet">{{ item.goods_title }}</view>
-							<view class="cm_des flex flex_center" style="justify-content: flex-start;">
-								<!-- <tui-tag shape="circle" size="mini" type="gray" class=" stags">{{ item.skus_difference }}</tui-tag> -->
-								<text>{{ item.skus_name }}</text>
-							</view>	
+							<view class="cm_ellipsis2 cm_des "  >
+								{{ item.skus_name }}
+							</view>
+							<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="item.goods_service">
+								 {{item.goods_service_txt}}
+							</view>
 							<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
 								<text class=" ">退款金额：<text class="cm_prize">￥{{ item.apply_price }}</text></text>
 								<view class="f1"></view>

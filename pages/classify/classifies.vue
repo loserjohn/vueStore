@@ -305,9 +305,10 @@ export default {
 	background: #fff;
 }
 .nav-right-item-text2 {
-	font-size: 20rpx;
+	font-size: 24rpx;
 	margin-top: 4rpx;
 	color: #666;
+	line-height: 1.3;
 }
 .nav-right-item2 image {
 	width: 220rpx;

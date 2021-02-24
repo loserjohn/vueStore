@@ -16,33 +16,29 @@
 			</view>
 			<view class="bar flex flex_y flex_center" v-if="goods.is_flashsale==1">
 				<view class="acountTit">{{goods.title}}</view>
-				<view class="acountConten flex  flex_center">
+				<view class="acountConten  ">
 					<view class="price">{{goods.goods_price}}</view>
 					<view class=" delete">￥{{goods.goods_original_price}}</view>
 					<view class="f1"></view>
 				</view>
-				<view class="aside flex flex_y flex_center">
-					<view>活热进行中</view>
-					<!-- <view>
-							<CountCalc color="#fff" background-color="#D8442E" border-color="#D8442E" splitorColor="#ED754B" :show-colon="true"  :show-day="false" v-if="restTimeValied"
-							 :hour="restTimeValied.h" :minute="restTimeValied.m" :day="restTimeValied.d" :second="restTimeValied.s"  />
-							<text class="f1" style="color: #ED754B;margin-top: 14rpx;"></text>	
-						</view> -->
+				<view class="aside  flex flex_y flex_center">
+					<view>{{goods.flashsale_name}}</view>
 				</view>
 			</view>
 
 
 			<view style="padding: 20rpx 20rpx 0 20rpx;">
 				<view class="boxs box1">
-					<view class="flex titleBox tui-skeleton-fillet" v-if="goods.is_flashsale!=1">
-						<text class="cm_prize" style="margin-right: 10rpx;">￥{{ goods.goods_price }}</text>
+					<view v-if="goods.is_flashsale!=1" class="titleBox">
+						<view class="flex  tui-skeleton-fillet" >
+							<text class="cm_prize" style="margin-right: 10rpx;">￥{{ goods.goods_price }}</text>					
+							<tui-tag type="danger" padding="4rpx 20rpx" shape="circle" v-show="mostCoupon" size="24rpx">券后价{{`${mostCoupon}`}}</tui-tag>
+							<view class=" f1"></view>
+						</view>
 						<text class="cm_prize_delete">￥{{ goods.goods_original_price }}</text>
-						<tui-tag type="danger" padding="10rpx 20rpx" shape="circle" v-show="mostCoupon" size="24rpx">券后价{{`${mostCoupon}`}}</tui-tag>
-						<view class=" f1"></view>
-						<!-- <text style="color:#999 ;" @click="showModalStatus=true">查看优惠券</text> -->
-						<!-- <tui-icon name="arrowright" :size="20" color="#999"> </tui-icon> -->
 					</view>
-					<view class="flex couponBox flex_center" :style="{'padding-top':goods.is_flashsale==1?'20rpx':''}">
+					
+					<view class="flex couponBox flex_center" v-show="couponList.length" :style="{'padding-top':goods.is_flashsale==1?'20rpx':''}">
 						<tui-tag type="danger" plain v-for="(item,index) in couponList" v-show="index<=1" :key="index" padding="8rpx 16rpx" shape="square" size="24rpx">{{`${item.order_amount_text}  `}}</tui-tag>
 						<view class=" f1"></view>
 						<span style="color:#999 ;" @click="showModalStatus=true">查看领取</span>
@@ -128,8 +124,9 @@
 					<view class=" btnBox flex flex_center" style="margin-left: 20rpx;">
 						<button class="btns" @click="_next('card')"  >加入购物车</button>
 						<view class="btns hot flex flex_y flex_center" v-if="goods.is_flashsale==1?true:false" @click="_next('buy')">
-							<view class="cm_t_20">马上抢</view>
-							<view class="" style="margin-top: 8rpx;">折后￥{{goods.goods_price}}</view>
+							<!-- <view class="cm_t_20">马上抢</view> -->
+							<!-- <view class="" style="margin-top: 8rpx;">折后￥{{goods.goods_price}}</view> -->
+							<view class=""  >立即抢购</view>
 						</view>
 						<button class="btns sure" @click="_next('buy')" v-else > {{mostCoupon?'领券购买':'立即购买'}}  </button>
 					</view>
@@ -147,25 +144,24 @@
 
 		<view class="mask-screen animated " @tap="_toggleModal" @touchmove.stop.prevent="_none" :class="showModalStatus?'showScreen':'hideScreen'"  >
 			<view  class="couponsbox animated slideInUp savebottom" :class="showModalStatus?'slideInUp':'slideOutDown'"  @tap.stop="_none">
-				<view class="couponTitle">优惠券</view>
-				<scroll-view scroll-y style="width: 100%;max-height: 40vh;">
-					<view class="couponsItem flex flex_center" :class="item.use_area==0?'cm':''" v-for="(item,index) in couponList"  :key="index"  @click="validCoupon(item.coupon_code)">
-						<view class="numBox flex flex_y  flex_center">
-							<view class="num prize">{{item.price}}</view>
-							<!-- <text class="texts">{{item.use_area}}</text> -->
-						</view>
-						<view class="f1 couponContent">
-							<view class="num ">{{item.order_amount_text}}</view>
-							<text class="texts">{{item.end_date}}</text>
-						</view>
-						<img src="../../../static/img/hasGet.png" alt="" class="getBg" v-show="hasGetCoupon[item.coupon_code]">
-					</view>
-					
-				</scroll-view>
-				
-				
-				<view class="tips">即刻下单，系统自动为您匹配最高优惠券</view>
-				<tui-button type="danger" shape="circle" @tap="_next('buy')">即刻下单</tui-button>
+				<view style="padding: 20rpx;">
+					<view class="couponTitle">优惠券</view>
+						<scroll-view scroll-y style="width: 100%;max-height: 40vh;">
+							<view class="couponsItem flex flex_center" :class="item.use_area==0?'cm':''" v-for="(item,index) in couponList"  :key="index"  @click="validCoupon(item.coupon_code)">
+								<view class="numBox flex flex_y  flex_center">
+									<view class="num prize">{{item.price}}</view>
+									<!-- <text class="texts">{{item.use_area}}</text> -->
+								</view>
+								<view class="f1 couponContent">
+									<view class="num ">{{item.order_amount_text}}</view>
+									<text class="texts">{{item.end_date}}</text>
+								</view>
+								<img src="../../../static/img/hasGet.png" alt="" class="getBg" v-show="hasGetCoupon[item.coupon_code]">
+							</view>						
+						</scroll-view>				
+						<view class="tips">即刻下单，系统自动为您匹配最高优惠券</view>
+						<tui-button type="danger" shape="circle" @tap="_next('buy')">即刻下单</tui-button>				
+				</view>
 			</view>
 		</view>
 
@@ -208,7 +204,7 @@
 				banners: [], 
 				// auction: '',
 				skeletonShow: true,
-				formParams: {
+				form: {
 					goods_code: ''
 				},
 				phoneNum: global_Set_jll.service_mobile,
@@ -252,7 +248,7 @@
 			xhStoreParamsSKU
 		},
 		onLoad(options) {
-			this.formParams.goods_code = options.code;
+			this.form.goods_code = options.code;
 
 			this._loadData('refresh');
 			let that = this
@@ -319,23 +315,29 @@
 					}
 					return item.use_area==1?true:false
 				})
-				// console.log(666,spList)
+				
 				if(hasSP){
 					// 有商品券
-					let arr= {}
-					this.couponList.map(it=>{
-						if(it.use_area==1 && this.goods.goods_price>=it.order_amount){
-							arr[it.price] = it
-						}						
-					}) 
-					// console.log(77,arr)
-					if(Object.keys(arr).length){
-						let k = Math.max(...Object.keys(arr))
-						// console.log(777,k)
-						return  this.goods.goods_price - arr[k].price
-					}else{
+					if(this.goods.goods_price.indexOf('-')>=0){
 						return ''
-					}		
+					}else{
+						
+						let arr= {}
+						this.couponList.map(it=>{
+							if(it.use_area==1 && parseInt(this.goods.goods_price)>=it.order_amount){
+								arr[it.price] = it
+							}						
+						}) 
+						// console.log(77,arr)
+						if(Object.keys(arr).length){
+							let k = Math.max(...Object.keys(arr))
+							return  parseInt(this.goods.goods_price)  - arr[k].price
+						}else{
+							return ''
+						}	
+						// return  parseInt(this.goods.goods_price)  - arr[k].price
+					}
+						
 				}else{
 					return '' //没有优惠价
 				}
@@ -360,7 +362,7 @@
 				let res =  await this.$api.ReceiveCoupon(form)
 				// console.log(res)  
 				if(res.result==1){
-					that.formParams.coupon_code = code				
+					that.form.coupon_code = code				
 					let options = {
 							msg: '恭喜领券成功',
 							duration: 2000,
@@ -375,7 +377,7 @@
 			// 获取我的卡包
 			async myCards(){
 				let form = {
-					"goods_code": this.formParams.goods_code,
+					"goods_code": this.form.goods_code,
 					"use_area": "",
 					"status": "0"
 				}
@@ -477,7 +479,7 @@
 			async _loadData(type, callback) {
 				let that = this;
 				try {
-					let res = await this.$api.GetGoodsInfo(this.formParams);
+					let res = await this.$api.GetGoodsInfo(this.form);
 					// console.log(res.data.goods_service_list)
 					if (res.result == 1) {
 						that.business = res.data.shopInfo;
@@ -542,7 +544,7 @@
 						shop_name: this.business.shop_name,
 						shop_id: this.business.shop_id,
 						shop_logo: this.business.shop_logo,
-						goods_code: this.formParams.goods_code,
+						goods_code: this.form.goods_code,
 						goods_title: this.goods.goods_title,
 						goods_main_img: this.goods.goods_main_img,
 						is_ems: this.goods.is_ems,
@@ -553,7 +555,7 @@
 						goods_num: data.selectNum,
 						// goods_service_price: 0,
 						// goods_service_txt: " ",
-						goods_service_code: " ",
+						goods_service: " ",
 					};
 					if(data.goods_service.length){
 						let tarr = []
@@ -564,7 +566,7 @@
 							tarr.push(item.service_price)
 							carr.push(item.service_code)
 						})
-						cardData.goods_service_code = carr.join(',')
+						cardData.goods_service = carr.join(',')
 					}
 					
 					
@@ -580,7 +582,7 @@
 			async _addCard(data) {
 				let that = this;
 				let agr = {
-					goods_code: this.formParams.goods_code,
+					goods_code: this.form.goods_code,
 					sku_id: data.skus_code ? data.skus_code : '',
 					goods_num: data.selectNum,
 					goods_service:data.goods_service
@@ -678,6 +680,7 @@
 
 		.bar {
 			// position: absolute;
+			position: relative;
 			width: 100%;
 			height: 120rpx;
 			// line-height: 120rpx;
@@ -700,7 +703,7 @@
 				width: 100%;
 
 				.price {
-					font-size: 70rpx;
+					font-size: 50rpx;
 					position: relative;
 					text-indent: 40rpx;
 					margin-right: 40rpx;
@@ -711,7 +714,7 @@
 						position: absolute;
 						left: -19px;
 						font-size: 20px;
-						bottom: 12rpx;
+						bottom: 2rpx;
 						color: #fff;
 					}
 				}
@@ -720,7 +723,7 @@
 					position: relative;
 					font-size: 36rpx;
 					text-decoration: line-through;
-					margin-top: 14rpx;
+					color: #ffcfcf;
 				}
 			}
 
@@ -729,9 +732,12 @@
 				right: 0;
 				top: 0;
 				height: 120rpx;
-				padding: 0 40rpx 0 60rpx;
-				background: url(../../../static/img/right.png) left top/cover no-repeat;
+				width: 260rpx;
+				word-break: break-all;
+				padding: 0 30rpx 0 50rpx;
+				background: url(../../../static/img/right.png) 50% 50%/cover no-repeat;
 				color: #ED754B;
+				font-size: 28rpx;
 			}
 		}
 
@@ -1087,7 +1093,7 @@
 		left: 0;
 		z-index: 20;
 		background: #fff;
-		padding: 20rpx;
+		// padding: 20rpx;
 		box-sizing: border-box;
 		border-radius: 20rpx 20rpx 0 0;
 
