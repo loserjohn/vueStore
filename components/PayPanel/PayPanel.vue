@@ -3,32 +3,32 @@
 		<view class="panel animated slideInUp savebottom" v-if="panelshow">
 			<view class="cm_title cm_t_32">选择支付方式</view>
 			<view style="margin-bottom: 60rpx;">
-				<view class="cells flex flex_center cm_bdb" @click="_choose(2)" v-if="ifWx&&payRoute.indexOf('wx') > -1">
+				<view class="cells flex flex_center cm_bdb" @click="_choose(2)" v-if="ifWx&&payRoute.indexOf('2') > -1">
 					<image src="./wx.png" mode="" class="icons"></image>
-					<view class="f1 cm_title">微信支付</view>
+					<view class="f1 cm_title">微信支付(官方)</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 2"></image>
 					<text class="wxz" v-else></text>
 				</view>
-				<view class="cells flex flex_center cm_bdb" @click="_choose(4)" v-if=" ifWx&&payRoute.indexOf('SYK') > -1">
+				<view class="cells flex flex_center cm_bdb" @click="_choose(4)" v-if=" ifWx&&payRoute.indexOf('4') > -1">
 					<image src="./wx.png" mode="" class="icons"></image>
 					<view class="f1 cm_title">微信支付</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 4"></image>
 					<text class="wxz" v-else></text>
 				</view>
-				<view class="cells flex flex_center cm_bdb" @click="_choose(9)" v-if="payRoute.indexOf('SYK') > -1">
+				<view class="cells flex flex_center cm_bdb" @click="_choose(9)" v-if="payRoute.indexOf('9') > -1">
 					<image src="./wx.png" mode="" class="icons"></image>
-					<view class="f1 cm_title">微信支付</view>
+					<view class="f1 cm_title">微信支付(测试)</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 9"></image>
 					<text class="wxz" v-else></text>
 				</view>
-				<view class="cm_bdb" v-if="payRoute.indexOf('CCB') > -1">
+				<view class="cm_bdb" v-if="payRoute.indexOf('3') > -1">
 					<view class="cells flex flex_center " @click="_choose(3)">
 						<image src="./js.png" mode="" class="icons"></image>
 						<view class="f1 cm_title">建设银行卡支付</view>
 						<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 3"></image>
 						<text class="wxz" v-else></text>
 					</view>
-					<!-- <view v-if="form.pay_type == 3" class="animated fadeIn">
+					<view v-if="form.pay_type == 3" class="animated fadeIn">
 						<view class="cm_title ">分期方式</view>
 						<scroll-view scroll-x="true" class="slider">
 							<view class="flex flex_center " style="width: 1208rpx;">
@@ -43,11 +43,11 @@
 								</block>
 							</view>
 						</scroll-view>
-					</view> -->
+					</view>
 				</view>
 
 
-				<view class="cells flex flex_center" @click="_choose(1)" v-if="payRoute.indexOf('Alipay') > -1">
+				<view class="cells flex flex_center" @click="_choose(1)" v-if="payRoute.indexOf('1') > -1">
 					<image src="./zf.png" mode="" class="icons"></image>
 					<view class="f1 cm_title">支付宝支付</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 1"></image>
@@ -66,10 +66,13 @@
 </template>
 
 <script>
+	// 1 官方支付宝 2 官方微信 3建行分期 4 商云客 微信 5 商云客小程序 6商云客支付宝 9测试
+	
+	
 	import Utils from '@/utils/utils.js';
 	import SET from '@/SET.js'
 	const global_Set_jll = uni.getStorageSync(SET.globalSetName)
-	console.log(global_Set_jll)
+	// console.log(global_Set_jll)
 	const jweixin = require('jweixin-module')
 	export default {
 		data() {
@@ -92,13 +95,13 @@
 					}
 				],
 				form: {
-					"pay_type": "", ////1-支付宝 2-微信 3-CBB(建行支付)4- 商云客-小程序 5-商云客-公众号 9-测试
+					"pay_type": "", 	// 1 官方支付宝 2 官方微信 3建行分期 4 商云客 微信 5 商云客小程序 6商云客支付宝 9测试
 					"order_code": "J72202009011051138295051", //订单号
 					"install_num": "", //分期数
 				},
 				panelshow: false,
 				payList: [],
-				// ifWx:true
+				ifWx:false
 			};
 		},
 		props: {
@@ -121,23 +124,22 @@
 			}
 		},
 		created() {
-
+			this.ifWx = uni.getStorageSync('ifWx')
 			global_Set_jll.pay_route.forEach(item => {
 				this.payList.push(item.value)
 
 			})
 			// this.form.pay_type = this.payRoute[0]
 
-			// debugger
+			
 			if (this.ifWx) {
-				const opid = uni.getStorageSync(SET.opIdName);
-				// alert(opid)
-				// this.form.openId = opid
+				
 				this.form.pay_type = 4
 			} else {
-				this.form.pay_type = 1
+				this.form.pay_type = ''
 			}
-			this.form.pay_type = 9
+			// this.form.pay_type = 9
+			console.log(this.payRoute)
 		},
 		watch: {
 			oderId(n, o) {
@@ -173,26 +175,35 @@
 			},
 			// 提交支付
 			async _submit() {
-				if (this.form.pay_type == 1) {
-					// 支付宝
-					this._pay(1)
-				} else if (this.form.pay_type == 2) {
-					//微信
-					this._pay(2)
-				} else if (this.form.pay_type == 3) {
-					//建行
-					this._pay(3)
-				} else if (this.form.pay_type == 4) {
-					//SYK微信
-					this._pay(4)
-				} else if (this.form.pay_type == 5) {
-					//SYK支付宝
-					this._pay(5)
-				} else if (this.form.pay_type == 9) {
-					this._pay(9)
-					//9-测试
+				if(!this.form.pay_type){
+					uni.showToast({
+						title:'请选择支付方式',
+						icon:'none'
+					})
+					return 
+				}
+				const opid = uni.getStorageSync(SET.opIdName);
+				if(!opid){
+					uni.showModal({
+						title:'缺少opined',
+						content: '立即前往授权',
+						success: function(res) {
+							if (res.confirm) {
+								Utils.wx_auth()
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					})
+				return 		
+				}
+				if (this.form.pay_type) {
+					this._pay(this.form.pay_type)
 				} else {
-					uni.showToast('开发中')
+					uni.showToast({
+						title:'未知渠道',
+						icon:'none'
+					})
 				}
 			},
 			_href() {
@@ -203,7 +214,7 @@
 			// 支付接口
 			async _pay(k, callback) {
 				let that = this;
-				this.form.pay_type = k + '';
+				this.form.pay_type = k ;
 				// console.log(this.form)
 				// return;
 				try {
@@ -213,10 +224,10 @@
 
 					if (res.result == 1) {
 						if (k == 1) {
-							// 支付宝支付
+							// 官方支付宝支付
 							that._toAliPay(res.data);
 						} else if (k == 2) {
-							// 微信支付
+							// 官方 微信支付
 							that._toWXPay(res.data);
 						} else if (k == 3) {
 							// 建行
@@ -229,16 +240,27 @@
 							that._toWXPay(res.data);
 							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.data.order_code)
 						} else if (this.form.pay_type == 5) {
-							//SYK支付宝
+							//SYK小程序
 							// this._pay(5)
-						} else if (k == 5) {
-							// 商云课 微信支付
-							that._toWXPay(res.data);
-							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.data.order_code)
-						}else{
+							uni.showToast({
+								title:'暂未开放',
+								icon:'none'
+							})
+						} else if (this.form.pay_type == 6) {
+							// 商云课 微信支付宝
+							uni.showToast({
+								title:'暂未开放',
+								icon:'none'
+							})
+						}else if (this.form.pay_type == 9){
+							//测试
 							that.$emit('success', '/pages/features/success/success')
-							that._toWXPay(res.data);
-							
+							that._toWXPay(res.data);	
+						}else{
+							uni.showToast({
+								title:'未知渠道',
+								icon:'none'
+							})
 						}
 						// that.panelshow = false;
 						// that._href()

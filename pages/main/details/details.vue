@@ -51,10 +51,11 @@
 						{{ goods.goods_short_title }}
 					</view>
 					<view class="logoBox flex  flex_center">
-						<image src="../../../static/img/logo.jpg" mode="widthFix" class="logo"></image>
-						<view class=" cm_title   name">睿众</view>
-						<view class="blank"></view>
-						<text class="f1">第一家智能厨卫上市公司</text>
+						<image :src="business.shop_logo" mode="widthFix" class="logo"></image>
+						<view class=" cm_title   name">{{business.shop_name}}</view>
+						<!-- <view class="blank"></view> -->
+						<text class="f1"></text>
+						<tui-icon name="share" color="#642704" :size="24" @tap="_share"></tui-icon>
 					</view>
 				</view>
 				<!-- {{mostCoupon}} -->
@@ -62,7 +63,7 @@
 					<view class="flex flex_center cells">
 						<view class="f1 cm_des">发货地</view>
 						<tui-icon name="position-fill" color="#333" :size="16" style="margin-right: 4rpx;"></tui-icon>
-						<text class="">{{business.shipments_address.area }}</text>
+						<text class="">{{business.shipments_address.detailed_address }}</text>
 					</view>
 					<view class="cm_lines"></view>
 					<view class="flex flex_center cells">
@@ -90,7 +91,7 @@
 						</view>
 						<navigator url="/pages/main/main" open-type="switchTab" class="cm_des">进店逛逛</navigator>
 
-						<tui-icon name="arrowright" color="#999" :size="16"></tui-icon>
+						<tui-icon name="arrowright" color="#999" :size="16" ></tui-icon>
 						<!-- <button class=" jd">进店逛逛</button> -->
 					</view>
 				</view>
@@ -175,14 +176,17 @@
 
 
 		<tui-tips ref="toast" ></tui-tips>
-
+		
+		<ProShare :good="goods" ref="proShare"></ProShare>
+		
+		
 		<!-- <view class="asideBar2 flex flex_center animated slideInUp" @tap="cart"><tui-icon name="cart" :size="20" color="#50AB9F"></tui-icon></view> -->
 	</view>
 </template>
 
 <script>
 	import tuiSkeleton from '@/components/tui-skeleton/tui-skeleton';
-	// import tuiCountdown from '@/components/countdown/countdown';
+	import ProShare from '@/components/ProShare/ProShare';
 	import tuiNumberbox from '@/components/numberbox/numberbox';
 	import CountCalc from '@/components/tui-countdown/tui-countdown.vue'
 	const global_Set_jll = uni.getStorageSync('global_Set_jll');
@@ -200,7 +204,7 @@
 		 
 				
 				business: { shipments_address: '' },  //商家信息
-				goods: '',  //商品信息
+				goods: {},  //商品信息
 				banners: [], 
 				// auction: '',
 				skeletonShow: true,
@@ -241,8 +245,7 @@
 		},
 		components: {
 			tuiSkeleton,
-			// tuiCountdown,
-			// bestPaymentPassword,
+			ProShare,
 			CountCalc,
 			tuiNumberbox,
 			xhStoreParamsSKU
@@ -344,6 +347,9 @@
 			}
 		},
 		methods: {
+			_share(){
+				this.$refs.proShare.createHB()
+			},
 			// 领取商品券
 			async validCoupon(code){
 		

@@ -17,6 +17,32 @@
 			let that = this;
 			const token = uni.getStorageSync(SET.tokenName);
 			this.ifWx = uni.getStorageSync('ifWx')
+			
+			let url = window.location.href;
+			let i = url.match(/action=(.*)action/);
+			let p = url.match(/payload=(.*)payload/);
+			
+			let s = url.match(/code=(.*)&state/); //微信code
+			
+			// 记录动作
+			if (i && i[1] && p && p[1]) {
+				// 储存推广码 分享注册
+				let action = i[1];
+				let payload = p[1]
+				// 记录动作
+				// console.log('app',action,payload)
+				// this.$store.commit('setCurrentAction', {
+				// 	action,
+				// 	payload
+				// })
+				uni.setStorageSync('inviAction', {
+					action,
+					payload
+				})
+			}
+			
+			
+			
 			if (this.ifWx) {
 
 				uni.$on('wxPay', (data) => {
@@ -31,7 +57,7 @@
 					this.ifEffect();
 				}
 			}
-
+			
 			this.getGloConfig()
 		},
 		onShow: function() {

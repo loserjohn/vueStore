@@ -13,17 +13,16 @@
 					<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="item.goods_service">
 						 {{item.goods_service_txt}}
 					</view>
-					<!-- <view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;"  v-if="type==3">
-						<text class=" cm_t_32">退款金额：{{ item.apply_price }}</text>
+					<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
+						<text class=" ">交易金额：<text class="cm_prize">￥{{ item.en_refund_price }}</text></text>
 						<view class="f1"></view>
-				
-					</view> -->
-					<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;" v-if="type!=3" >
+					</view>
+					<!-- <view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;"  >
 						<text class="cm_prize cm_t_32">￥{{ item.alone_price }}</text>
 						<view class="f1"></view>
 						<tui-icon name="shut" :size="14" color="#999"></tui-icon>
 						<text class="cm_des">	{{ item.goods_num }}</text>
-					</view>
+					</view> -->
 				</view>
 			</view>			
 		</view>
@@ -43,9 +42,9 @@
 				<view class=" f1">{{form.reason}}</view>
 				<tui-icon name="arrowright" :size="14" color="#999"></tui-icon>
 			</view>
-		</view>
+		<!-- </view>
 		
-		<view class="box">
+		<view class="box"> -->
 			
 		<!-- 	<view class="cells " style="padding: 20rpx ;">
 				<view class=" flex flex_center" style="width: 100%;position: relative;"  >
@@ -59,12 +58,12 @@
 					<text class=" cm_tex_r" >￥{{item.goods_service_price}}</text>
 				</view>
 			</view> -->
-			<view class="cells " style="padding: 20rpx ;">
+			<!-- <view class="cells " style="padding: 20rpx ;">
 				<view class=" flex flex_center" style="width: 100%;position: relative;"  >
 					<view class="cm_title f1"> 交易金额(含优惠)</view>
 					<text class=" cm_tex_r" >￥{{item.en_refund_price}}</text> 
 				</view>
-			</view>
+			</view> -->
 			<view class="cells " style="padding: 20rpx ;" v-if="hasEms">
 				<view class=" flex flex_center" style="width: 100%;position: relative;"  >
 					<view class="cm_title f1"> 邮费</view>
@@ -75,12 +74,14 @@
 			<view class="cells " style="padding: 20rpx ;">
 				<view class=" flex flex_center" style="width: 100%;position: relative;" >
 					<view class="cm_title f1"> 退款金额</view>
-					<text class="cm_prize posUnit" :style="{'right':(form.apply_price+'').length*18+'rpx'}">￥</text> 
-					<input class="cm_prize cm_tex_r"  type="number"  @input="onInput" placeholder=""   v-model="form.apply_price"  />	
+					<text class="cm_prize">￥{{form.apply_price}}</text>
+				<!-- 	<text class="cm_prize posUnit" :style="{'right':(form.apply_price+'').length*18+'rpx'}">￥</text> 
+					<input class="cm_prize cm_tex_r"  type="number"  @input="onInput" placeholder=""   v-model="form.apply_price"  /> -->
+					
 				</view>
-				<view style="margin-top: 20rpx;" class="cm_des">
+			<!-- 	<view style="margin-top: 20rpx;" class="cm_des">
 					退款金额可修改，最多￥{{max}} 		
-				</view>		 
+				</view>	 -->	 
 			</view>
 		</view>
 		
@@ -179,7 +180,7 @@
 				//上传地址
 				serverUrl:http.baseUrl+'/api/Upload/UploadImg',
 				time: '',
-				sumPrice:0,
+				// sumPrice:0,
 				max:0,
 				hasEms:0,
 				formData:{
@@ -206,7 +207,7 @@
 			uni.setNavigationBarTitle({
 				title:this.type==1?'退款退货申请':'退款申请'
 			})
-			console.log(666,this.currentPro)
+			// console.log(666,this.currentPro)
 			if(options.type==3){
 				// 编辑状态
 				this.form.refund_code = this.currentPro.refund_code			
@@ -215,26 +216,22 @@
 					// 0仅退款
 				this.form.order_code = this.currentPro.order_code					
 				this.item = this.currentPro
-				this.sumPrice = this.currentPro.en_refund_price
+				// this.sumPrice = this.currentPro.en_refund_price
 				this.form.child_order_code = this.currentPro.child_order_code
-				// this.form.return_quantity = this.currentPro.goods_num
 				this.form.refund_type = 0  //1退貨退款 -0 僅退款
 				this.form.apply_price = this.currentPro.en_refund_price
 				this.max = this.currentPro.en_refund_price
-				// alert( this.currentPro.en_refund_price )
 				this.ifLast(this.form.child_order_code )
 			}else{	
 				// 1退货退款
 				this.item = this.currentPro
 				this.form.order_code = this.currentPro.order_code		
 				this.form.child_order_code = this.currentPro.child_order_code
-				this.sumPrice = this.currentPro.sumPrice
-				// this.form.apply_price = this.currentPro.refund_price?this.currentPro.refund_price:this.sumPrice
-				// this.form.return_quantity = this.currentPro.goods_num
+				// this.sumPrice = this.currentPro.en_refund_price
 				this.form.refund_type = 1  //1退貨退款 -0 僅退款
 				this.form.apply_price = this.currentPro.en_refund_price
 				this.max = this.currentPro.en_refund_price
-				this.ifLast(this.form.order_code )
+				this.ifLast(this.form.child_order_code )
 			}
 		},
 		methods:{
@@ -249,13 +246,15 @@
 			async ifLast(code){
 				let that = this;
 				try {
-					let res = await this.$api.ifLastSubOrder({order_code:code}, false);
+					let res = await this.$api.ifLastSubOrder({child_order_code:code}, false);
 					if (res.result==1 ) { 
 						// 需要退邮费
 						this.hasEms = res.data.is_succeed?res.data.ems_price:0
+						// this.form.en_refund_price = res.data.is_succeed && res.data.pay_price ?res.data.pay_price:0
+						this.form.apply_price = res.data.is_succeed && res.data.pay_price ? res.data.pay_price:this.form.apply_price 
 						this.form.apply_price +=res.data.ems_price
-						this.sumPrice +=res.data.ems_price
-						this.max = this.sumPrice				
+						// this.sumPrice +=res.data.ems_price
+						this.max = this.form.apply_price				
 					 
 					} else {
 						that.$ui.toast(res.msg)
@@ -277,16 +276,17 @@
 							that.item = refundModel;
 							that.form.child_order_code =  res.data.refundModel.order_child_code
 							that.form.apply_price =  res.data.refundModel.apply_price
-							that.sumPrice = res.data.refundModel.apply_price
+							// that.sumPrice = res.data.refundModel.apply_price
 							that.max = res.data.refundModel.apply_price
 							that.form.refund_type = res.data.refundModel.refund_type //1退貨退款 -0 僅退款
 							that.form.reason = res.data.refundModel.reason						
 							that.form.refund_code = res.data.refundModel.refund_code 
 							that.form.reason_detail = res.data.refundModel.reason_detail
-							that.oringinImg = res.data.refundModel.refund_img.split(',')
-							that.form.refund_img = that.oringinImg.join(',')
-							
-							// console.log(that.oringinImg )
+							that.oringinImg = res.data.refundModel.refund_img? JSON.parse(res.data.refundModel.refund_img):[]
+							that.form.refund_img = that.oringinImg
+							that.item.goods_service_txt = that.item.skus_name
+							that.hasEms = res.data.refundModel.ems_price
+							// console.log(that.item )
 						}
 						that.skeletonShow = false
 					} else {

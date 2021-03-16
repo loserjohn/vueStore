@@ -57,6 +57,14 @@
 						<view class="tui-list-cell-name f1">申请时间</view>
 						<view class="tui-right " style="color:#DF5000;">{{item.apply_date | timeFilter}}</view>
 					</tui-list-cell> -->
+					<tui-list-cell :arrow="false" >
+						<view class="tui-list-cell-name f1">订单编号</view>
+						<view class="tui-right">{{ item.order_code }}</view>
+					</tui-list-cell>
+					<tui-list-cell :arrow="false" >
+						<view class="tui-list-cell-name f1">退款单号</view>
+						<view class="tui-right">{{ item.refund_code }}</view>
+					</tui-list-cell>
 					<tui-list-cell :arrow="false" v-if="item.audit_status==2">
 						<view class="tui-list-cell-name f1">拒绝原因</view>
 						<view class="tui-right " style="color:#DF5000;">{{item.audi_remark}}</view>
@@ -73,6 +81,12 @@
 						<view class="tui-list-cell-name f1">退款金额</view>
 						<view class="tui-right cm_prize">￥{{ item.apply_price}}</view>
 					</tui-list-cell> -->
+					
+					
+					<tui-list-cell :arrow="false" >
+						<view class="tui-list-cell-name f1">申请时间</view>
+						<view class="tui-right ">{{ item.apply_date}}</view>
+					</tui-list-cell>
 					<tui-list-cell :arrow="false" >
 						<view>
 							<view class=""> 退款说明</view>
@@ -83,14 +97,6 @@
 								</block>
 							</view>
 						</view>
-					</tui-list-cell>
-					<tui-list-cell :arrow="false" >
-						<view class="tui-list-cell-name f1">订单编号</view>
-						<view class="tui-right">{{ item.order_code }}</view>
-					</tui-list-cell>
-					<tui-list-cell :arrow="false" >
-						<view class="tui-list-cell-name f1">申请时间</view>
-						<view class="tui-right ">{{ item.apply_date}}</view>
 					</tui-list-cell>
 				</tui-list-view>	
 			</view>
@@ -163,9 +169,10 @@
 		},
 		methods: {
 			_preview(pic){
+				// alert(pic)
 				uni.previewImage({
 				            urls: pic
-				        });
+				 });
 			},
 			_call(){
 				if(!this.item || !this.item.refund_shop_info || !this.item.refund_shop_info.seller_phone ){
@@ -222,7 +229,8 @@
 						if (res.data) {
 							that.item = res.data.refundModel;
 							that.scheduleList = res.data.scheduleList
-							that.problemPics = res.data.refundModel.certPic?res.data.refundModel.certPic.split(','):[]
+							that.problemPics = res.data.refundModel.refund_img?JSON.parse(res.data.refundModel.refund_img.split(',')) :[],
+							console.log(that.problemPics)
 						}
 						that.skeletonShow = false
 					} else {

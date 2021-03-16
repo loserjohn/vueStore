@@ -20,8 +20,8 @@
 									<!-- <tui-tag shape="circle" size="mini" type="gray" class=" stags">{{ item.goods_sku }}</tui-tag> -->
 									<text>{{ item.goods_sku }}</text>
 								</view>
-								<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;">
-									<text class=" ">退款金额:{{ item.apply_price }}</text>
+								<view class=" tui-skeleton-fillet flex flex_center"  >
+									<text class=" ">退款金额:<text class="cm_prize">￥{{ item.apply_price }}</text></text>
 									<view class="f1"></view>
 									<view style="color: red;">
 											{{ item.refund_type | refund_type_filter}}	
@@ -284,6 +284,7 @@ export default {
 			text-align: center;
 			height: 100rpx;
 			line-height: 100rpx;
+			margin-top: 20rpx;
 		}
 		.contentBox {
 			justify-content: flex-end !important;

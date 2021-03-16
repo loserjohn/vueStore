@@ -396,6 +396,17 @@ const Set = {
 	
 	
 	
+	// 获取着陆页分类商品
+	GetRJHelp: (data, ifLoad = false) => {
+		return http.request({
+			url: '/api/Crm/CrmTqa/GetList', 
+			method: 'post',
+			data,
+			// handle:true
+		}, ifLoad)
+	},
+	
+	
 	
 	// 获取拍品信息
 	GetAuctionProject:(data) => {

@@ -1,5 +1,5 @@
 {
-    "name" : "vueStore",
+    "name" : "加载中",
     "appid" : "__UNI__9EB8065",
     "description" : "",
     "versionName" : "1.0.0",
@@ -75,6 +75,6 @@
         "devServer" : {
             "https" : false
         },
-        "domain" : "http://model.fjdmll.com"
+        "domain" : ""
     }
 }

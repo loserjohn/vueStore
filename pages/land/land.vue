@@ -7,11 +7,11 @@
 		</view>
 		<block v-for="(item, index) in tops" :key="index">
 			<view class="blocks" :class="{'top1':index==0}" @tap="_href(4, item)">
-				<image :src="item.Text" mode="widthFix" class="blocks"></image>
+				<image :src="item.link_file" mode="widthFix" class="blocks"></image>
 			</view>
 		</block>
 		<!-- <view class="asideBar flex flex_center animated slideInDown" @tap="_href(3, '')"><tui-icon name="home" :size="20" color="#fff"></tui-icon></view> -->
-		<view>
+	<!-- 	<view>
 			<block v-for="(item, ind) in list" :key="ind">
 				<view class="itemBox">
 					<image :src="item.class_img" mode="aspectFill" class="itemTop" @tap="_href(1, item)"></image>
@@ -47,17 +47,17 @@
 					</block>
 				</view>
 			</block>
-		</view>
+		</view> -->
 	</view>
 </template>
 
 <script>
-	import Utils from '@/utils/utils.js';
-	const topsPics = uni.getStorageSync('global_Set_jll');
+	// import Utils from '@/utils/utils.js';
+	// const topsPics = uni.getStorageSync('global_Set_jll');
 	export default {
 		data() {
 			return {
-				tops: topsPics.indexGoodsList,
+				tops: [],
 				list: [],
 				formParams: {
 					pageIndex: 1,
@@ -66,20 +66,21 @@
 			};
 		},
 		onLoad() {
+			// alert(1)
 			this._loadData();
-			const t = uni.getStorageSync('hrefAction');
-			// console.log(t)
-			// if (t && this.is_weixn()) {
-			// 	this.ifAuth();
+			// const t = uni.getStorageSync('hrefAction');
+			// // console.log(t)
+			// // if (t && this.is_weixn()) {
+			// // 	this.ifAuth();
+			// // }
+			// const loca =  uni.getStorageSync('path')
+			// uni.removeStorageSync('path')
+			// // alert(loca)
+			// if(loca){
+			// 	uni.navigateTo({
+			// 		url:loca
+			// 	})
 			// }
-			const loca =  uni.getStorageSync('path')
-			uni.removeStorageSync('path')
-			// alert(loca)
-			if(loca){
-				uni.navigateTo({
-					url:loca
-				})
-			}
 		},
 		computed: {
 			hasLogin() {
@@ -155,9 +156,9 @@
 						url: '/pages/main/main'
 					});
 				} else {
-					if (item.Value) {
+					if (item.link_url) {
 						uni.navigateTo({
-							url: '/pages/main/details/details?code=' + item.Value
+							url: '/pages/main/details/details?code=' + item.link_url
 						});
 					}
 
@@ -182,7 +183,7 @@
 						},
 						true
 					);
-					console.log(222, res)
+					// console.log(222, res)
 					if (res.result==1) {
 						uni.setStorageSync(SET.opIdName, res.data.openId);
 						that._oIdLogin(res.data.openId);
@@ -253,11 +254,11 @@
 			async _loadData(type, callback) {
 				let that = this;
 				try {
-					let res = await this.$api.GetClassHotList(this.formParams);
+					let res = await this.$api.crm_getHome( );
 					console.log(res);
 
 					if (res.result==1) {
-						that.list = res.data.rows;
+						that.tops = res.data.lst_page_detail;
 					} else {
 						// that.$ui.toast(res.msg)
 					}

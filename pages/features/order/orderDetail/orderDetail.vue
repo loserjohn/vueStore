@@ -131,15 +131,15 @@
 							<view class="tui-input f1 cm_tex_r">{{item.ems_code}}</view>
 						</view>
 					</tui-list-cell>
-					<tui-list-cell :hover="false" :last="false" v-show="item.emark">
+				<!-- 	<tui-list-cell :hover="false" :last="false" v-show="item.emark">
 						<view class="tui-line-cell flex flex_center tui-cell-last">
 							<view class="tui-title cm_text">买家备注</view>
 							<view class="tui-input f1 cm_tex_r">{{item.emark}}</view>
 						</view>
-					</tui-list-cell>
+					</tui-list-cell> -->
 					<tui-list-cell :hover="false" :last="true" v-show="item.order_remark">
 						<view class="tui-line-cell flex flex_center tui-cell-last">
-							<view class="tui-title cm_text">商家备注</view>
+							<view class="tui-title cm_text">订单备注</view>
 							<view class="tui-input f1 cm_tex_r">{{item.order_remark}}</view>
 						</view>
 					</tui-list-cell>

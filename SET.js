@@ -1,12 +1,19 @@
 
 // 全局设置
+
+let m = window.location.origin
+console.log('gloabal',window.location,window.location.origin)
 export default {
-	baseUrl:'http://model.fjdmll.com',
-	mainUrl:'http://model.fjdmll.com',
+	// baseUrl:'http://model.fjdmll.com',
+	// baseUrl:'http://gbb_1.fjdmll.com:7000',
+	baseUrl:'',
+	// mainUrl:'http://model.fjdmll.com'
+	mainUrl:m,
 	
 	
 	wx_appid: 'wx2180dbc186281a90',    //微信授权 appid  
-	wx_redirect_url: 'http://model.fjdmll.com/store/index.html',   //微信授权 回调页地址
+	// wx_redirect_url: 'http://model.fjdmll.com/store/index.html',   //微信授权 回调页地址
+	wx_redirect_url: m+'/store/index.html',   
 	// 测试环境
 	// wx_appid: 'wx09daee2f47e178aa',    //微信授权 appid  測試公衆號
 	// wx_redirect_url:'http://192.168.1.6:8080',

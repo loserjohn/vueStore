@@ -192,6 +192,7 @@ export default {
 					this.iconList = res.data.tree_class
 					uni.setStorageSync('rj_banerList',res.data.lst_baner)
 					uni.setStorageSync('rj_iconList',res.data.tree_class)
+					uni.setStorageSync('rj_qr_code',res.data.lst_qr_code_detail[0])
 					// this.lists = res.data.lst_hot_product.rows				
 				}else{
 					this.$refs.uToast.show({

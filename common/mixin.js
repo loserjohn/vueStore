@@ -9,7 +9,6 @@ module.exports = {
 	data() {
 		return {
 			loadStatus:'0',
-			ifWx: false,
 			lock:false,
 			
 			

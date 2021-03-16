@@ -824,6 +824,35 @@
             }
             
         }
+        ,{
+            "path" : "pages/features/share/share",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "分享",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/features/help/help",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "使用帮助",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		
+		,{
+		    "path" : "pages/land/land",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "睿举",
+		        "enablePullDownRefresh": false,
+				"titleNView": false
+		    }
+		    
+		}
     ],
 	"tabBar": {
 		"color": "#999",

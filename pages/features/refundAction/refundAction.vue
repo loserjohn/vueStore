@@ -14,7 +14,7 @@
 							{{ item.skus_name }}
 						</view>
 						<view style="margin-top: 4rpx;color: #E56D00;" class="cm_des cm_ellipsis2  " v-if="item.goods_service">
-							 {{item.goods_service}}
+							 {{item.goods_service_txt}}
 						</view>
 						<view class=" tui-skeleton-fillet flex flex_center" style="margin-top: 10rpx;"  >
 							<text class="cm_prize cm_t_32">￥{{ item.alone_price }}</text>
@@ -29,7 +29,7 @@
 				<tui-list-cell class=" tui-skeleton-fillet flex flex_center cm_bdb">
 					<view class="f1"></view>
 					<!-- <view class="cm_des">共 {{ item.goods_num }} 件商品</view> -->
-					<text class=" cm_t_32" style="margin-left: 24rpx;">商品金额：￥{{ refundPrice }}</text>
+					<text class=" cm_t_32" style="margin-left: 24rpx;">商品金额：￥{{ currentPro.en_refund_price }}</text>
 				</tui-list-cell>
 			</tui-list-view>
 		</view>
@@ -79,7 +79,7 @@ export default {
 	},
 	onLoad() {
 		this.item = this.currentPro;
-		console.log('退款', this.item);
+		// console.log('退款', this.item);
 	},
 	methods: {
 		_href(k){

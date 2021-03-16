@@ -75,7 +75,12 @@
 				<!-- </view> -->
 			</view>
 		</view>
-
+		<view style="padding: 20rpx 20rpx 0 20rpx;">
+			<view class=" shareBox" @tap="_auth_href('/pages/features/share/share')">
+				<image src="../../static/img/wd_fx.png" mode="widthFix" class="shareBoxPic"></image>
+			</view>
+		</view>
+		
 		<!-- 菜单 -->
 		<view class="menusBox">
 
@@ -91,13 +96,21 @@
 						<img src="../../static/img/ic_bz.png" class="menusPic"></img>
 						<text class="cm_t_24 f1">意见反馈</text>
 						<tui-icon name="arrowright" :size="20"></tui-icon>
-
 					</view>
-					<!-- 					
-					<view class="menus flex flex_center flex_y"  @tap="_href('/features/hpShare/hpShare')">
+					
+					<view class="menus flex flex_center " @tap="_auth_href('/pages/features/help/help')">
+						<img src="../../static/img/ic_bz.png" class="menusPic"></img>
+						<text class="cm_t_24 f1">使用帮助</text>
+						<tui-icon name="arrowright" :size="20"></tui-icon>
+					</view>
+										
+	<!-- 				<view class="menus flex flex_center flex_y"  @tap="_auth_href('/pages/features/adress/adress')">
 						<img src="../../static/img/fx.png"  class="menusPic"></img>
 						<text class="cm_t_24">分享</text>
+						<tui-icon name="arrowright" :size="20"></tui-icon>
 					</view> -->
+					
+					
 					<view class="menus flex flex_center " @tap="_auth_href('/pages/user/set/set')">
 						<img src="../../static/img/ic_sz.png" class="menusPic"></img>
 						<text class="cm_t_24 f1">设置</text>
@@ -143,6 +156,13 @@
 		</view>
 		<tui-modal :show="modal" @click="handleClick" @cancel="hide" :content="content" :maskClosable="false" color="#333"
 		 :size="32"></tui-modal>
+		 <tui-modal :show="qr_code_modal" custom>
+		 	<view class="tui-modal-custom">
+				<view class="tui-modal-custom-text">长按识别二维码，添加客服下次才能找得到哦!</view>
+		 		<image :src="qr_code" class="tui-tips-img"></image>		 		
+		 		<tui-button height="72rpx" :size="28" type="danger" shape="circle" @click="qr_code_modal= false">确定</tui-button>
+		 	</view>
+		 </tui-modal>
 	</view>
 </template>
 
@@ -154,6 +174,7 @@
 	// import tuiLoadmore from "@/components/loadmore/loadmore"
 	import http from '@/utils/http/index.js';
 	const globalSet = uni.getStorageSync(SET.globalSetName)
+	const g_qr_code = uni.getStorageSync('rj_qr_code')
 	import SET from '@/SET.js'
 
 
@@ -181,7 +202,8 @@
 				},
 				onBottom: true,
 				onTop: false,
-
+				qr_code_modal:false,
+				qr_code:'',
 				phone: ''
 			};
 		},
@@ -195,6 +217,9 @@
 			uni.$on('refresh_user', function() {
 				that.$store.dispatch('refreshUser')
 			});
+			console.log(globalSet)
+			this.qr_code = g_qr_code ? g_qr_code.link_file : ''
+			// alert(	this.qr_code )
 			this._getShopSet();
 			this._getList();
 		},
@@ -367,20 +392,21 @@
 			_kefu() {
 
 				let that = this
-				uni.showModal({
-					title: '睿众商城提醒你',
-					content: '立即致电官方客服？',
-					success: function(res) {
-						that.show = false;
-						if (res.confirm) {
-							uni.makePhoneCall({
-								phoneNumber: this.phone //仅为示例
-							});
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
+				this.qr_code_modal = true	
+				// uni.showModal({
+				// 	title: '睿众商城提醒你',
+				// 	content: '立即致电官方客服？',
+				// 	success: function(res) {
+				// 		that.show = false;
+				// 		if (res.confirm) {
+				// 			uni.makePhoneCall({
+				// 				phoneNumber: this.phone //仅为示例
+				// 			});
+				// 		} else if (res.cancel) {
+				// 			console.log('用户点击取消');
+				// 		}
+				// 	}
+				// });
 			},
 			async _getShopSet() {
 				let that = this;
@@ -389,6 +415,7 @@
 					if (res.result == 1) {
 						let text = res.data.tqa ? res.data.tqa.phone : ''
 						this.phone = text ? text.split('：')[1] : ''
+						
 						uni.setStorageSync('hotPhone',this.phone)
 					}
 
@@ -556,7 +583,14 @@
 				}
 			}
 		}
-
+		
+		.shareBox{
+			width: 100%;
+			.shareBoxPic{
+				width: 100%;
+			}
+		}
+		
 		.shadowLeft {
 			// box-shadow:  -4rpx 0 16rpx #eee ;
 			position: relative;
@@ -660,6 +694,9 @@
 					}
 				}
 			}
+		}
+		.tui-tips-img{
+			width: 100%;
 		}
 	}
 </style>

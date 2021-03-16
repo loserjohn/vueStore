@@ -70,7 +70,10 @@
 			</view>
 			<view>
 				<tui-list-view unlined="all" class="tui-list-view tui-skeleton-fillet lists">
-
+					<tui-list-cell :arrow="false">
+						<view class="tui-list-cell-name f1">商品金额(不含优惠)</view>
+						<view class="tui-right">￥{{ allPrize }}</view>
+					</tui-list-cell>
 					<tui-list-cell :arrow="false">
 						<view class="tui-list-cell-name ">配送费用</view>
 						<view class="cm_des f1 " style="padding-left: 10rpx;"> 普通配送</view>
@@ -97,10 +100,7 @@
 						<view class="tui-right" style="color: red;">-{{`￥${ currentCoupon.sum_sale_price }`}}</view>
 						<!-- <text v-show="couponSumMsg.sum_sale_price">共优惠：{{`￥${ couponSumMsg.sum_sale_price }`}}</text> -->
 					</tui-list-cell>
-					<tui-list-cell :arrow="false">
-						<view class="tui-list-cell-name f1">商品金额</view>
-						<view class="tui-right">￥{{ allPrize }}</view>
-					</tui-list-cell>
+					
 					<tui-list-cell :arrow="false">
 						<view class="tui-list-cell-name f1">支付金额</view>
 						<view class="tui-right cm_prize">￥{{ allAccount }}</view>
@@ -110,7 +110,7 @@
 					</tui-list-cell>
 					<tui-list-cell :hover="false">
 						<view class="tui-line-cell ">
-							<textarea v-model="orderParams.remark" placeholder="请输入买家备注" />
+							<textarea v-model="orderParams.order_remark" placeholder="请输入买家备注" />
 							</view>
 						</tui-list-cell>
 					</tui-list-view>
@@ -154,7 +154,7 @@ export default {
 			currentAddress: '',   //当前的有效地址
 
 			orderParams: {
-				"remark":''
+				"order_remark":''
 			},
 
 			allEms:0,  //运费
@@ -299,7 +299,8 @@ export default {
 				that.creatOrder()
 				// that.calcAllAccount()
 			}else{
-				
+				that.$ui.toast(res.msg);
+				that.creatOrder()
 			}
 		},
 		// 创建订单
@@ -318,6 +319,7 @@ export default {
 							"order_type": "0",
 							"user_address_code": that.currentAddress.address_code,
 							"coupon_code":that.create_order_type==1? that.currentCoupon.coupon_code:that.activeCoupon.coupon_code,
+							"order_remark":that.orderParams.order_remark
 				}
 				resIt.list= it.list.map(item=>{
 					return {
