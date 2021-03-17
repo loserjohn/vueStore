@@ -312,6 +312,54 @@ const Utils = {
 		window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + set.appid + '&redirect_uri=' +
 			set.redirect_uri + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect'
 	},
-	
+	// 支付宝支付 app、小程序
+	AliPay(strData, callback, failFun) {
+		if (!strData) {
+			uni.showToast({
+				icon: 'none',
+				title: '支付参数无效'
+			})
+			return
+		}
+		uni.requestPayment({
+			provider: "alipay",
+			orderInfo: strData,
+			success: function(res) {
+				plus.nativeUI.toast('支付成功');
+				if (callback) callback()
+			},
+			fail: function(res) {
+				if (failFun) {
+					failFun();
+					return;
+				}
+				uni.showToast({
+					title: '支付失败',
+					icon: "none",
+					duration: 2000,
+					complete: function() {
+						uni.redirectTo({
+							url: '/pages/features/order/order?current=1'
+						})
+					}
+				});
+			}
+		});
+	},
+	// 支付宝支付_h5  手机网页使用
+	AliPay_H5(strData, callback, failFun) {
+		if (!strData) {
+			uni.showToast({
+				icon: 'none',
+				title: '支付参数无效'
+			})
+			return
+		}
+		const div = document.createElement('div')
+		/* 此处form就是后台返回接收到的数据 */
+		div.innerHTML = res.data.data.alipayInfo
+		document.body.appendChild(div)
+		document.forms[0].submit()
+	},	
 }
 export default Utils

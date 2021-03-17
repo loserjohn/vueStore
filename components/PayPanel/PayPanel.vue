@@ -3,53 +3,54 @@
 		<view class="panel animated slideInUp savebottom" v-if="panelshow">
 			<view class="cm_title cm_t_32">选择支付方式</view>
 			<view style="margin-bottom: 60rpx;">
+				<!-- (官方) -->
 				<view class="cells flex flex_center cm_bdb" @click="_choose(2)" v-if="ifWx&&payRoute.indexOf('2') > -1">
-					<image src="./wx.png" mode="" class="icons"></image>
-					<view class="f1 cm_title">微信支付(官方)</view>
+					<image src="./wx.png" mode="" class="icons"></image>					
+					<view class="f1 cm_title">微信支付</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 2"></image>
 					<text class="wxz" v-else></text>
 				</view>
+				<!-- ((syk-公众号)) -->
+				<view class="cells flex flex_center cm_bdb" @click="_choose(5)" v-if=" ifWx&&payRoute.indexOf('5') > -1">
+					<image src="./wx.png" mode="" class="icons"></image>				
+					<view class="f1 cm_title">微信支付</view>
+					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 5"></image>
+					<text class="wxz" v-else></text>
+				</view>
+				<!-- ((syk-小程序)) -->
 				<view class="cells flex flex_center cm_bdb" @click="_choose(4)" v-if=" ifWx&&payRoute.indexOf('4') > -1">
 					<image src="./wx.png" mode="" class="icons"></image>
 					<view class="f1 cm_title">微信支付</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 4"></image>
 					<text class="wxz" v-else></text>
 				</view>
+				<!-- (测试) -->
 				<view class="cells flex flex_center cm_bdb" @click="_choose(9)" v-if="payRoute.indexOf('9') > -1">
 					<image src="./wx.png" mode="" class="icons"></image>
-					<view class="f1 cm_title">微信支付(测试)</view>
+					<view class="f1 cm_title">微信支付(测试) </view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 9"></image>
 					<text class="wxz" v-else></text>
 				</view>
+				<!-- 建行 -->
 				<view class="cm_bdb" v-if="payRoute.indexOf('3') > -1">
 					<view class="cells flex flex_center " @click="_choose(3)">
 						<image src="./js.png" mode="" class="icons"></image>
 						<view class="f1 cm_title">建设银行卡支付</view>
 						<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 3"></image>
 						<text class="wxz" v-else></text>
-					</view>
-					<view v-if="form.pay_type == 3" class="animated fadeIn">
-						<view class="cm_title ">分期方式</view>
-						<scroll-view scroll-x="true" class="slider">
-							<view class="flex flex_center " style="width: 1208rpx;">
-								<view class="bar  flex flex_y flex_center" @click="_way('')" :class="{ active: form.install_num == 0 }">
-									<view>不分期</view>
-								</view>
-								<block v-for="(item, index) in agrs" :key="index">
-									<view class="bar  flex flex_y flex_center" @click="_way(item.num)" :class="{ active: form.install_num == item.num }">
-										<view>￥{{ item.price }} × {{ item.num }}期</view>
-										<view class="cm_des">免息</view>
-									</view>
-								</block>
-							</view>
-						</scroll-view>
-					</view>
+					</view>			
 				</view>
-
-
+				<!-- 商云客 支付宝 -->
+				<view class="cells flex flex_center" @click="_choose(6)" v-if="payRoute.indexOf('6') > -1">
+					<image src="./zf.png" mode="" class="icons"></image>
+					<view class="f1 cm_title">支付宝</view>
+					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 6"></image>
+					<text class="wxz" v-else></text>
+				</view>
+				<!-- (支付宝官方) -->
 				<view class="cells flex flex_center" @click="_choose(1)" v-if="payRoute.indexOf('1') > -1">
 					<image src="./zf.png" mode="" class="icons"></image>
-					<view class="f1 cm_title">支付宝支付</view>
+					<view class="f1 cm_title">支付宝</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 1"></image>
 					<text class="wxz" v-else></text>
 				</view>
@@ -66,7 +67,7 @@
 </template>
 
 <script>
-	// 1 官方支付宝 2 官方微信 3建行分期 4 商云客 微信 5 商云客小程序 6商云客支付宝 9测试
+	// 1 官方支付宝 2 官方微信 3建行分期 4 商云客 小程序 5 商云客微信 6商云客支付宝 9测试
 	
 	
 	import Utils from '@/utils/utils.js';
@@ -95,8 +96,8 @@
 					}
 				],
 				form: {
-					"pay_type": "", 	// 1 官方支付宝 2 官方微信 3建行分期 4 商云客 微信 5 商云客小程序 6商云客支付宝 9测试
-					"order_code": "J72202009011051138295051", //订单号
+					"pay_type": "", 	//  1 官方支付宝 2 官方微信 3建行分期 4 商云客 小程序 5 商云客微信 6商云客支付宝 9测试
+					"order_code": "", //订单号
 					"install_num": "", //分期数
 				},
 				panelshow: false,
@@ -133,8 +134,13 @@
 
 			
 			if (this.ifWx) {
-				
-				this.form.pay_type = 4
+				// #ifdef H5
+				// 公众号默认为5
+					this.form.pay_type = 5
+				// #endif
+				// #ifdef MP-WEIXIN
+					this.form.pay_type = 4
+				// #endif	
 			} else {
 				this.form.pay_type = ''
 			}
@@ -198,7 +204,7 @@
 				return 		
 				}
 				if (this.form.pay_type) {
-					this._pay(this.form.pay_type)
+					this._pay()
 				} else {
 					uni.showToast({
 						title:'未知渠道',
@@ -212,11 +218,10 @@
 				});
 			},
 			// 支付接口
-			async _pay(k, callback) {
+			async _pay( callback) {
 				let that = this;
-				this.form.pay_type = k ;
-				// console.log(this.form)
-				// return;
+				let k = this.form.pay_type ;
+		
 				try {
 					that.loading = true;
 					let res = await this.$api.toPayment(this.form);
@@ -231,27 +236,25 @@
 							that._toWXPay(res.data);
 						} else if (k == 3) {
 							// 建行
-							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.msg)
+							// that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.msg)
+							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.data.order_code)
 							setTimeout(() => {
-								window.location.href = res.data;
+								// window.location.href = res.data;
+								window.location.href = res.data.payparams;
 							}, 500)
 						} else if (this.form.pay_type == 4) {
+							//SYK微信小程序
+							that._toMiniWXPay(res.data);	
+						} else if (this.form.pay_type == 5) {
 							//SYK微信
 							that._toWXPay(res.data);
 							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.data.order_code)
-						} else if (this.form.pay_type == 5) {
-							//SYK小程序
-							// this._pay(5)
-							uni.showToast({
-								title:'暂未开放',
-								icon:'none'
-							})
 						} else if (this.form.pay_type == 6) {
-							// 商云课 微信支付宝
-							uni.showToast({
-								title:'暂未开放',
-								icon:'none'
-							})
+							// 商云课 支付宝
+							
+							that.$emit('success', '/pages/features/order/orderDetail/orderDetail?code=' + res.data.order_code)
+							that._toAliPaySyk(res.data);
+					
 						}else if (this.form.pay_type == 9){
 							//测试
 							that.$emit('success', '/pages/features/success/success')
@@ -277,42 +280,31 @@
 			async _toWXPay(data) {
 				let that = this;
 				// debugger
-				uni.$emit('wxPay', data)
+				uni.$emit('wxPay', data.payparams)
 			},
 			// 微信支付
-			async wsPay(data) {
-				// let that = this
-				// jweixin.chooseWXPay({
-				// 	timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-				// 	nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
-				// 	package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-				// 	signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-				// 	paySign: data.paySign, // 支付签名
-				// 	success: function (res) {
-				// 	// 支付成功后的回调函数
-				// 		// console.log(res)
-				// 		// alert(JSON.stringify(res));
-				// 		// 清楚购物车
-				// 		// that.$store.commit('clearCard',()=>{})
-
-				// 		uni.redirectTo({
-				// 			url:'/pages/success/success'
-				// 		})
-				// 	}
-				// });
+			async _toMiniWXPay(data) {
+				uni.$emit('wxPayMini', data.payparams) 
+				
 			},
+			// 官方支付宝
 			_toAliPay(str) {
 				// let that = this;
-				// Utils.AliPay(str, () => {
-				// 	// that.$refs.successModal.show();
-				// 	// that.$store.commit('refresh_account');
-				// 	// uni.$emit('refresh_user');
-				// 	// uni.$emit('refresh_order');
-				// 	// uni.redirectTo({
-				// 	// 	url: '/pages/features/success/success?form=orderDetail'
-				// 	// });
-				// 	that.$emit('success')
-				// });
+				Utils.AliPay_H5(str, () => {
+					that.$emit('success')
+				});
+			},
+			// 商云客支付宝支付
+			_toAliPaySyk(data) {
+				// let that = this;
+				let str = data.payparams.qr_code		
+				let arr = str.split('/');
+				let qrcode = arr[arr.length - 1]
+				let url = `https://mobilecodec.alipay.com/client_download.htm?qrcode=${qrcode}`
+				
+				setTimeout(() => {
+					window.location.href = url
+				}, 500)
 			}
 		}
 	};

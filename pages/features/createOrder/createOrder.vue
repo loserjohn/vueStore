@@ -169,7 +169,7 @@ export default {
 			
 			
 			// 弹窗内容部分
-			title: '睿众商城提醒您',
+			title: '洁利来商城提醒您',
 			content: '',
 		};
 	},

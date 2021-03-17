@@ -75,6 +75,7 @@
         "devServer" : {
             "https" : false
         },
-        "domain" : ""
+        "domain" : "",
+        "title" : "洁利来"
     }
 }

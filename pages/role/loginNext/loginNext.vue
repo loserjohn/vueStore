@@ -32,11 +32,7 @@
 		data() {
 			return {
 				pwdArr: ["", "", "", "", "", ""],
-				set: {
-					// appid: 'wx09daee2f47e178aa',//测试环境
-					appid: 'wxbb1e69472b847c6e', //正式环境
-					redirect_uri: 'http://jf.fjdmll.com/index.html'
-				},
+		
 				loading: false,
 				agree: true,
 				vilidate: '',

@@ -16,7 +16,7 @@
 					<view class="f1 addreass tui-skeleton-rect" >
 						<view class="cm_title ">{{item.refund_shop_info.seller_address}}</view>
 						<view class="flex flex_center">
-							<text class="cm_text ">睿众售后中心</text>
+							<text class="cm_text ">洁利来售后中心</text>
 							<text class="cm_text ">{{item.refund_shop_info.seller_phone}}</text>
 							<view class="f1"></view>
 						</view>					

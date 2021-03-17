@@ -888,8 +888,8 @@
 					overflow: hidden;
 
 					.avatar {
-						width: 90rpx;
-						height: 90rpx;
+						width: 60rpx;
+						height: 60rpx;
 						border-radius: 50%;
 						margin-right: 16rpx;
 						margin-left: 16rpx;
@@ -938,8 +938,8 @@
 
 				// margin-bottom: 20rpx;
 				.avatar {
-					width: 90rpx;
-					height: 90rpx;
+					width: 60rpx;
+					height: 60rpx;
 					border-radius: 50%;
 					margin-right: 20rpx;
 					overflow: hidden;

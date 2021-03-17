@@ -394,7 +394,7 @@
 				let that = this
 				this.qr_code_modal = true	
 				// uni.showModal({
-				// 	title: '睿众商城提醒你',
+				// 	title: '洁利来商城提醒你',
 				// 	content: '立即致电官方客服？',
 				// 	success: function(res) {
 				// 		that.show = false;

@@ -2,10 +2,10 @@
 	<view class="pages">
 		<!-- <view class="flex flex_y flex_center" >
 			<image src="../../../static/img/logo@1.5x.png" mode="scaleToFill" class="logo"></image>
-			<view class="title">睿众商城</view>
+			<view class="title">洁利来商城</view>
 		</view> -->
 		<view class="input-group">
-			<view class="cm_title">欢迎登陆睿众商城</view>
+			<view class="cm_title">欢迎登陆洁利来商城</view>
 			<view class="cm_des">通过手机号验证码登录</view>
 			<view class="formBox">
 				<input type="number" class="inputs" v-model="form.mobile" placeholder="请输入手机号码" />
@@ -53,7 +53,7 @@
 			return {
 				show: false,
 				form: {
-					"mobile": "15959131219", //手机号
+					"mobile": "", //手机号
 					"vilidate": "", //验证码
 					"openId": "", //openid
 					"wx_code_type": "0" //0-公众号 1-小程序(不传默认为0)

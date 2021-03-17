@@ -2,7 +2,7 @@
 	<view class="pages">
 		<view class="flex flex_center header">
 			<image src="../../static/img/logo.jpg" mode="scaleToFill" class="logo"></image>
-			<view class="cm_title f1">睿众商城</view>
+			<view class="cm_title f1">洁利来商城</view>
 			<button class="tapIn" @tap="_href(3, '')">进入商城</button>
 		</view>
 		<block v-for="(item, index) in tops" :key="index">
