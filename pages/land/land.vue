@@ -118,31 +118,7 @@
 			// 跳转
 			_href(t, item) {
 				let that = this;
-				// uni.setStorageSync('hrefItem', item ? item : '');
-				// uni.setStorageSync('hrefAction', t);
-				// uni.navigateTo({
-				// 	url: '/pages/main/details/details?code=' + item.Value
-				// });
-				// return
-				// if (!this.hasLogin) {
-					
-					// if (this.is_weixn()) {
-					// 	const jllOpenid = uni.getStorageSync(SET.opIdName);
-					// 	if (jllOpenid) {
-					// 		// 直接opend登录
-					// 		this._oIdLogin(jllOpenid);
-					// 	} else {
-					// 		// 判断授权
-					// 		this.ifAuth(t);
-					// 	}
-					// } else {
-					// 	uni.navigateTo({
-					// 		url: '/pages/role/pLogin/pLogin'
-					// 	});
-					// }
-				// 	return;
-				// }
-				// console.log('item',item)
+	
 				if (t == 1) {
 					uni.navigateTo({
 						url: `/pages/classify/products_s/products_s?code=${item.project_class_code}&title=${item.class_name}`
@@ -157,8 +133,10 @@
 					});
 				} else {
 					if (item.link_url) {
+						// alert('/pages/main/details/details?code=' + item.link_url)
+						// return
 						uni.navigateTo({
-							url: '/pages/main/details/details?code=' + item.link_url
+							url: item.link_url
 						});
 					}
 

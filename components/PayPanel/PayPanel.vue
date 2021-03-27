@@ -41,14 +41,14 @@
 					</view>			
 				</view>
 				<!-- 商云客 支付宝 -->
-				<view class="cells flex flex_center" @click="_choose(6)" v-if="payRoute.indexOf('6') > -1">
+				<view class="cells flex flex_center" @click="_choose(6)" v-if="!ifWx&&payRoute.indexOf('6') > -1">
 					<image src="./zf.png" mode="" class="icons"></image>
 					<view class="f1 cm_title">支付宝</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 6"></image>
 					<text class="wxz" v-else></text>
 				</view>
 				<!-- (支付宝官方) -->
-				<view class="cells flex flex_center" @click="_choose(1)" v-if="payRoute.indexOf('1') > -1">
+				<view class="cells flex flex_center" @click="_choose(1)" v-if="!ifWx&&payRoute.indexOf('1') > -1">
 					<image src="./zf.png" mode="" class="icons"></image>
 					<view class="f1 cm_title">支付宝</view>
 					<image src="./xz.png" mode="" class="icons" v-if="form.pay_type == 1"></image>
@@ -188,21 +188,24 @@
 					})
 					return 
 				}
-				const opid = uni.getStorageSync(SET.opIdName);
-				if(!opid){
-					uni.showModal({
-						title:'缺少opined',
-						content: '立即前往授权',
-						success: function(res) {
-							if (res.confirm) {
-								Utils.wx_auth()
-							} else if (res.cancel) {
-								console.log('用户点击取消');
+				if(this.ifWx){
+					const opid = uni.getStorageSync(SET.opIdName);
+					if(!opid){
+						uni.showModal({
+							title:'缺少opined',
+							content: '立即前往授权',
+							success: function(res) {
+								if (res.confirm) {
+									Utils.wx_auth()
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
 							}
-						}
-					})
-				return 		
+						})
+					return 		
+					}	
 				}
+				
 				if (this.form.pay_type) {
 					this._pay()
 				} else {
