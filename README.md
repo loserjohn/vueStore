@@ -11,6 +11,8 @@
 #### 5、第4方支付及微信快捷登录
 #### 6、其他
 
+测试
+
 #### 项目地址：[store模板][1]
 
   [1]: http://model.fjdmll.com/store/index.html
