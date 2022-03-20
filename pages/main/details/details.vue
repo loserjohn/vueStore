@@ -60,10 +60,10 @@
 				</view>
 				<!-- {{mostCoupon}} -->
 				<view class="boxs box4">
-					<view class="flex flex_center cells">
-						<view class="f1 cm_des">发货地</view>
+					<view class="flex flex_center cells" style="height: 88rpx;">
+						<view class=" cm_des">发货地</view>
 						<tui-icon name="position-fill" color="#333" :size="16" style="margin-right: 4rpx;"></tui-icon>
-						<text class="">{{business.shipments_address.detailed_address }}</text>
+						<text class="f1" style=" margin-left: 8rpx;font-size: 24rpx;">{{business.shipments_address.detailed_address }}</text>
 					</view>
 					<view class="cm_lines"></view>
 					<view class="flex flex_center cells">

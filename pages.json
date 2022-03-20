@@ -847,7 +847,7 @@
 		    "path" : "pages/land/land",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "洁利来",
+		        "navigationBarTitleText": "邵氏消防",
 		        "enablePullDownRefresh": false,
 				"titleNView": false
 		    }

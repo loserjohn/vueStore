@@ -152,8 +152,8 @@
 							scene: this.providerList[res.tapIndex].type && this.providerList[res.tapIndex].type === 'WXSenceTimeline' ?
 								'WXSenceTimeline' : 'WXSceneSession',
 							type:0,
-							title: '洁利来商城',
-							summary:'洁利来商城诚邀您加入',
+							title: '邵氏消防商城',
+							summary:'邵氏消防商城诚邀您加入',
 							imageUrl: this.logo,
 							href: this.shareUrl,
 							success: res => {

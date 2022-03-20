@@ -92,9 +92,11 @@
 			
 			let poster = uni.getStorageSync('poster');
 			// console.log(this.accountInfo ,this.canvasW,this.canvasH)	
-			this.imgSrc =this.registe_type==5?'../../../static/img/fx_ywy.jpg':'../../../static/img/fx_bg.jpg';
-			this.Title = `邀请人:${this.accountInfo.consumer_name}`;
-			this.ShortTitle = `邀请码:${this.accountInfo.invitation_code}`;
+			// this.imgSrc =this.registe_type==5?'../../../static/img/fx_ywy.jpg':'../../../static/img/fx_bg.jpg';
+			
+			this.imgSrc = '../../../static/img/share_bg.jpg' 
+			// this.Title = `邀请人:${this.accountInfo.consumer_name}`;
+			// this.ShortTitle = `邀请码:${this.accountInfo.invitation_code}`;
 			this.shareUrl = `${SET.mainUrl}/web/index.html?action=${this.registe_type==5?'ywshare':'khshare'}action&payload=${this.accountInfo.invitation_code}payload`;
 			// this.shareUrl = `http://192.168.1.5:8080?action=${this.registe_type==5?'ywshare':'khshare'}action&payload=${this.accountInfo.invitation_code}payload`;
 			// console.log( this.shareUrl)
@@ -142,21 +144,21 @@
 					scene: that.providerList[tapIndex].type && that.providerList[tapIndex].type == 'WXSenceTimeline' ?
 						'WXSenceTimeline' : 'WXSceneSession',
 					type: 2,
-					title: '洁利来',
+					title: '邵氏消防',
 					summary: '邀您下载酷熊APP，让您淘宝天猫购物省钱',
 					imageUrl: that.poster.finalPath,
 					href: that.shareUrl,
 					success: res => {
 						//console.log('success:' + JSON.stringify(res));
 						plus.nativeUI.toast('分享成功');
-						// that.errMsg = '温馨提示：分享失败，请及时检查微信及洁利来pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导'
+						// that.errMsg = '温馨提示：分享失败，请及时检查微信及邵氏消防pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导'
 						// that.$refs.resultModal._showDialog();
 						clipboard.setText('');
 					},
 					fail: e => {
 						// plus.nativeUI.closeWaiting()
 						that.errMsg =
-							'温馨提示：分享失败，请及时检查微信及洁利来pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导';
+							'温馨提示：分享失败，请及时检查微信及邵氏消防pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导';
 						that.$refs.resultModal._showDialog();
 						clipboard.setText('');
 					}
@@ -218,10 +220,10 @@
 									{
 										type: 'qrcode',
 										text: that.shareUrl,
-										correctLevel: 3,
+										correctLevel: 1,
 										size: bgObj.width * 0.2,
 										dx: dx ,
-										dy: bgObj.height - dx - bgObj.width * 0.2,
+										dy: bgObj.height - 2*dx - bgObj.width * 0.2,
 									},
 									{
 										type: 'text',
