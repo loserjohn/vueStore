@@ -5,15 +5,16 @@ let m = window.location.origin
 console.log('gloabal',window.location,window.location.origin)
 export default {
 	// baseUrl:'http://model.fjdmll.com',
-	// baseUrl:'http://h5.gllo.com.cn',
+	baseUrl:'http://h5.gllo.com.cn',
 	// baseUrl:'http://gbb_1.fjdmll.com:7000',
-	baseUrl:'',
+	// baseUrl:'http://www.shaoshifire.com',
+	// baseUrl:'',
 	// mainUrl:'http://model.fjdmll.com'
 	mainUrl:m,
 	
 	
-	// wx_appid: 'wx2180dbc186281a90',    //微信授权 洁利来商城appid  
-	wx_appid: 'wx73ea2c1ca903ba43',  //洁利来商城
+	// wx_appid: 'wx2180dbc186281a90',    //微信授权 邵氏消防商城appid  
+	wx_appid: 'wx650fd9ebbb6de069',  //邵氏消防商城
 	// wx_redirect_url: 'http://model.fjdmll.com/store/index.html',   //微信授权 回调页地址
 	wx_redirect_url: m+'/store/index.html',
 	   

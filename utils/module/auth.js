@@ -23,7 +23,8 @@ const Auth = {
 	// 获取验证码
 	getVerificateCode: (data, ifLoad = false) => {
 		return http.request({
-			url: '/api/Msg/SendVerificationCode',
+			// url: '/api/Msg/SendVerificationCode',
+			url: '/api/Msg/Note/send',
 			method: 'POST',
 			data,
 			// handle:true

@@ -76,6 +76,11 @@
             "https" : false
         },
         "domain" : "",
-        "title" : "洁利来"
+        "title" : "洁利来",
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
     }
 }

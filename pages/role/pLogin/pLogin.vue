@@ -3,7 +3,7 @@
 <template>
 	<view class="pages">
 		<!-- <view class="input-group">
-			<view class="cm_title">欢迎登陆洁利来商城</view>
+			<view class="cm_title">欢迎登陆邵氏消防商城</view>
 			<view class="cm_des">通过手机号验证码登录</view>
 			<view class="formBox">
 				<input type="number" class="inputs" v-model="form.mobile" placeholder="请输入手机号码" />
@@ -20,7 +20,7 @@
 			</view>
 		</view> -->
 		<view class="input-group">		
-			<view class="cm_title">欢迎登陆洁利来商城</view>
+			<view class="cm_title">欢迎登陆邵氏消防商城</view>
 			<view class="cm_des">账户密码登录</view>
 			<view class="formBox">
 				<!-- <InputGrouds :inputsArray="inputsArray" @focusHandle="_focusHandle" :markWord="false" ref="formInputs"></InputGrouds> -->
@@ -28,7 +28,7 @@
 				<input type="password" class="inputs" cleable v-model="form.password" placeholder="请输入密码" />
 				<view class="flex flex_center noteBox" >
 					<tui-icon name="circle-fill" :color="agree?'#50ab9f':'#666'" :size="16" @tap="_agree"></tui-icon>
-					<navigator class="note f1" url="/pages/main/note/note?type=1">《洁利来商城隐私政策》</navigator>
+					<navigator class="note f1" url="/pages/main/note/note?type=1">《邵氏消防商城隐私政策》</navigator>
 					<!-- <text class=""></text> -->
 				</view>
 			</view>
@@ -123,7 +123,7 @@
 				let that = this
 				if(!this.agree){				
 					let options = {
-						msg: '请您阅读并同意《洁利来商城隐私协议》有关事项',
+						msg: '请您阅读并同意《邵氏消防商城隐私协议》有关事项',
 						duration: 2000,
 						type: 'danger'
 					};
