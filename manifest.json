@@ -81,6 +81,13 @@
             "treeShaking" : {
                 "enable" : true
             }
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "google" : {
+                    "key" : ""
+                }
+            }
         }
     }
 }

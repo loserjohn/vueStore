@@ -5,9 +5,9 @@ let m = window.location.origin
 console.log('gloabal',window.location,window.location.origin)
 export default {
 	// baseUrl:'http://model.fjdmll.com',
-	baseUrl:'http://h5.gllo.com.cn',
+	// baseUrl:'http://h5.gllo.com.cn',
 	// baseUrl:'http://gbb_1.fjdmll.com:7000',
-	// baseUrl:'http://www.shaoshifire.com',
+	baseUrl:'http://www.shaoshifire.com',
 	// baseUrl:'',
 	// mainUrl:'http://model.fjdmll.com'
 	mainUrl:m,
