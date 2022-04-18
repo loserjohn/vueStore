@@ -5,7 +5,7 @@
 				<InputGrouds :inputsArray="inputsArray" @focusHandle="_focusHandle" :markWord="false" ref="formInputs"></InputGrouds>
 				<view class="flex flex_center noteBox" >
 					<tui-icon name="circle-fill" :color="agree?'red':'#666'" :size="16" @tap="_agree"></tui-icon>
-					<navigator class="note f1" url="/pages/main/note/note?type=0">《邵氏消防商城隐私政策》</navigator>
+					<navigator class="note f1" url="/pages/main/note/note?type=0">《洁利来商城隐私政策》</navigator>
 				</view>
 			</view>
 			<tui-button type="primary" shape="circle" :disabled="false" :loading="loading" @tap="bindBund">立即更换</tui-button>
@@ -69,7 +69,7 @@
 			// 绑定手机号
 			async bindBund() {
 				if(!this.agree){				
-					this.$ui.toast('请您阅读并同意《邵氏消防商城隐私政策》有关事项')
+					this.$ui.toast('请您阅读并同意《洁利来商城隐私政策》有关事项')
 					return;
 				}
 				let re = this.$refs.formInputs.verify();

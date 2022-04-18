@@ -13,8 +13,8 @@ export default {
 	mainUrl:m,
 	
 	
-	// wx_appid: 'wx2180dbc186281a90',    //微信授权 邵氏消防商城appid  
-	wx_appid: 'wx650fd9ebbb6de069',  //邵氏消防商城
+	// wx_appid: 'wx2180dbc186281a90',    //微信授权 洁利来商城appid  
+	wx_appid: 'wx650fd9ebbb6de069',  //洁利来商城
 	// wx_redirect_url: 'http://model.fjdmll.com/store/index.html',   //微信授权 回调页地址
 	wx_redirect_url: m+'/store/index.html',
 	   
