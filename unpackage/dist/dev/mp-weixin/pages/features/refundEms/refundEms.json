@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "退款物流",
-  "usingComponents": {
-    "tui-list-cell": "/components/list-cell/list-cell",
-    "tui-list-view": "/components/list-view/list-view"
-  }
-}

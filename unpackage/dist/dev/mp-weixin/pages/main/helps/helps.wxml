@@ -1,1 +1,0 @@
-<view class="pages data-v-e6146592"><image class="contain data-v-e6146592" src="{{src}}" mode="widthFix" data-event-opts="{{[['load',[['imageLoad']]]]}}" bindload="__e"></image></view>

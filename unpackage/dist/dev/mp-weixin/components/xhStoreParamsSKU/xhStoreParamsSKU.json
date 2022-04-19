@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "tui-numberbox": "/components/numberbox/numberbox"
-  }
-}

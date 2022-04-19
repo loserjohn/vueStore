@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "我的订单",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "cu-custom": "/components/cu-custom/cu-custom",
-    "sun-tab": "/components/sun-tab/sun-tab",
-    "order-list": "/pages/features/order/orderList/orderList"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": "退货/退款",
-  "titleNView": {},
-  "usingComponents": {
-    "tui-tips": "/components/extend/tips/tips"
-  }
-}

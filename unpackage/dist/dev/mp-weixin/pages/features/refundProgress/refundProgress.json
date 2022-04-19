@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "退款进度",
-  "usingComponents": {
-    "tui-skeleton": "/components/tui-skeleton/tui-skeleton",
-    "tui-list-cell": "/components/list-cell/list-cell",
-    "tui-list-view": "/components/list-view/list-view"
-  }
-}

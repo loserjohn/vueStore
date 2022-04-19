@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "热销",
-  "usingComponents": {
-    "tui-countdown": "/components/countdown/countdown",
-    "tui-tips": "/components/extend/tips/tips"
-  }
-}

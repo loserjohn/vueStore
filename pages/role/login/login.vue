@@ -10,7 +10,7 @@
 			<view class="formBox">
 				<input type="number" class="inputs" v-model="form.mobile" placeholder="请输入手机号码" />
 			</view>
-			<tui-button type="primary" shape="circle" :disabled="false" :loading="loading" @tap="_getVerifyCode('mobile',2)">{{seconds>0?seconds+'s后重新发送':'发送验证码'}}</tui-button>
+			<tui-button type="primary" shape="circle" :disabled="false" :loading="loading" @tap="_getVerifyCode('mobile',1)">{{seconds>0?seconds+'s后重新发送':'发送验证码'}}</tui-button>
 
 			<view class="flex" style="margin-top: 32rpx;">
 				<view class="f1 ">
@@ -111,10 +111,10 @@
 					// api操作						
 					try {
 						this.loading = true
-						// let res2 = await this.$api.getVerificateCode(data, true)
-						let res2 = {
-							result: 1
-						}
+						let res2 = await this.$api.getVerificateCode(data, true)
+						// let res2 = {
+						// 	result: 1
+						// }
 						this.loading = false
 						if (res2.result == 1) {
 							that._time();

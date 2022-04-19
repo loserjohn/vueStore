@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "搜索",
-  "navigationBarTextStyle": "white",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "tui-countdown": "/components/countdown/countdown"
-  }
-}

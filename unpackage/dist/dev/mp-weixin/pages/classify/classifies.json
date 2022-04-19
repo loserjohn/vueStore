@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "分类",
-  "enablePullDownRefresh": false,
-  "titleNView": false,
-  "usingComponents": {
-    "cu-custom": "/components/cu-custom/cu-custom"
-  }
-}

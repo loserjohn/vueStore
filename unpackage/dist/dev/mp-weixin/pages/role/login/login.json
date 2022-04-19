@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "手机登录",
-  "usingComponents": {
-    "input-grouds": "/components/InputGrouds/InputGrouds"
-  }
-}

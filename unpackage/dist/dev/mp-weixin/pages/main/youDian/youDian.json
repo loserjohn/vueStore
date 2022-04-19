@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "优店",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "tui-tips": "/components/extend/tips/tips"
-  }
-}
