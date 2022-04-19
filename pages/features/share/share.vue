@@ -9,7 +9,9 @@
 			<view class="footer flex flex_center">
 				<tui-button shape="circle" @click="createHB" type="primary">生成海报分享</tui-button>
 			</view>
-			<view class="hideCanvasView"><canvas class="canvas" canvas-id="default_PosterCanvasId" :style="{ width: canvasW*2 + 'px', height: canvasH*2 + 'px' }"></canvas></view>
+			<view class="hideCanvasView">
+				<canvas class="canvas" canvas-id="default_PosterCanvasId" :style="{ width: canvasW*2 + 'px', height: canvasH*2 + 'px' }"></canvas>
+			</view>
 			<tui-toast ref="uToast" />
 			<tui-modal :show="show"   backgroundColor="transparent"    custom padding="0rpx" :maskClosable="true">
 				<!-- <view class="sharebgBox" :style="{'background-image':`url(${canvasPic})`}"> -->
@@ -94,12 +96,14 @@
 			// console.log(this.accountInfo ,this.canvasW,this.canvasH)	
 			// this.imgSrc =this.registe_type==5?'../../../static/img/fx_ywy.jpg':'../../../static/img/fx_bg.jpg';
 			
-			this.imgSrc = '../../../static/img/share_bg.jpg' 
-			// this.Title = `邀请人:${this.accountInfo.consumer_name}`;
-			// this.ShortTitle = `邀请码:${this.accountInfo.invitation_code}`;
+			this.imgSrc = '../../../static/img/fx_bg.jpg' 
+			// this.imgSrc = '../../../static/img/share_bg.jpg' 
+			this.Title = `邀请人:${this.accountInfo.consumer_name || '匿名'}`;
+			this.ShortTitle = `邀请码:${this.accountInfo.invitation_code}`;
 			this.shareUrl = `${SET.mainUrl}/web/index.html?action=${this.registe_type==5?'ywshare':'khshare'}action&payload=${this.accountInfo.invitation_code}payload`;
 			// this.shareUrl = `http://192.168.1.5:8080?action=${this.registe_type==5?'ywshare':'khshare'}action&payload=${this.accountInfo.invitation_code}payload`;
 			// console.log( this.shareUrl)
+			// this.createHB()
 		},
 		methods: {
 			createHB() {
@@ -223,7 +227,7 @@
 										correctLevel: 1,
 										size: bgObj.width * 0.2,
 										dx: dx ,
-										dy: bgObj.height - 2*dx - bgObj.width * 0.2,
+										dy: bgObj.height -  dx - bgObj.width * 0.2,
 									},
 									{
 										type: 'text',
