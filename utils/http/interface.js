@@ -47,7 +47,7 @@ export default {
 				// if(!store.state.hasLogin)return
 				// alert(0)
 				// uni.showModal({
-				// 	title: ' 邵氏消防商城提醒您',
+				// 	title: ' 惠美提醒您',
 				// 	content: '登陆状态失效,请重新登陆',
 				// 	showCancel:false,
 				// 	success: function (res) {
@@ -138,7 +138,7 @@ export default {
 
 
 						// uni.showModal({
-						// 	title: ' 邵氏消防商城提醒您',
+						// 	title: ' 惠美提醒您',
 						// 	content: '登陆状态失效,请重新登陆',
 						// 	showCancel:false,
 						// 	success: function (res) {

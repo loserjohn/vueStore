@@ -126,7 +126,7 @@
 			_sureUpdated(){
 				let that = this
 				uni.showModal({
-					title: '邵氏消防商城提醒你',
+					title: '惠美提醒你',
 					content: '是否提交修改',
 					success: function (res) {
 						if (res.confirm) {

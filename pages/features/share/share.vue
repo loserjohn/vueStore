@@ -144,21 +144,21 @@
 					scene: that.providerList[tapIndex].type && that.providerList[tapIndex].type == 'WXSenceTimeline' ?
 						'WXSenceTimeline' : 'WXSceneSession',
 					type: 2,
-					title: '邵氏消防',
+					title: '惠美',
 					summary: '邀您下载酷熊APP，让您淘宝天猫购物省钱',
 					imageUrl: that.poster.finalPath,
 					href: that.shareUrl,
 					success: res => {
 						//console.log('success:' + JSON.stringify(res));
 						plus.nativeUI.toast('分享成功');
-						// that.errMsg = '温馨提示：分享失败，请及时检查微信及邵氏消防pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导'
+						// that.errMsg = '温馨提示：分享失败，请及时检查微信及惠美o相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导'
 						// that.$refs.resultModal._showDialog();
 						clipboard.setText('');
 					},
 					fail: e => {
 						// plus.nativeUI.closeWaiting()
 						that.errMsg =
-							'温馨提示：分享失败，请及时检查微信及邵氏消防pro相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导';
+							'温馨提示：分享失败，请及时检查微信及惠美o相机等权限是否打开，必要时可以卸载重装app，微信重装前切记先做好数据备份，以防丢失，具体可点击右下角问号图标进入新手引导';
 						that.$refs.resultModal._showDialog();
 						clipboard.setText('');
 					}

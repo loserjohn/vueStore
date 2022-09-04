@@ -189,7 +189,7 @@ export default {
 				let res = await this.$api.crm_getHome()
 				if(res.result==1){
 					this.banners = res.data.lst_baner
-					this.iconList = res.data.tree_class
+					this.iconList = res.data.tree_class.slice(0,5)
 					uni.setStorageSync('rj_banerList',res.data.lst_baner)
 					uni.setStorageSync('rj_iconList',res.data.tree_class)
 					uni.setStorageSync('rj_qr_code',res.data.lst_qr_code_detail[0])

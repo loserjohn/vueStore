@@ -1,7 +1,7 @@
 <template>
 	<view class="pages flex flex_center flex_y">
 		<image src="../../static/img/logo@1.5x.png" mode="" style="width: 120rpx;height: 120rpx;border-radius:50%;margin-bottom: 40rpx;"></image>
-		<text>邵氏消防商城欢迎您</text>
+		<text>惠美欢迎您</text>
 	</view>
 </template>
 

@@ -394,7 +394,7 @@
 				let that = this
 				this.qr_code_modal = true	
 				// uni.showModal({
-				// 	title: '邵氏消防商城提醒你',
+				// 	title: '惠美提醒你',
 				// 	content: '立即致电官方客服？',
 				// 	success: function(res) {
 				// 		that.show = false;

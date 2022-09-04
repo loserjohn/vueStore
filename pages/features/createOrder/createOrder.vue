@@ -169,7 +169,7 @@ export default {
 			
 			
 			// 弹窗内容部分
-			title: '邵氏消防商城提醒您',
+			title: '惠美提醒您',
 			content: '',
 		};
 	},

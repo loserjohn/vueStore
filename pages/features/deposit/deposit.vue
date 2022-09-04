@@ -33,7 +33,7 @@
 		<view style="padding:72rpx 30rpx;">
 			<tui-button type="primary" shape="circle" :disabled="false" :loading="false" @tap="submit">立即提现</tui-button>
 		</view>
-		<tui-modal :show="modal" @click="handleClick" @cancel="hide" title="邵氏消防商城提醒您"  :content="content" :maskClosable="false" color="#333" :size="32"></tui-modal>
+		<tui-modal :show="modal" @click="handleClick" @cancel="hide" title="惠美提醒您"  :content="content" :maskClosable="false" color="#333" :size="32"></tui-modal>
 		<best-payment-password title="请输入操作密码" :show="payFlag" :value="paymentPwd" digits="6" @cancel="cancelPass" @submit="checkPwd" :forget="false"></best-payment-password>
 	</view>
 </template>
